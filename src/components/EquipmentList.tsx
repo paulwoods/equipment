@@ -1,6 +1,7 @@
 "use client";
 
 import { Equipment } from "@/types/equipment";
+import Link from "next/link";
 
 interface EquipmentListProps {
   items: Equipment[];
@@ -27,9 +28,12 @@ export default function EquipmentList({ items, onEdit, onDelete }: EquipmentList
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.modelNumber}</td>
               <td className="px-6 py-4 text-sm text-gray-900">
                 {item.procedures && item.procedures.length > 0 ? (
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                  <Link 
+                    href={`/equipment/${item.id}/procedures`}
+                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors"
+                  >
                     {item.procedures.length} {item.procedures.length === 1 ? 'procedure' : 'procedures'}
-                  </span>
+                  </Link>
                 ) : (
                   <span className="text-gray-400 italic">None</span>
                 )}
