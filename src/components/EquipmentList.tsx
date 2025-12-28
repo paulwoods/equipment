@@ -2,31 +2,132 @@
 
 import {Equipment} from "@/types/equipment";
 import Link from "next/link";
+import {useState, useMemo} from "react";
+import {ChevronDown, ChevronUp, Search, X} from "lucide-react";
 
 interface EquipmentListProps {
   items: Equipment[];
   onDelete: (id: string) => void;
 }
 
+type SortField = 'manufacturer' | 'modelNumber' | 'description' | 'procedures';
+type SortOrder = 'asc' | 'desc';
+
 export default function EquipmentList({items, onDelete}: EquipmentListProps) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortField, setSortField] = useState<SortField>('manufacturer');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
+
+  const filteredAndSortedItems = useMemo(() => {
+    let result = [...items];
+
+    // Filtering
+    if (searchTerm) {
+      const lowerSearch = searchTerm.toLowerCase();
+      result = result.filter(item =>
+          item.manufacturer.toLowerCase().includes(lowerSearch) ||
+          item.modelNumber.toLowerCase().includes(lowerSearch) ||
+          (item.description && item.description.toLowerCase().includes(lowerSearch))
+      );
+    }
+
+    // Sorting
+    result.sort((a, b) => {
+      let aValue: any;
+      let bValue: any;
+
+      if (sortField === 'procedures') {
+        aValue = a.procedures?.length || 0;
+        bValue = b.procedures?.length || 0;
+      } else {
+        aValue = a[sortField]?.toLowerCase() || "";
+        bValue = b[sortField]?.toLowerCase() || "";
+      }
+
+      if (aValue < bValue) return sortOrder === 'asc' ? -1 : 1;
+      if (aValue > bValue) return sortOrder === 'asc' ? 1 : -1;
+      return 0;
+    });
+
+    return result;
+  }, [items, searchTerm, sortField, sortOrder]);
+
+  const handleSort = (field: SortField) => {
+    if (sortField === field) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortOrder('asc');
+    }
+  };
+
+  const SortIndicator = ({field}: { field: SortField }) => {
+    if (sortField !== field) return <div className="w-4 h-4 ml-1 inline-block" />;
+    return sortOrder === 'asc' ?
+        <ChevronUp className="w-4 h-4 ml-1 inline-block" /> :
+        <ChevronDown className="w-4 h-4 ml-1 inline-block" />;
+  };
+
   return (
-      <div>
+      <div className="space-y-4">
+        {/* Search Bar */}
+        <div className="px-4 md:px-6 pt-4">
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Search className="h-4 w-4 text-gray-400" />
+            </div>
+            <input
+                type="text"
+                placeholder="Search equipment..."
+                className="block w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-700 rounded-md leading-5 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            {searchTerm && (
+                <button
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                    onClick={() => setSearchTerm("")}
+                >
+                  <X className="h-4 w-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200" />
+                </button>
+            )}
+          </div>
+        </div>
+
         {/* Desktop View */}
         <div className="hidden md:block overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
             <thead className="bg-gray-50 dark:bg-gray-800/50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Manufacturer</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Model
-                Number
+              <th
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
+                  onClick={() => handleSort('manufacturer')}
+              >
+                Manufacturer <SortIndicator field="manufacturer" />
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Description</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Procedures</th>
+              <th
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
+                  onClick={() => handleSort('modelNumber')}
+              >
+                Model Number <SortIndicator field="modelNumber" />
+              </th>
+              <th
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
+                  onClick={() => handleSort('description')}
+              >
+                Description <SortIndicator field="description" />
+              </th>
+              <th
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
+                  onClick={() => handleSort('procedures')}
+              >
+                Procedures <SortIndicator field="procedures" />
+              </th>
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
             </tr>
             </thead>
             <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
-            {items.map((item) => (
+            {filteredAndSortedItems.map((item) => (
                 <tr key={item.id}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{item.manufacturer}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{item.modelNumber}</td>
@@ -56,7 +157,7 @@ export default function EquipmentList({items, onDelete}: EquipmentListProps) {
 
         {/* Mobile View */}
         <div className="md:hidden divide-y divide-gray-200 dark:divide-gray-800">
-          {items.map((item) => (
+          {filteredAndSortedItems.map((item) => (
               <div key={item.id} className="p-4 space-y-3">
                 <div className="flex justify-between items-start">
                   <div>
@@ -86,9 +187,9 @@ export default function EquipmentList({items, onDelete}: EquipmentListProps) {
           ))}
         </div>
 
-        {items.length === 0 && (
+        {filteredAndSortedItems.length === 0 && (
             <div className="px-6 py-10 text-center text-sm text-gray-500 dark:text-gray-400">
-              No equipment found. Add some to get started!
+              {searchTerm ? "No equipment matches your search." : "No equipment found. Add some to get started!"}
             </div>
         )}
       </div>
