@@ -1,18 +1,18 @@
 [
   {
+    "id": "nvern0a",
     "manufacturer": "Dell",
     "modelNumber": "G15 5515",
     "description": "Gaming Laptop",
     "purchaseDate": "2020-12-28T00:00:00.000Z",
     "procedures": [
       {
-        "id": "tvmqks2",
         "name": "Clean the Fans",
         "description": "Improves airflow and lowers temperatures",
         "procedure": "1. Open the bottom.\n2. Use compressed air to blow out fans.\n3. Close the bottom.",
-        "intervalDays": 180
+        "intervalDays": 90,
+        "id": "tvmqks2"
       }
-    ],
-    "id": "nvern0a"
+    ]
   }
 ]

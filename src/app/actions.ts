@@ -52,3 +52,56 @@ export async function updateProcedures(equipmentId: string, procedures: Procedur
   }
   throw new Error("Equipment not found");
 }
+
+export async function addProcedureToAction(equipmentId: string, procedureData: Omit<Procedure, "id">) {
+  const allEquipment = await getEquipment();
+  const equipmentIndex = allEquipment.findIndex((e) => e.id === equipmentId);
+  if (equipmentIndex === -1) throw new Error("Equipment not found");
+
+  const newProcedure: Procedure = {
+    ...procedureData,
+    id: Math.random().toString(36).substring(2, 9),
+  };
+
+  if (!allEquipment[equipmentIndex].procedures) {
+    allEquipment[equipmentIndex].procedures = [];
+  }
+  allEquipment[equipmentIndex].procedures!.push(newProcedure);
+
+  await saveEquipment(allEquipment);
+  revalidatePath("/");
+  revalidatePath(`/equipment/${equipmentId}/procedures`);
+  return newProcedure;
+}
+
+export async function updateProcedureAction(equipmentId: string, procedure: Procedure) {
+  const allEquipment = await getEquipment();
+  const equipmentIndex = allEquipment.findIndex((e) => e.id === equipmentId);
+  if (equipmentIndex === -1) throw new Error("Equipment not found");
+
+  const procedures = allEquipment[equipmentIndex].procedures || [];
+  const procedureIndex = procedures.findIndex((p) => p.id === procedure.id);
+  
+  if (procedureIndex === -1) throw new Error("Procedure not found");
+
+  procedures[procedureIndex] = procedure;
+  allEquipment[equipmentIndex].procedures = procedures;
+
+  await saveEquipment(allEquipment);
+  revalidatePath("/");
+  revalidatePath(`/equipment/${equipmentId}/procedures`);
+  return procedure;
+}
+
+export async function deleteProcedureAction(equipmentId: string, procedureId: string) {
+  const allEquipment = await getEquipment();
+  const equipmentIndex = allEquipment.findIndex((e) => e.id === equipmentId);
+  if (equipmentIndex === -1) throw new Error("Equipment not found");
+
+  allEquipment[equipmentIndex].procedures = (allEquipment[equipmentIndex].procedures || [])
+    .filter((p) => p.id !== procedureId);
+
+  await saveEquipment(allEquipment);
+  revalidatePath("/");
+  revalidatePath(`/equipment/${equipmentId}/procedures`);
+}
