@@ -29,6 +29,12 @@ export default function ProcedureList({ equipmentId, procedures, onDelete }: Pro
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{proc.intervalDays}</td>
               <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                 <Link
+                  href={`/equipment/${equipmentId}/procedures/${proc.id}/perform`}
+                  className="text-green-600 hover:text-green-900 mr-4"
+                >
+                  Perform
+                </Link>
+                <Link
                   href={`/equipment/${equipmentId}/procedures/${proc.id}/edit`}
                   className="text-blue-600 hover:text-blue-900 mr-4"
                 >

@@ -1,0 +1,82 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
+import { fetchEquipment, addPerformanceAction } from "@/app/actions";
+
+export default function PerformProcedurePage() {
+  const { id, procedureId } = useParams() as { id: string; procedureId: string };
+  const router = useRouter();
+  const [performDate, setPerformDate] = useState(new Date().toISOString().split("T")[0]);
+  const [procedureName, setProcedureName] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadData = async () => {
+      const allEquipment = await fetchEquipment();
+      const equipment = allEquipment.find((e) => e.id === id);
+      const procedure = equipment?.procedures?.find((p) => p.id === procedureId);
+      if (procedure) {
+        setProcedureName(procedure.name);
+      }
+      setLoading(false);
+    };
+    loadData();
+  }, [id, procedureId]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await addPerformanceAction(id, procedureId, new Date(performDate));
+    router.push(`/equipment/${id}/procedures`);
+  };
+
+  if (loading) return <div className="p-8">Loading...</div>;
+
+  return (
+    <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md mx-auto">
+        <div className="mb-6">
+          <Link
+            href={`/equipment/${id}/procedures`}
+            className="text-blue-600 hover:text-blue-800 flex items-center gap-2 font-medium"
+          >
+            ← Back to Procedures
+          </Link>
+        </div>
+
+        <form onSubmit={handleSubmit} className="bg-white shadow rounded-lg p-6 border border-gray-200">
+          <h1 className="text-2xl font-bold text-gray-900 mb-2 text-black">Record Performance</h1>
+          <p className="text-gray-600 mb-6">Procedure: <span className="font-semibold">{procedureName}</span></p>
+
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Performance Date</label>
+            <input
+              type="date"
+              value={performDate}
+              onChange={(e) => setPerformDate(e.target.value)}
+              required
+              className="w-full border border-gray-300 rounded-md shadow-sm p-2 text-black"
+            />
+          </div>
+
+          <div className="flex justify-end gap-3">
+            <button
+              type="button"
+              onClick={() => router.back()}
+              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition"
+            >
+              Record Performance
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}

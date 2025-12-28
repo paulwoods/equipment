@@ -11,7 +11,13 @@
         "description": "Improves airflow and lowers temperatures",
         "procedure": "1. Open the bottom.\n2. Use compressed air to blow out fans.\n3. Close the bottom.",
         "intervalDays": 90,
-        "id": "tvmqks2"
+        "id": "tvmqks2",
+        "history": [
+          {
+            "id": "9lxn3ub",
+            "date": "2025-12-28T00:00:00.000Z"
+          }
+        ]
       }
     ]
   }

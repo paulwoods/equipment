@@ -93,6 +93,30 @@ export async function updateProcedureAction(equipmentId: string, procedure: Proc
   return procedure;
 }
 
+export async function addPerformanceAction(equipmentId: string, procedureId: string, date: Date) {
+  const allEquipment = await getEquipment();
+  const equipmentIndex = allEquipment.findIndex((e) => e.id === equipmentId);
+  if (equipmentIndex === -1) throw new Error("Equipment not found");
+
+  const procedures = allEquipment[equipmentIndex].procedures || [];
+  const procedureIndex = procedures.findIndex((p) => p.id === procedureId);
+  if (procedureIndex === -1) throw new Error("Procedure not found");
+
+  const newPerform = {
+    id: Math.random().toString(36).substring(2, 9),
+    date: date
+  };
+
+  if (!procedures[procedureIndex].history) {
+    procedures[procedureIndex].history = [];
+  }
+  procedures[procedureIndex].history!.push(newPerform);
+
+  await saveEquipment(allEquipment);
+  revalidatePath(`/equipment/${equipmentId}/procedures`);
+  return newPerform;
+}
+
 export async function deleteProcedureAction(equipmentId: string, procedureId: string) {
   const allEquipment = await getEquipment();
   const equipmentIndex = allEquipment.findIndex((e) => e.id === equipmentId);
