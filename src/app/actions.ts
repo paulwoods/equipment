@@ -93,7 +93,7 @@ export async function updateProcedureAction(equipmentId: string, procedure: Proc
   return procedure;
 }
 
-export async function addPerformanceAction(equipmentId: string, procedureId: string, date: Date) {
+export async function addPerformanceAction(equipmentId: string, procedureId: string, date: Date, notes: string) {
   const allEquipment = await getEquipment();
   const equipmentIndex = allEquipment.findIndex((e) => e.id === equipmentId);
   if (equipmentIndex === -1) throw new Error("Equipment not found");
@@ -104,7 +104,8 @@ export async function addPerformanceAction(equipmentId: string, procedureId: str
 
   const newPerform = {
     id: Math.random().toString(36).substring(2, 9),
-    date: date
+    date: date,
+    notes: notes
   };
 
   if (!procedures[procedureIndex].history) {

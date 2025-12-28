@@ -67,7 +67,7 @@ export default function ProcedureHistoryPage() {
                     Date Performed
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    ID
+                    Notes
                   </th>
                 </tr>
               </thead>
@@ -80,8 +80,8 @@ export default function ProcedureHistoryPage() {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                           {new Date(record.date).toLocaleDateString()}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {record.id}
+                        <td className="px-6 py-4 text-sm text-gray-900">
+                          {record.notes || <span className="text-gray-400 italic">No notes</span>}
                         </td>
                       </tr>
                     ))

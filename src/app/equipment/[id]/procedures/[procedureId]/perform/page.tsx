@@ -9,6 +9,7 @@ export default function PerformProcedurePage() {
   const { id, procedureId } = useParams() as { id: string; procedureId: string };
   const router = useRouter();
   const [performDate, setPerformDate] = useState(new Date().toISOString().split("T")[0]);
+  const [notes, setNotes] = useState("");
   const [procedureName, setProcedureName] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -27,7 +28,7 @@ export default function PerformProcedurePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await addPerformanceAction(id, procedureId, new Date(performDate));
+    await addPerformanceAction(id, procedureId, new Date(performDate), notes);
     router.push(`/equipment/${id}/procedures`);
   };
 
@@ -57,6 +58,17 @@ export default function PerformProcedurePage() {
               onChange={(e) => setPerformDate(e.target.value)}
               required
               className="w-full border border-gray-300 rounded-md shadow-sm p-2 text-black"
+            />
+          </div>
+
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+            <textarea
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              className="w-full border border-gray-300 rounded-md shadow-sm p-2 text-black"
+              rows={3}
+              placeholder="Enter any notes about this performance..."
             />
           </div>
 

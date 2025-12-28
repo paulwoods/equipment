@@ -1,6 +1,7 @@
 export interface Perform {
   id: string;
   date: Date;
+  notes: string;
 }
 
 export interface Procedure {
