@@ -24,3 +24,15 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* EasyMDE Button Color Override */
+.editor-toolbar button {
+  color: black !important;
+}
+
+.editor-toolbar button.active,
+.editor-toolbar button:hover {
+  background: #f0f0f0 !important;
+  border-color: #ccc !important;
+  color: black !important;
+}

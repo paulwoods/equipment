@@ -1,7 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Procedure } from "@/types/procedure";
+import dynamic from "next/dynamic";
+import "easymde/dist/easymde.min.css";
+
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), { ssr: false });
 
 interface ProcedureFormProps {
   procedure?: Procedure;
@@ -16,6 +20,14 @@ export default function ProcedureForm({ procedure, onSubmit, onCancel }: Procedu
     procedure: procedure?.procedure || "",
     intervalDays: procedure?.intervalDays || 0,
   });
+
+  const mdeOptions = useMemo(() => {
+    return {
+      spellChecker: false,
+      placeholder: "Enter procedure steps here...",
+      status: false,
+    };
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,6 +45,10 @@ export default function ProcedureForm({ procedure, onSubmit, onCancel }: Procedu
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
+  };
+
+  const handleProcedureChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, procedure: value }));
   };
 
   return (
@@ -76,15 +92,12 @@ export default function ProcedureForm({ procedure, onSubmit, onCancel }: Procedu
         />
       </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700">Procedure Steps</label>
-        <textarea
-          name="procedure"
+      <div className="prose prose-sm max-w-none">
+        <label className="block text-sm font-medium text-gray-700 mb-1">Procedure Steps</label>
+        <SimpleMDE
           value={formData.procedure}
-          onChange={handleChange}
-          required
-          rows={5}
-          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-black"
+          onChange={handleProcedureChange}
+          options={mdeOptions}
         />
       </div>
 
