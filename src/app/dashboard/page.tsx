@@ -1,19 +1,26 @@
 "use client";
 
-import {useEffect, useState} from "react";
+import {useEffect, useState, useMemo} from "react";
 import Link from "next/link";
 import {Equipment} from "@/types/equipment";
 import {Procedure} from "@/types/procedure";
 import {fetchEquipment, deleteProcedureAction} from "../actions";
+import {ChevronDown, ChevronUp, Search, X} from "lucide-react";
 
 interface FlattenedProcedure extends Procedure {
     equipmentId: string;
     equipmentName: string;
 }
 
+type SortField = 'equipmentName' | 'name' | 'intervalDays' | 'daysTillDue';
+type SortOrder = 'asc' | 'desc';
+
 export default function Dashboard() {
     const [procedures, setProcedures] = useState<FlattenedProcedure[]>([]);
     const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [sortField, setSortField] = useState<SortField>('daysTillDue');
+    const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
 
     const loadData = async () => {
         setLoading(true);
@@ -32,15 +39,54 @@ export default function Dashboard() {
             }
         });
 
-        // Sort by days till due (ascending)
-        flattened.sort((a, b) => {
-            const dueA = calculateDueDetails(a)?.daysTillDue ?? Infinity;
-            const dueB = calculateDueDetails(b)?.daysTillDue ?? Infinity;
-            return dueA - dueB;
-        });
-
         setProcedures(flattened);
         setLoading(false);
+    };
+
+    const filteredAndSortedProcedures = useMemo(() => {
+        let result = [...procedures];
+
+        // Filtering
+        if (searchTerm) {
+            const lowerSearch = searchTerm.toLowerCase();
+            result = result.filter(proc =>
+                proc.equipmentName.toLowerCase().includes(lowerSearch) ||
+                proc.name.toLowerCase().includes(lowerSearch) ||
+                (proc.description && proc.description.toLowerCase().includes(lowerSearch))
+            );
+        }
+
+        // Sorting
+        result.sort((a, b) => {
+            let aValue: any;
+            let bValue: any;
+
+            if (sortField === 'daysTillDue') {
+                aValue = calculateDueDetails(a)?.daysTillDue ?? Infinity;
+                bValue = calculateDueDetails(b)?.daysTillDue ?? Infinity;
+            } else if (sortField === 'equipmentName' || sortField === 'name') {
+                aValue = a[sortField].toLowerCase();
+                bValue = b[sortField].toLowerCase();
+            } else {
+                aValue = a[sortField];
+                bValue = b[sortField];
+            }
+
+            if (aValue < bValue) return sortOrder === 'asc' ? -1 : 1;
+            if (aValue > bValue) return sortOrder === 'asc' ? 1 : -1;
+            return 0;
+        });
+
+        return result;
+    }, [procedures, searchTerm, sortField, sortOrder]);
+
+    const handleSort = (field: SortField) => {
+        if (sortField === field) {
+            setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+        } else {
+            setSortField(field);
+            setSortOrder('asc');
+        }
     };
 
     useEffect(() => {
@@ -71,7 +117,38 @@ export default function Dashboard() {
                     {loading ? (
                         <div className="p-8 text-center text-gray-500">Loading...</div>
                     ) : (
-                        <DashboardList procedures={procedures} onDelete={handleDelete} />
+                        <div className="space-y-4">
+                            {/* Search Bar */}
+                            <div className="px-4 md:px-6 pt-4">
+                                <div className="relative">
+                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <Search className="h-4 w-4 text-gray-400" />
+                                    </div>
+                                    <input
+                                        type="text"
+                                        placeholder="Search procedures..."
+                                        className="block w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-700 rounded-md leading-5 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors"
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                    />
+                                    {searchTerm && (
+                                        <button
+                                            className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                                            onClick={() => setSearchTerm("")}
+                                        >
+                                            <X className="h-4 w-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200" />
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                            <DashboardList 
+                                procedures={filteredAndSortedProcedures} 
+                                onDelete={handleDelete}
+                                sortField={sortField}
+                                sortOrder={sortOrder}
+                                onSort={handleSort}
+                            />
+                        </div>
                     )}
                 </div>
             </div>
@@ -112,10 +189,20 @@ function DueStatus({details}: { details: ReturnType<typeof calculateDueDetails> 
     );
 }
 
-function DashboardList({procedures, onDelete}: { 
+function DashboardList({procedures, onDelete, sortField, sortOrder, onSort}: { 
     procedures: FlattenedProcedure[], 
-    onDelete: (eqId: string, procId: string) => void 
+    onDelete: (eqId: string, procId: string) => void,
+    sortField: SortField,
+    sortOrder: SortOrder,
+    onSort: (field: SortField) => void
 }) {
+    const SortIndicator = ({field}: { field: SortField }) => {
+        if (sortField !== field) return <div className="w-4 h-4 ml-1 inline-block" />;
+        return sortOrder === 'asc' ?
+            <ChevronUp className="w-4 h-4 ml-1 inline-block" /> :
+            <ChevronDown className="w-4 h-4 ml-1 inline-block" />;
+    };
+
     return (
         <div>
             {/* Desktop View */}
@@ -123,10 +210,30 @@ function DashboardList({procedures, onDelete}: {
                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
                     <thead className="bg-gray-50 dark:bg-gray-800/50">
                     <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Equipment</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Procedure</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Interval</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Due In</th>
+                        <th 
+                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
+                            onClick={() => onSort('equipmentName')}
+                        >
+                            Equipment <SortIndicator field="equipmentName" />
+                        </th>
+                        <th 
+                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
+                            onClick={() => onSort('name')}
+                        >
+                            Procedure <SortIndicator field="name" />
+                        </th>
+                        <th 
+                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
+                            onClick={() => onSort('intervalDays')}
+                        >
+                            Interval <SortIndicator field="intervalDays" />
+                        </th>
+                        <th 
+                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
+                            onClick={() => onSort('daysTillDue')}
+                        >
+                            Due In <SortIndicator field="daysTillDue" />
+                        </th>
                         <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
                     </tr>
                     </thead>
