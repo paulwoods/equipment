@@ -35,7 +35,15 @@
     "modelNumber": "Heater",
     "description": "",
     "purchaseDate": "2005-12-28T00:00:00.000Z",
-    "procedures": [],
+    "procedures": [
+      {
+        "name": "Change the Filter",
+        "description": "procedure to change the filter",
+        "steps": "1. Open The furnace\n2. Remove the old filter\n3. Add a new filter\n4. Close the furnace\n5. ",
+        "intervalDays": 90,
+        "id": "k6pyktw"
+      }
+    ],
     "id": "2dbz1lw"
   }
 ]

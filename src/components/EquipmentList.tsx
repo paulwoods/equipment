@@ -36,7 +36,12 @@ export default function EquipmentList({ items, onDelete }: EquipmentListProps) {
                     {item.procedures.length} {item.procedures.length === 1 ? 'procedure' : 'procedures'}
                   </Link>
                 ) : (
-                  <span className="text-gray-400 italic">None</span>
+                  <Link 
+                    href={`/equipment/${item.id}/procedures/new`}
+                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-500 hover:bg-gray-200 transition-colors"
+                  >
+                    0 procedures
+                  </Link>
                 )}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
