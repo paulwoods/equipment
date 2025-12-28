@@ -29,5 +29,13 @@
         ]
       }
     ]
+  },
+  {
+    "manufacturer": "Honeywell",
+    "modelNumber": "Heater",
+    "description": "",
+    "purchaseDate": "2005-12-28T00:00:00.000Z",
+    "procedures": [],
+    "id": "2dbz1lw"
   }
 ]

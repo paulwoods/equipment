@@ -72,7 +72,6 @@ export default function EquipmentForm({ equipment, onSubmit, onCancel }: Equipme
           name="description"
           value={formData.description}
           onChange={handleChange}
-          required
           rows={3}
           className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-black"
         />
