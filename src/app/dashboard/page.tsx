@@ -249,7 +249,9 @@ function DashboardList({procedures, onDelete, sortField, sortOrder, onSort}: {
                                     </Link>
                                 </td>
                                 <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-300">
-                                    <div className="font-medium text-gray-900 dark:text-gray-100">{proc.name}</div>
+                                    <Link href={`/equipment/${proc.equipmentId}/procedures/${proc.id}/perform`} className="font-medium text-blue-600 dark:text-blue-400 hover:underline transition-colors">
+                                        {proc.name}
+                                    </Link>
                                     <div className="text-xs text-gray-500 line-clamp-1">{proc.description}</div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">{proc.intervalDays} days</td>
@@ -277,7 +279,9 @@ function DashboardList({procedures, onDelete, sortField, sortOrder, onSort}: {
                                     <Link href={`/equipment/${proc.equipmentId}/procedures`} className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline">
                                         {proc.equipmentName}
                                     </Link>
-                                    <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100">{proc.name}</h3>
+                                    <Link href={`/equipment/${proc.equipmentId}/procedures/${proc.id}/perform`} className="hover:underline text-blue-600 dark:text-blue-400">
+                                        <h3 className="text-sm font-bold">{proc.name}</h3>
+                                    </Link>
                                 </div>
                                 <DueStatus details={dueDetails}/>
                             </div>
