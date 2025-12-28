@@ -100,17 +100,17 @@ export default function ProcedureForm({procedure, onSubmit, onCancel}: Procedure
                 />
             </div>
 
-            <div className="flex justify-end space-x-2 pt-4 border-t">
+            <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4 border-t">
                 <button
                     type="button"
                     onClick={onCancel}
-                    className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                    className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 cursor-pointer order-2 sm:order-1"
                 >
                     Cancel
                 </button>
                 <button
                     type="submit"
-                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                    className="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 cursor-pointer order-1 sm:order-2"
                 >
                     {procedure ? "Update" : "Create"}
                 </button>

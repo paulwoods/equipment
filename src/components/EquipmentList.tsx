@@ -10,67 +10,108 @@ interface EquipmentListProps {
 
 export default function EquipmentList({items, onDelete}: EquipmentListProps) {
   return (
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-          <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Manufacturer</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Model
-              Number
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Procedures</th>
-            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-          </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+      <div>
+        {/* Desktop View */}
+        <div className="hidden md:block overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Manufacturer</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Model
+                Number
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Procedures</th>
+              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+            {items.map((item) => (
+                <tr key={item.id}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.manufacturer}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.modelNumber}</td>
+                  <td className="px-6 py-4 text-sm text-gray-900">{item.description}</td>
+                  <td className="px-6 py-4 text-sm text-gray-900">
+                    <ProcedureBadge item={item}/>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <Link
+                        href={`/equipment/${item.id}/edit`}
+                        className="text-blue-600 hover:text-blue-900 mr-4"
+                    >
+                      Edit
+                    </Link>
+                    <button
+                        onClick={() => onDelete(item.id)}
+                        className="text-red-600 hover:text-red-900 cursor-pointer"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+            ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Mobile View */}
+        <div className="md:hidden divide-y divide-gray-200">
           {items.map((item) => (
-              <tr key={item.id}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.manufacturer}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.modelNumber}</td>
-                <td className="px-6 py-4 text-sm text-gray-900">{item.description}</td>
-                <td className="px-6 py-4 text-sm text-gray-900">
-                  {item.procedures && item.procedures.length > 0 ? (
-                      <Link
-                          href={`/equipment/${item.id}/procedures`}
-                          className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors"
-                      >
-                        {item.procedures.length} {item.procedures.length === 1 ? 'procedure' : 'procedures'}
-                      </Link>
-                  ) : (
-                      <Link
-                          href={`/equipment/${item.id}/procedures/new`}
-                          className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-500 hover:bg-gray-200 transition-colors"
-                      >
-                        0 procedures
-                      </Link>
-                  )}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+              <div key={item.id} className="p-4 space-y-3">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="text-sm font-bold text-gray-900">{item.manufacturer}</h3>
+                    <p className="text-sm text-gray-600">{item.modelNumber}</p>
+                  </div>
+                  <ProcedureBadge item={item}/>
+                </div>
+                {item.description && (
+                    <p className="text-sm text-gray-700">{item.description}</p>
+                )}
+                <div className="flex justify-end gap-4 pt-2">
                   <Link
                       href={`/equipment/${item.id}/edit`}
-                      className="text-blue-600 hover:text-blue-900 mr-4"
+                      className="text-sm text-blue-600 font-medium"
                   >
                     Edit
                   </Link>
                   <button
                       onClick={() => onDelete(item.id)}
-                      className="text-red-600 hover:text-red-900"
+                      className="text-sm text-red-600 font-medium cursor-pointer"
                   >
                     Delete
                   </button>
-                </td>
-              </tr>
+                </div>
+              </div>
           ))}
-          {items.length === 0 && (
-              <tr>
-                <td colSpan={5} className="px-6 py-10 text-center text-sm text-gray-500">
-                  No equipment found. Add some to get started!
-                </td>
-              </tr>
-          )}
-          </tbody>
-        </table>
+        </div>
+
+        {items.length === 0 && (
+            <div className="px-6 py-10 text-center text-sm text-gray-500">
+              No equipment found. Add some to get started!
+            </div>
+        )}
       </div>
+  );
+}
+
+function ProcedureBadge({item}: { item: Equipment }) {
+  if (item.procedures && item.procedures.length > 0) {
+    return (
+        <Link
+            href={`/equipment/${item.id}/procedures`}
+            className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors"
+        >
+          {item.procedures.length} {item.procedures.length === 1 ? 'procedure' : 'procedures'}
+        </Link>
+    );
+  }
+  return (
+      <Link
+          href={`/equipment/${item.id}/procedures/new`}
+          className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-500 hover:bg-gray-200 transition-colors"
+      >
+        0 procedures
+      </Link>
   );
 }

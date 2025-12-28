@@ -61,7 +61,7 @@ export default function ProcedureHistoryPage() {
                     </div>
 
                     <div className="overflow-x-auto">
-                        <table className="min-w-full divide-y divide-gray-200">
+                        <table className="hidden md:table min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
                             <tr>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -95,6 +95,27 @@ export default function ProcedureHistoryPage() {
                             )}
                             </tbody>
                         </table>
+
+                        <div className="md:hidden divide-y divide-gray-200">
+                            {history.length > 0 ? (
+                                history
+                                    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                                    .map((record) => (
+                                        <div key={record.id} className="py-4 space-y-2">
+                                            <div className="text-sm font-bold text-gray-900">
+                                                {new Date(record.date).toLocaleDateString()}
+                                            </div>
+                                            <div className="text-sm text-gray-700">
+                                                {record.notes || <span className="text-gray-400 italic">No notes</span>}
+                                            </div>
+                                        </div>
+                                    ))
+                            ) : (
+                                <div className="py-10 text-center text-sm text-gray-500">
+                                    No performance records found.
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
