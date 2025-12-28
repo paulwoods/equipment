@@ -45,7 +45,7 @@ export default function ProcedureList({ equipmentId, procedures, onDelete }: Pro
           ))}
           {procedures.length === 0 && (
             <tr>
-              <td colSpan={3} className="px-6 py-10 text-center text-sm text-gray-500">
+              <td colSpan={4} className="px-6 py-10 text-center text-sm text-gray-500">
                 No procedures found for this equipment.
               </td>
             </tr>
