@@ -1,5 +1,11 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Environment Variables
+
+The application uses the following environment variables:
+
+- `EQUIPMENT_DATA_DIR`: The directory where the equipment data is stored. Defaults to `data` if not specified.
+
 ## Getting Started
 
 First, run the development server:
