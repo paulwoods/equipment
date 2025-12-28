@@ -2,6 +2,8 @@
 
 import {Procedure} from "@/types/procedure";
 import Link from "next/link";
+import {useState, useMemo} from "react";
+import {ChevronDown, ChevronUp, Search, X} from "lucide-react";
 
 interface ProcedureListProps {
     equipmentId: string;
@@ -9,27 +11,126 @@ interface ProcedureListProps {
     onDelete: (id: string) => void;
 }
 
+type SortField = 'name' | 'description' | 'intervalDays' | 'daysTillDue';
+type SortOrder = 'asc' | 'desc';
+
 export default function ProcedureList({equipmentId, procedures, onDelete}: ProcedureListProps) {
+    const [searchTerm, setSearchTerm] = useState("");
+    const [sortField, setSortField] = useState<SortField>('name');
+    const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
+
+    const filteredAndSortedProcedures = useMemo(() => {
+        let result = [...procedures];
+
+        // Filtering
+        if (searchTerm) {
+            const lowerSearch = searchTerm.toLowerCase();
+            result = result.filter(proc =>
+                proc.name.toLowerCase().includes(lowerSearch) ||
+                (proc.description && proc.description.toLowerCase().includes(lowerSearch))
+            );
+        }
+
+        // Sorting
+        result.sort((a, b) => {
+            let aValue: any;
+            let bValue: any;
+
+            if (sortField === 'daysTillDue') {
+                aValue = calculateDueDetails(a)?.daysTillDue ?? Infinity;
+                bValue = calculateDueDetails(b)?.daysTillDue ?? Infinity;
+            } else if (sortField === 'name' || sortField === 'description') {
+                aValue = (a[sortField] || "").toLowerCase();
+                bValue = (b[sortField] || "").toLowerCase();
+            } else {
+                aValue = a[sortField];
+                bValue = b[sortField];
+            }
+
+            if (aValue < bValue) return sortOrder === 'asc' ? -1 : 1;
+            if (aValue > bValue) return sortOrder === 'asc' ? 1 : -1;
+            return 0;
+        });
+
+        return result;
+    }, [procedures, searchTerm, sortField, sortOrder]);
+
+    const handleSort = (field: SortField) => {
+        if (sortField === field) {
+            setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+        } else {
+            setSortField(field);
+            setSortOrder('asc');
+        }
+    };
+
+    const SortIndicator = ({field}: { field: SortField }) => {
+        if (sortField !== field) return <div className="w-4 h-4 ml-1 inline-block" />;
+        return sortOrder === 'asc' ?
+            <ChevronUp className="w-4 h-4 ml-1 inline-block" /> :
+            <ChevronDown className="w-4 h-4 ml-1 inline-block" />;
+    };
+
     return (
-        <div>
+        <div className="space-y-4">
+            {/* Search Bar */}
+            <div className="pt-2">
+                <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <Search className="h-4 w-4 text-gray-400" />
+                    </div>
+                    <input
+                        type="text"
+                        placeholder="Search procedures..."
+                        className="block w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-700 rounded-md leading-5 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    {searchTerm && (
+                        <button
+                            className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                            onClick={() => setSearchTerm("")}
+                        >
+                            <X className="h-4 w-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200" />
+                        </button>
+                    )}
+                </div>
+            </div>
+
             {/* Desktop View */}
             <div className="hidden md:block overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
                     <thead className="bg-gray-50 dark:bg-gray-800/50">
                     <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Name</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Description</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Interval
-                            (Days)
+                        <th 
+                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
+                            onClick={() => handleSort('name')}
+                        >
+                            Name <SortIndicator field="name" />
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Days
-                            Till Due
+                        <th 
+                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
+                            onClick={() => handleSort('description')}
+                        >
+                            Description <SortIndicator field="description" />
+                        </th>
+                        <th 
+                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
+                            onClick={() => handleSort('intervalDays')}
+                        >
+                            Interval <SortIndicator field="intervalDays" />
+                        </th>
+                        <th 
+                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
+                            onClick={() => handleSort('daysTillDue')}
+                        >
+                            Days Till Due <SortIndicator field="daysTillDue" />
                         </th>
                         <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
                     </tr>
                     </thead>
                     <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
-                    {procedures.map((proc) => {
+                    {filteredAndSortedProcedures.map((proc) => {
                         const dueDetails = calculateDueDetails(proc);
 
                         return (
@@ -52,7 +153,7 @@ export default function ProcedureList({equipmentId, procedures, onDelete}: Proce
 
             {/* Mobile View */}
             <div className="md:hidden divide-y divide-gray-200 dark:divide-gray-800">
-                {procedures.map((proc) => {
+                {filteredAndSortedProcedures.map((proc) => {
                     const dueDetails = calculateDueDetails(proc);
                     return (
                         <div key={proc.id} className="py-4 space-y-3">
@@ -76,9 +177,9 @@ export default function ProcedureList({equipmentId, procedures, onDelete}: Proce
                 })}
             </div>
 
-            {procedures.length === 0 && (
+            {filteredAndSortedProcedures.length === 0 && (
                 <div className="py-10 text-center text-sm text-gray-500 dark:text-gray-400">
-                    No procedures found for this equipment.
+                    {searchTerm ? "No procedures match your search." : "No procedures found for this equipment."}
                 </div>
             )}
         </div>
