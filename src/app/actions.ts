@@ -39,20 +39,6 @@ export async function deleteEquipment(id: string) {
   await saveEquipment(filtered);
   revalidatePath("/");
 }
-
-export async function updateProcedures(equipmentId: string, procedures: Procedure[]) {
-  const equipment = await getEquipment();
-  const index = equipment.findIndex((item) => item.id === equipmentId);
-  if (index !== -1) {
-    equipment[index].procedures = procedures;
-    await saveEquipment(equipment);
-    revalidatePath("/");
-    revalidatePath(`/equipment/${equipmentId}/procedures`);
-    return equipment[index];
-  }
-  throw new Error("Equipment not found");
-}
-
 export async function addProcedureToAction(equipmentId: string, procedureData: Omit<Procedure, "id">) {
   const allEquipment = await getEquipment();
   const equipmentIndex = allEquipment.findIndex((e) => e.id === equipmentId);

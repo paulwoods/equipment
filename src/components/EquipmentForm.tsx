@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, {ChangeEvent, FormEvent, useState} from "react";
 import { Equipment } from "@/types/equipment";
 
 interface EquipmentFormProps {
@@ -18,7 +18,7 @@ export default function EquipmentForm({ equipment, onSubmit, onCancel }: Equipme
     procedures: equipment?.procedures || [],
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (equipment) {
       onSubmit({ ...formData, id: equipment.id } as Equipment);
@@ -27,7 +27,7 @@ export default function EquipmentForm({ equipment, onSubmit, onCancel }: Equipme
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     if (name === "purchaseDate") {
       const dateValue = value ? new Date(value) : new Date();

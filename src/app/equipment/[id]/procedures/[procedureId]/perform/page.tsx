@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import {useState, useEffect, FormEvent} from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { fetchEquipment, addPerformanceAction } from "@/app/actions";
@@ -26,7 +26,7 @@ export default function PerformProcedurePage() {
     loadData();
   }, [id, procedureId]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     await addPerformanceAction(id, procedureId, new Date(performDate), notes);
     router.push(`/equipment/${id}/procedures`);
@@ -47,7 +47,7 @@ export default function PerformProcedurePage() {
         </div>
 
         <form onSubmit={handleSubmit} className="bg-white shadow rounded-lg p-6 border border-gray-200">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2 text-black">Record Performance</h1>
+          <h1 className="text-2xl font-bold mb-2 text-black">Record Performance</h1>
           <p className="text-gray-600 mb-6">Procedure: <span className="font-semibold">{procedureName}</span></p>
 
           <div className="mb-6">

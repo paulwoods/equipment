@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import {useState, useMemo, FormEvent, ChangeEvent} from "react";
 import { Procedure } from "@/types/procedure";
 import dynamic from "next/dynamic";
 import "easymde/dist/easymde.min.css";
@@ -29,7 +29,7 @@ export default function ProcedureForm({ procedure, onSubmit, onCancel }: Procedu
     };
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (procedure) {
       onSubmit({ ...formData, id: procedure.id } as Procedure);
@@ -38,7 +38,7 @@ export default function ProcedureForm({ procedure, onSubmit, onCancel }: Procedu
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     if (name === "intervalDays") {
       setFormData((prev) => ({ ...prev, [name]: parseInt(value) || 0 }));
