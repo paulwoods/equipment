@@ -41,7 +41,28 @@
         "description": "procedure to change the filter",
         "steps": "1. Open The furnace\n2. Remove the old filter\n3. Add a new filter\n4. Close the furnace\n5. ",
         "intervalDays": 90,
-        "id": "k6pyktw"
+        "id": "k6pyktw",
+        "history": [
+          {
+            "id": "xh25tx6",
+            "date": "2025-12-28T00:00:00.000Z",
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "name": "Clean the condenser coils",
+        "description": "",
+        "steps": "1. Spay them down",
+        "intervalDays": 180,
+        "id": "o7f1jv3",
+        "history": [
+          {
+            "id": "1372qyt",
+            "date": "2025-12-28T00:00:00.000Z",
+            "notes": ""
+          }
+        ]
       }
     ],
     "id": "2dbz1lw"

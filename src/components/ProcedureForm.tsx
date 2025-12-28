@@ -74,7 +74,6 @@ export default function ProcedureForm({ procedure, onSubmit, onCancel }: Procedu
           name="description"
           value={formData.description}
           onChange={handleChange}
-          required
           className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-black"
         />
       </div>

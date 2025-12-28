@@ -7,7 +7,7 @@ export interface Perform {
 export interface Procedure {
   id: string;
   name: string;
-  description: string;
+  description?: string;
   steps: string;
   intervalDays: number;
   history?: Perform[];
