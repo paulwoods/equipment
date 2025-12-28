@@ -1,6 +1,6 @@
 "use client";
 
-import { Equipment } from "@/types/equipment";
+import {Equipment} from "@/types/equipment";
 import Link from "next/link";
 
 interface EquipmentListProps {
@@ -8,67 +8,69 @@ interface EquipmentListProps {
   onDelete: (id: string) => void;
 }
 
-export default function EquipmentList({ items, onDelete }: EquipmentListProps) {
+export default function EquipmentList({items, onDelete}: EquipmentListProps) {
   return (
-    <div className="overflow-x-auto">
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
           <tr>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Manufacturer</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Model Number</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Model
+              Number
+            </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Procedures</th>
             <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
           </tr>
-        </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
           {items.map((item) => (
-            <tr key={item.id}>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.manufacturer}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.modelNumber}</td>
-              <td className="px-6 py-4 text-sm text-gray-900">{item.description}</td>
-              <td className="px-6 py-4 text-sm text-gray-900">
-                {item.procedures && item.procedures.length > 0 ? (
-                  <Link 
-                    href={`/equipment/${item.id}/procedures`}
-                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors"
+              <tr key={item.id}>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.manufacturer}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.modelNumber}</td>
+                <td className="px-6 py-4 text-sm text-gray-900">{item.description}</td>
+                <td className="px-6 py-4 text-sm text-gray-900">
+                  {item.procedures && item.procedures.length > 0 ? (
+                      <Link
+                          href={`/equipment/${item.id}/procedures`}
+                          className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors"
+                      >
+                        {item.procedures.length} {item.procedures.length === 1 ? 'procedure' : 'procedures'}
+                      </Link>
+                  ) : (
+                      <Link
+                          href={`/equipment/${item.id}/procedures/new`}
+                          className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-500 hover:bg-gray-200 transition-colors"
+                      >
+                        0 procedures
+                      </Link>
+                  )}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <Link
+                      href={`/equipment/${item.id}/edit`}
+                      className="text-blue-600 hover:text-blue-900 mr-4"
                   >
-                    {item.procedures.length} {item.procedures.length === 1 ? 'procedure' : 'procedures'}
+                    Edit
                   </Link>
-                ) : (
-                  <Link 
-                    href={`/equipment/${item.id}/procedures/new`}
-                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-500 hover:bg-gray-200 transition-colors"
+                  <button
+                      onClick={() => onDelete(item.id)}
+                      className="text-red-600 hover:text-red-900"
                   >
-                    0 procedures
-                  </Link>
-                )}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <Link
-                  href={`/equipment/${item.id}/edit`}
-                  className="text-blue-600 hover:text-blue-900 mr-4"
-                >
-                  Edit
-                </Link>
-                <button
-                  onClick={() => onDelete(item.id)}
-                  className="text-red-600 hover:text-red-900"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
+                    Delete
+                  </button>
+                </td>
+              </tr>
           ))}
           {items.length === 0 && (
-            <tr>
-              <td colSpan={5} className="px-6 py-10 text-center text-sm text-gray-500">
-                No equipment found. Add some to get started!
-              </td>
-            </tr>
+              <tr>
+                <td colSpan={5} className="px-6 py-10 text-center text-sm text-gray-500">
+                  No equipment found. Add some to get started!
+                </td>
+              </tr>
           )}
-        </tbody>
-      </table>
-    </div>
+          </tbody>
+        </table>
+      </div>
   );
 }
