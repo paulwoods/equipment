@@ -11,7 +11,14 @@
         "description": "Improves airflow and lowers temperatures.",
         "steps": "1. Open the bottom.\n2. Use compressed air to blow out fans.\n3. Close the bottom.",
         "intervalDays": 90,
-        "id": "tvmqks2"
+        "id": "tvmqks2",
+        "history": [
+          {
+            "id": "fxqm2yu",
+            "date": "2025-12-28T00:00:00.000Z",
+            "notes": ""
+          }
+        ]
       }
     ]
   },
@@ -23,17 +30,10 @@
     "procedures": [
       {
         "name": "Change the Filter",
-        "description": "procedure to change the filter",
+        "description": "Filtrete 20x20x4 MPR 1550",
         "steps": "1. Open The furnace\n2. Remove the old filter\n3. Add a new filter\n4. Close the furnace\n5. ",
         "intervalDays": 90,
-        "id": "k6pyktw",
-        "history": [
-          {
-            "id": "xh25tx6",
-            "date": "2025-12-28T00:00:00.000Z",
-            "notes": ""
-          }
-        ]
+        "id": "k6pyktw"
       },
       {
         "name": "Clean the condenser coils",
@@ -45,6 +45,11 @@
           {
             "id": "1372qyt",
             "date": "2025-01-28T00:00:00.000Z",
+            "notes": ""
+          },
+          {
+            "id": "oqy9479",
+            "date": "2025-12-28T00:00:00.000Z",
             "notes": ""
           }
         ]
@@ -63,14 +68,28 @@
         "description": "",
         "steps": "\tblah...",
         "intervalDays": 7,
-        "id": "dfisr26"
+        "id": "dfisr26",
+        "history": [
+          {
+            "id": "q9ruxy5",
+            "date": "2025-12-28T00:00:00.000Z",
+            "notes": ""
+          }
+        ]
       },
       {
         "name": "Replace Filter",
         "description": "",
         "steps": "blah...",
         "intervalDays": 90,
-        "id": "w5icm1z"
+        "id": "w5icm1z",
+        "history": [
+          {
+            "id": "hecn1ib",
+            "date": "2025-12-28T00:00:00.000Z",
+            "notes": ""
+          }
+        ]
       }
     ],
     "id": "iuttjsn"
