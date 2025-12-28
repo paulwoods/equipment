@@ -1,14 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Equipment } from "@/types/equipment";
 import EquipmentForm from "@/components/EquipmentForm";
 import EquipmentList from "@/components/EquipmentList";
+import { fetchEquipment, addEquipment, updateEquipment, deleteEquipment } from "./actions";
 
 export default function Home() {
   const [equipmentList, setEquipmentList] = useState<Equipment[]>([]);
   const [editingEquipment, setEditingEquipment] = useState<Equipment | undefined>(undefined);
   const [isFormOpen, setIsFormOpen] = useState(false);
+
+  useEffect(() => {
+    const loadEquipment = async () => {
+      const data = await fetchEquipment();
+      setEquipmentList(data);
+    };
+    loadEquipment();
+  }, []);
 
   const handleAddClick = () => {
     setEditingEquipment(undefined);
@@ -20,23 +29,22 @@ export default function Home() {
     setIsFormOpen(true);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this equipment?")) {
+      await deleteEquipment(id);
       setEquipmentList(equipmentList.filter((item) => item.id !== id));
     }
   };
 
-  const handleFormSubmit = (data: Omit<Equipment, "id"> | Equipment) => {
+  const handleFormSubmit = async (data: Omit<Equipment, "id"> | Equipment) => {
     if ("id" in data) {
       // Update
-      setEquipmentList(equipmentList.map((item) => (item.id === data.id ? (data as Equipment) : item)));
+      const updated = await updateEquipment(data as Equipment);
+      setEquipmentList(equipmentList.map((item) => (item.id === updated.id ? updated : item)));
     } else {
       // Create
-      const newEquipment: Equipment = {
-        ...data,
-        id: Math.random().toString(36).substr(2, 9),
-      };
-      setEquipmentList([...equipmentList, newEquipment]);
+      const created = await addEquipment(data);
+      setEquipmentList([...equipmentList, created]);
     }
     setIsFormOpen(false);
   };
