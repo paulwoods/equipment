@@ -5,11 +5,10 @@ import Link from "next/link";
 
 interface EquipmentListProps {
   items: Equipment[];
-  onEdit: (equipment: Equipment) => void;
   onDelete: (id: string) => void;
 }
 
-export default function EquipmentList({ items, onEdit, onDelete }: EquipmentListProps) {
+export default function EquipmentList({ items, onDelete }: EquipmentListProps) {
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200">
@@ -39,12 +38,12 @@ export default function EquipmentList({ items, onEdit, onDelete }: EquipmentList
                 )}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <button
-                  onClick={() => onEdit(item)}
+                <Link
+                  href={`/equipment/${item.id}/edit`}
                   className="text-blue-600 hover:text-blue-900 mr-4"
                 >
                   Edit
-                </button>
+                </Link>
                 <button
                   onClick={() => onDelete(item.id)}
                   className="text-red-600 hover:text-red-900"
