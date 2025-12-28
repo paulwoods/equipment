@@ -38,47 +38,47 @@ export default function EquipmentForm({equipment, onSubmit, onCancel}: Equipment
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow-md border border-gray-200">
-            <h2 className="text-xl font-bold mb-4 text-black">{equipment ? "Edit Equipment" : "Add Equipment"}</h2>
+        <form onSubmit={handleSubmit} className="space-y-6 bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-800">
+            <h2 className="text-xl font-bold mb-4 text-black dark:text-white">{equipment ? "Edit Equipment" : "Add Equipment"}</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Manufacturer</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Manufacturer</label>
                     <input
                         type="text"
                         name="manufacturer"
                         value={formData.manufacturer}
                         onChange={handleChange}
                         required
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-black"
+                        className="mt-1 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm p-2 text-black dark:text-white dark:bg-gray-800"
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Model Number</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Model Number</label>
                     <input
                         type="text"
                         name="modelNumber"
                         value={formData.modelNumber}
                         onChange={handleChange}
                         required
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-black"
+                        className="mt-1 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm p-2 text-black dark:text-white dark:bg-gray-800"
                     />
                 </div>
             </div>
 
             <div>
-                <label className="block text-sm font-medium text-gray-700">Description</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
                 <textarea
                     name="description"
                     value={formData.description}
                     onChange={handleChange}
                     rows={3}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-black"
+                    className="mt-1 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm p-2 text-black dark:text-white dark:bg-gray-800"
                 />
             </div>
 
             <div>
-                <label className="block text-sm font-medium text-gray-700">Purchase Date</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Purchase Date</label>
                 <input
                     type="date"
                     name="purchaseDate"
@@ -89,15 +89,15 @@ export default function EquipmentForm({equipment, onSubmit, onCancel}: Equipment
                     }
                     onChange={handleChange}
                     required
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-black"
+                    className="mt-1 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm p-2 text-black dark:text-white dark:bg-gray-800"
                 />
             </div>
 
-            <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4 border-t">
+            <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4 border-t dark:border-gray-800">
                 <button
                     type="button"
                     onClick={onCancel}
-                    className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 cursor-pointer order-2 sm:order-1"
+                    className="w-full sm:w-auto px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer order-2 sm:order-1"
                 >
                     Cancel
                 </button>

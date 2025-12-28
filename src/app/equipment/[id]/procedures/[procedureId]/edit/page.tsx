@@ -35,11 +35,11 @@ export default function EditProcedurePage() {
         }
     };
 
-    if (loading) return <div className="p-8 text-center text-black">Loading...</div>;
-    if (!procedure) return <div className="p-8 text-center text-black">Procedure not found.</div>;
+    if (loading) return <div className="p-8 text-center text-black dark:text-white">Loading...</div>;
+    if (!procedure) return <div className="p-8 text-center text-black dark:text-white">Procedure not found.</div>;
 
     return (
-        <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-2xl mx-auto">
                 <ProcedureForm
                     procedure={procedure}

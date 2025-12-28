@@ -39,12 +39,12 @@ export default function ProceduresPage() {
     if (loading) return <div className="p-8">Loading...</div>;
 
     return (
-        <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
                 <div className="mb-6 flex justify-between items-center">
                     <Link
                         href="/"
-                        className="text-blue-600 hover:text-blue-800 flex items-center gap-2 font-medium"
+                        className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center gap-2 font-medium"
                     >
                         ← Back to Equipment List
                     </Link>
@@ -56,11 +56,11 @@ export default function ProceduresPage() {
                     </Link>
                 </div>
 
-                <div className="bg-white shadow rounded-lg overflow-hidden p-6 border border-gray-200">
-                    <div className="mb-8 border-b border-gray-100 pb-4">
-                        <p className="text-gray-600 mt-2">
+                <div className="bg-white dark:bg-gray-900 shadow rounded-lg overflow-hidden p-6 border border-gray-200 dark:border-gray-800">
+                    <div className="mb-8 border-b border-gray-100 dark:border-gray-800 pb-4">
+                        <p className="text-gray-600 dark:text-gray-400 mt-2">
                             For: <span
-                            className="font-semibold">{equipmentInfo.manufacturer} - {equipmentInfo.modelNumber}</span>
+                            className="font-semibold text-black dark:text-white">{equipmentInfo.manufacturer} - {equipmentInfo.modelNumber}</span>
                         </p>
                     </div>
 

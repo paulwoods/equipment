@@ -14,30 +14,30 @@ export default function ProcedureList({equipmentId, procedures, onDelete}: Proce
         <div>
             {/* Desktop View */}
             <div className="hidden md:block overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
+                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
+                    <thead className="bg-gray-50 dark:bg-gray-800/50">
                     <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Interval
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Name</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Description</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Interval
                             (Days)
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Days
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Days
                             Till Due
                         </th>
-                        <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
                     </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+                    <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
                     {procedures.map((proc) => {
                         const dueDetails = calculateDueDetails(proc);
 
                         return (
                             <tr key={proc.id}>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">{proc.name}</td>
-                                <td className="px-6 py-4 text-sm text-gray-900">{proc.description}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{proc.intervalDays}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 font-medium">{proc.name}</td>
+                                <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-300">{proc.description}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">{proc.intervalDays}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
                                     <DueStatus details={dueDetails}/>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -51,21 +51,21 @@ export default function ProcedureList({equipmentId, procedures, onDelete}: Proce
             </div>
 
             {/* Mobile View */}
-            <div className="md:hidden divide-y divide-gray-200">
+            <div className="md:hidden divide-y divide-gray-200 dark:divide-gray-800">
                 {procedures.map((proc) => {
                     const dueDetails = calculateDueDetails(proc);
                     return (
                         <div key={proc.id} className="py-4 space-y-3">
                             <div className="flex justify-between items-start">
                                 <div>
-                                    <h3 className="text-sm font-bold text-gray-900">{proc.name}</h3>
+                                    <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100">{proc.name}</h3>
                                     {proc.description && (
-                                        <p className="text-sm text-gray-600 line-clamp-2">{proc.description}</p>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{proc.description}</p>
                                     )}
                                 </div>
                                 <DueStatus details={dueDetails}/>
                             </div>
-                            <div className="text-xs text-gray-500">
+                            <div className="text-xs text-gray-500 dark:text-gray-400">
                                 Interval: {proc.intervalDays} days
                             </div>
                             <div className="flex flex-wrap justify-end gap-3 pt-2">
@@ -77,7 +77,7 @@ export default function ProcedureList({equipmentId, procedures, onDelete}: Proce
             </div>
 
             {procedures.length === 0 && (
-                <div className="py-10 text-center text-sm text-gray-500">
+                <div className="py-10 text-center text-sm text-gray-500 dark:text-gray-400">
                     No procedures found for this equipment.
                 </div>
             )}
@@ -107,7 +107,7 @@ function DueStatus({details}: { details: ReturnType<typeof calculateDueDetails> 
     if (!details) return <span className="text-gray-400 italic text-sm">N/A</span>;
 
     return (
-        <div className={details.daysTillDue <= 0 ? "text-red-600 font-bold" : "text-gray-900"}>
+        <div className={details.daysTillDue <= 0 ? "text-red-600 dark:text-red-400 font-bold" : "text-gray-900 dark:text-gray-100"}>
             <div className="text-sm">
                 {details.daysTillDue} days
             </div>
@@ -127,25 +127,25 @@ function ActionLinks({equipmentId, proc, onDelete}: {
         <>
             <Link
                 href={`/equipment/${equipmentId}/procedures/${proc.id}/perform`}
-                className="text-green-600 hover:text-green-900 text-sm font-medium mr-4 md:mr-4 last:mr-0"
+                className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium mr-4 md:mr-4 last:mr-0"
             >
                 Perform
             </Link>
             <Link
                 href={`/equipment/${equipmentId}/procedures/${proc.id}/history`}
-                className="text-indigo-600 hover:text-indigo-900 text-sm font-medium mr-4 md:mr-4 last:mr-0"
+                className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 text-sm font-medium mr-4 md:mr-4 last:mr-0"
             >
                 History
             </Link>
             <Link
                 href={`/equipment/${equipmentId}/procedures/${proc.id}/edit`}
-                className="text-blue-600 hover:text-blue-900 text-sm font-medium mr-4 md:mr-4 last:mr-0"
+                className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium mr-4 md:mr-4 last:mr-0"
             >
                 Edit
             </Link>
             <button
                 onClick={() => onDelete(proc.id)}
-                className="text-red-600 hover:text-red-900 text-sm font-medium cursor-pointer"
+                className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium cursor-pointer"
             >
                 Delete
             </button>

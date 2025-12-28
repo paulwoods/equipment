@@ -31,64 +31,64 @@ export default function ProcedureHistoryPage() {
         loadData();
     }, [id, procedureId]);
 
-    if (loading) return <div className="p-8 text-center text-black">Loading...</div>;
-    if (!procedure) return <div className="p-8 text-center text-black">Procedure not found.</div>;
+    if (loading) return <div className="p-8 text-center text-black dark:text-white">Loading...</div>;
+    if (!procedure) return <div className="p-8 text-center text-black dark:text-white">Procedure not found.</div>;
 
     const history = procedure.history || [];
 
     return (
-        <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
                 <div className="mb-6">
                     <Link
                         href={`/equipment/${id}/procedures`}
-                        className="text-blue-600 hover:text-blue-800 flex items-center gap-2 font-medium"
+                        className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center gap-2 font-medium"
                     >
                         ← Back to Procedures
                     </Link>
                 </div>
 
-                <div className="bg-white shadow rounded-lg overflow-hidden p-6 border border-gray-200">
-                    <div className="mb-8 border-b border-gray-100 pb-4">
-                        <h1 className="text-3xl font-bold text-gray-900">Performance History</h1>
-                        <p className="text-gray-600 mt-2">
-                            Procedure: <span className="font-semibold">{procedure.name}</span>
+                <div className="bg-white dark:bg-gray-900 shadow rounded-lg overflow-hidden p-6 border border-gray-200 dark:border-gray-800">
+                    <div className="mb-8 border-b border-gray-100 dark:border-gray-800 pb-4">
+                        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Performance History</h1>
+                        <p className="text-gray-600 dark:text-gray-400 mt-2">
+                            Procedure: <span className="font-semibold text-black dark:text-white">{procedure.name}</span>
                         </p>
-                        <p className="text-gray-600">
+                        <p className="text-gray-600 dark:text-gray-400">
                             Equipment: <span
-                            className="font-semibold">{equipmentInfo.manufacturer} - {equipmentInfo.modelNumber}</span>
+                            className="font-semibold text-black dark:text-white">{equipmentInfo.manufacturer} - {equipmentInfo.modelNumber}</span>
                         </p>
                     </div>
 
                     <div className="overflow-x-auto">
-                        <table className="hidden md:table min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
+                        <table className="hidden md:table min-w-full divide-y divide-gray-200 dark:divide-gray-800">
+                            <thead className="bg-gray-50 dark:bg-gray-800/50">
                             <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                                     Date Performed
                                 </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                                     Notes
                                 </th>
                             </tr>
                             </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
+                            <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
                             {history.length > 0 ? (
                                 history
                                     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                                     .map((record) => (
                                         <tr key={record.id}>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
                                                 {new Date(record.date).toLocaleDateString()}
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-gray-900">
+                                            <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-300">
                                                 {record.notes || <span className="text-gray-400 italic">No notes</span>}
                                             </td>
                                         </tr>
                                     ))
                             ) : (
                                 <tr>
-                                    <td colSpan={2} className="px-6 py-10 text-center text-sm text-gray-500">
+                                    <td colSpan={2} className="px-6 py-10 text-center text-sm text-gray-500 dark:text-gray-400">
                                         No performance records found for this procedure.
                                     </td>
                                 </tr>
@@ -96,22 +96,22 @@ export default function ProcedureHistoryPage() {
                             </tbody>
                         </table>
 
-                        <div className="md:hidden divide-y divide-gray-200">
+                        <div className="md:hidden divide-y divide-gray-200 dark:divide-gray-800">
                             {history.length > 0 ? (
                                 history
                                     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                                     .map((record) => (
                                         <div key={record.id} className="py-4 space-y-2">
-                                            <div className="text-sm font-bold text-gray-900">
+                                            <div className="text-sm font-bold text-gray-900 dark:text-gray-100">
                                                 {new Date(record.date).toLocaleDateString()}
                                             </div>
-                                            <div className="text-sm text-gray-700">
+                                            <div className="text-sm text-gray-700 dark:text-gray-300">
                                                 {record.notes || <span className="text-gray-400 italic">No notes</span>}
                                             </div>
                                         </div>
                                     ))
                             ) : (
-                                <div className="py-10 text-center text-sm text-gray-500">
+                                <div className="py-10 text-center text-sm text-gray-500 dark:text-gray-400">
                                     No performance records found.
                                 </div>
                             )}

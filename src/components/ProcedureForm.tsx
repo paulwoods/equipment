@@ -52,34 +52,34 @@ export default function ProcedureForm({procedure, onSubmit, onCancel}: Procedure
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow-md border border-gray-200">
-            <h2 className="text-xl font-bold mb-4 text-black">{procedure ? "Edit Procedure" : "Add Procedure"}</h2>
+        <form onSubmit={handleSubmit} className="space-y-6 bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-800">
+            <h2 className="text-xl font-bold mb-4 text-black dark:text-white">{procedure ? "Edit Procedure" : "Add Procedure"}</h2>
 
             <div>
-                <label className="block text-sm font-medium text-gray-700">Name</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
                 <input
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-black"
+                    className="mt-1 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm p-2 text-black dark:text-white dark:bg-gray-800"
                 />
             </div>
 
             <div>
-                <label className="block text-sm font-medium text-gray-700">Description</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
                 <input
                     type="text"
                     name="description"
                     value={formData.description}
                     onChange={handleChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-black"
+                    className="mt-1 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm p-2 text-black dark:text-white dark:bg-gray-800"
                 />
             </div>
 
             <div>
-                <label className="block text-sm font-medium text-gray-700">Interval (Days)</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Interval (Days)</label>
                 <input
                     type="number"
                     name="intervalDays"
@@ -87,12 +87,12 @@ export default function ProcedureForm({procedure, onSubmit, onCancel}: Procedure
                     onChange={handleChange}
                     required
                     min="0"
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-black"
+                    className="mt-1 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm p-2 text-black dark:text-white dark:bg-gray-800"
                 />
             </div>
 
-            <div className="prose prose-sm max-w-none">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Procedure Steps</label>
+            <div className="prose prose-sm max-w-none dark:prose-invert">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Procedure Steps</label>
                 <SimpleMDE
                     value={formData.steps}
                     onChange={handleStepsChange}
@@ -100,11 +100,11 @@ export default function ProcedureForm({procedure, onSubmit, onCancel}: Procedure
                 />
             </div>
 
-            <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4 border-t">
+            <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4 border-t dark:border-gray-800">
                 <button
                     type="button"
                     onClick={onCancel}
-                    className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 cursor-pointer order-2 sm:order-1"
+                    className="w-full sm:w-auto px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer order-2 sm:order-1"
                 >
                     Cancel
                 </button>

@@ -35,39 +35,39 @@ export default function PerformProcedurePage() {
     if (loading) return <div className="p-8">Loading...</div>;
 
     return (
-        <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md mx-auto">
                 <div className="mb-6">
                     <Link
                         href={`/equipment/${id}/procedures`}
-                        className="text-blue-600 hover:text-blue-800 flex items-center gap-2 font-medium"
+                        className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center gap-2 font-medium"
                     >
                         ← Back to Procedures
                     </Link>
                 </div>
 
-                <form onSubmit={handleSubmit} className="bg-white shadow rounded-lg p-6 border border-gray-200">
-                    <h1 className="text-2xl font-bold mb-2 text-black">Record Performance</h1>
-                    <p className="text-gray-600 mb-6">Procedure: <span className="font-semibold">{procedureName}</span>
+                <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-900 shadow rounded-lg p-6 border border-gray-200 dark:border-gray-800">
+                    <h1 className="text-2xl font-bold mb-2 text-black dark:text-white">Record Performance</h1>
+                    <p className="text-gray-600 dark:text-gray-400 mb-6">Procedure: <span className="font-semibold text-black dark:text-white">{procedureName}</span>
                     </p>
 
                     <div className="mb-6">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Performance Date</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Performance Date</label>
                         <input
                             type="date"
                             value={performDate}
                             onChange={(e) => setPerformDate(e.target.value)}
                             required
-                            className="w-full border border-gray-300 rounded-md shadow-sm p-2 text-black"
+                            className="w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm p-2 text-black dark:text-white dark:bg-gray-800"
                         />
                     </div>
 
                     <div className="mb-6">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Notes</label>
                         <textarea
                             value={notes}
                             onChange={(e) => setNotes(e.target.value)}
-                            className="w-full border border-gray-300 rounded-md shadow-sm p-2 text-black"
+                            className="w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm p-2 text-black dark:text-white dark:bg-gray-800"
                             rows={3}
                             placeholder="Enter any notes about this performance..."
                         />
@@ -77,7 +77,7 @@ export default function PerformProcedurePage() {
                         <button
                             type="button"
                             onClick={() => router.back()}
-                            className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                            className="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
                         >
                             Cancel
                         </button>

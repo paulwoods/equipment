@@ -35,18 +35,18 @@ export default function EditEquipmentPage() {
 
   if (loading) {
     return (
-        <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-          <p className="text-gray-600">Loading...</p>
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-950 flex items-center justify-center">
+          <p className="text-gray-600 dark:text-gray-400">Loading...</p>
         </div>
     );
   }
 
   if (!equipment) {
     return (
-        <div className="min-h-screen bg-gray-100 py-8 px-4">
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-8 px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">Equipment not found</h1>
-            <Link href="/" className="text-blue-600 hover:underline">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Equipment not found</h1>
+            <Link href="/" className="text-blue-600 dark:text-blue-400 hover:underline">
               Back to Equipment List
             </Link>
           </div>
@@ -55,12 +55,12 @@ export default function EditEquipmentPage() {
   }
 
   return (
-      <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <div className="mb-6">
             <Link
                 href="/"
-                className="text-blue-600 hover:text-blue-800 flex items-center gap-2 font-medium"
+                className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center gap-2 font-medium"
             >
               ← Back to Equipment List
             </Link>

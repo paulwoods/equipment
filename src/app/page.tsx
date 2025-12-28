@@ -25,7 +25,7 @@ export default function Home() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
                 <div className="flex justify-end mb-8">
                     <Link
@@ -36,7 +36,7 @@ export default function Home() {
                     </Link>
                 </div>
 
-                <div className="bg-white shadow rounded-lg overflow-hidden">
+                <div className="bg-white dark:bg-gray-900 shadow rounded-lg overflow-hidden">
                     <EquipmentList
                         items={equipmentList}
                         onDelete={handleDelete}
