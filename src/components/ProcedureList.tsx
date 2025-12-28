@@ -2,7 +2,6 @@
 
 import { Procedure } from "@/types/procedure";
 import Link from "next/link";
-import ReactMarkdown from "react-markdown";
 
 interface ProcedureListProps {
   equipmentId: string;
@@ -18,7 +17,6 @@ export default function ProcedureList({ equipmentId, procedures, onDelete }: Pro
           <tr>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Procedure Steps</th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Interval (Days)</th>
             <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
           </tr>
@@ -28,11 +26,6 @@ export default function ProcedureList({ equipmentId, procedures, onDelete }: Pro
             <tr key={proc.id}>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">{proc.name}</td>
               <td className="px-6 py-4 text-sm text-gray-900">{proc.description}</td>
-              <td className="px-6 py-4 text-sm text-gray-900 max-w-xs overflow-hidden">
-                <div className="prose prose-sm line-clamp-3">
-                  <ReactMarkdown>{proc.procedure}</ReactMarkdown>
-                </div>
-              </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{proc.intervalDays}</td>
               <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                 <Link
@@ -58,7 +51,7 @@ export default function ProcedureList({ equipmentId, procedures, onDelete }: Pro
           ))}
           {procedures.length === 0 && (
             <tr>
-              <td colSpan={5} className="px-6 py-10 text-center text-sm text-gray-500">
+              <td colSpan={4} className="px-6 py-10 text-center text-sm text-gray-500">
                 No procedures found for this equipment.
               </td>
             </tr>
