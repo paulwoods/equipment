@@ -32,8 +32,8 @@
   },
   {
     "manufacturer": "Honeywell",
-    "modelNumber": "Heater",
-    "description": "",
+    "modelNumber": "Heater / AC",
+    "description": "HVAC",
     "purchaseDate": "2005-12-28T00:00:00.000Z",
     "procedures": [
       {
@@ -66,5 +66,36 @@
       }
     ],
     "id": "2dbz1lw"
+  },
+  {
+    "manufacturer": "Narwal",
+    "modelNumber": "Freo-Z",
+    "description": "Robot Vac",
+    "purchaseDate": "2024-06-28T00:00:00.000Z",
+    "procedures": [
+      {
+        "name": "Clean Filter",
+        "description": "",
+        "steps": "\tblah...",
+        "intervalDays": 7,
+        "id": "dfisr26"
+      },
+      {
+        "name": "Replace Filter",
+        "description": "",
+        "steps": "blah...",
+        "intervalDays": 90,
+        "id": "w5icm1z"
+      }
+    ],
+    "id": "iuttjsn"
+  },
+  {
+    "manufacturer": "Bambu Labs",
+    "modelNumber": "X1C",
+    "description": "3D Printer",
+    "purchaseDate": "2023-06-28T00:00:00.000Z",
+    "procedures": [],
+    "id": "0v9y9jw"
   }
 ]
