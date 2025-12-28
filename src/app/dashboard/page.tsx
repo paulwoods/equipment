@@ -244,7 +244,7 @@ function DashboardList({procedures, onDelete, sortField, sortOrder, onSort}: {
                         return (
                             <tr key={`${proc.equipmentId}-${proc.id}`}>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
-                                    <Link href={`/equipment/${proc.equipmentId}`} className="hover:underline text-blue-600 dark:text-blue-400">
+                                    <Link href={`/equipment/${proc.equipmentId}/procedures`} className="hover:underline text-blue-600 dark:text-blue-400">
                                         {proc.equipmentName}
                                     </Link>
                                 </td>
@@ -274,7 +274,7 @@ function DashboardList({procedures, onDelete, sortField, sortOrder, onSort}: {
                         <div key={`${proc.equipmentId}-${proc.id}`} className="p-4 space-y-3">
                             <div className="flex justify-between items-start">
                                 <div>
-                                    <Link href={`/equipment/${proc.equipmentId}`} className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline">
+                                    <Link href={`/equipment/${proc.equipmentId}/procedures`} className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline">
                                         {proc.equipmentName}
                                     </Link>
                                     <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100">{proc.name}</h3>
