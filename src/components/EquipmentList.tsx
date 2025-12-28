@@ -16,6 +16,7 @@ export default function EquipmentList({ items, onDelete }: EquipmentListProps) {
           <tr>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Manufacturer</th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Model Number</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Procedures</th>
             <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
           </tr>
@@ -25,6 +26,7 @@ export default function EquipmentList({ items, onDelete }: EquipmentListProps) {
             <tr key={item.id}>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.manufacturer}</td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.modelNumber}</td>
+              <td className="px-6 py-4 text-sm text-gray-900">{item.description}</td>
               <td className="px-6 py-4 text-sm text-gray-900">
                 {item.procedures && item.procedures.length > 0 ? (
                   <Link 
