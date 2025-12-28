@@ -47,7 +47,7 @@ export default function EquipmentForm({ equipment, onSubmit, onCancel }: Equipme
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 bg-white p-6 rounded-lg shadow-md border border-gray-200">
-      <h2 className="text-xl font-bold mb-4">{equipment ? "Edit Equipment" : "Add Equipment"}</h2>
+      <h2 className="text-xl font-bold mb-4 text-black">{equipment ? "Edit Equipment" : "Add Equipment"}</h2>
       <div>
         <label className="block text-sm font-medium text-gray-700">Manufacturer</label>
         <input
@@ -56,7 +56,7 @@ export default function EquipmentForm({ equipment, onSubmit, onCancel }: Equipme
           value={formData.manufacturer}
           onChange={handleChange}
           required
-          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-black"
         />
       </div>
       <div>
@@ -67,7 +67,7 @@ export default function EquipmentForm({ equipment, onSubmit, onCancel }: Equipme
           value={formData.modelNumber}
           onChange={handleChange}
           required
-          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-black"
         />
       </div>
       <div>
@@ -77,7 +77,7 @@ export default function EquipmentForm({ equipment, onSubmit, onCancel }: Equipme
           value={formData.description}
           onChange={handleChange}
           required
-          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-black"
         />
       </div>
       <div>
@@ -92,7 +92,7 @@ export default function EquipmentForm({ equipment, onSubmit, onCancel }: Equipme
           }
           onChange={handleChange}
           required
-          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-black"
         />
       </div>
       <div className="flex justify-end space-x-2">
