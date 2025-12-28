@@ -83,7 +83,7 @@ export default function EquipmentForm({ equipment, onSubmit, onCancel }: Equipme
           type="date"
           name="purchaseDate"
           value={
-            formData.purchaseDate instanceof Date && !isNaN(formData.purchaseDate.getTime())
+            !isNaN(formData.purchaseDate.getTime())
               ? formData.purchaseDate.toISOString().split("T")[0]
               : ""
           }
