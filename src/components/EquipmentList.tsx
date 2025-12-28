@@ -16,8 +16,7 @@ export default function EquipmentList({ items, onEdit, onDelete }: EquipmentList
           <tr>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Manufacturer</th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Model Number</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purchase Date</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Procedures</th>
             <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
           </tr>
         </thead>
@@ -26,9 +25,14 @@ export default function EquipmentList({ items, onEdit, onDelete }: EquipmentList
             <tr key={item.id}>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.manufacturer}</td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.modelNumber}</td>
-              <td className="px-6 py-4 text-sm text-gray-900 max-w-xs truncate">{item.description}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                {new Date(item.purchaseDate).toLocaleDateString()}
+              <td className="px-6 py-4 text-sm text-gray-900">
+                {item.procedures && item.procedures.length > 0 ? (
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                    {item.procedures.length} {item.procedures.length === 1 ? 'procedure' : 'procedures'}
+                  </span>
+                ) : (
+                  <span className="text-gray-400 italic">None</span>
+                )}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                 <button
