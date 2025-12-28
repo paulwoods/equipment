@@ -2,18 +2,20 @@
 
 import {ChangeEvent, FormEvent, useMemo, useState} from "react";
 import {Procedure} from "@/types/procedure";
+import {Equipment} from "@/types/equipment";
 import dynamic from "next/dynamic";
 import "easymde/dist/easymde.min.css";
 
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {ssr: false});
 
 interface ProcedureFormProps {
+    equipment?: Equipment;
     procedure?: Procedure;
     onSubmit: (data: Omit<Procedure, "id"> | Procedure) => void;
     onCancel: () => void;
 }
 
-export default function ProcedureForm({procedure, onSubmit, onCancel}: ProcedureFormProps) {
+export default function ProcedureForm({equipment, procedure, onSubmit, onCancel}: ProcedureFormProps) {
     const [formData, setFormData] = useState<Omit<Procedure, "id">>({
         name: procedure?.name || "",
         description: procedure?.description || "",
@@ -53,6 +55,21 @@ export default function ProcedureForm({procedure, onSubmit, onCancel}: Procedure
 
     return (
         <form onSubmit={handleSubmit} className="space-y-6 bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-800">
+            {equipment && (
+                <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-md border border-gray-100 dark:border-gray-700">
+                    <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Equipment Details</h3>
+                    <div className="flex flex-col gap-1">
+                        <div className="text-sm font-bold text-gray-900 dark:text-gray-100">
+                            {equipment.manufacturer} {equipment.modelNumber}
+                        </div>
+                        {equipment.description && (
+                            <div className="text-sm text-gray-600 dark:text-gray-400">
+                                {equipment.description}
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
             <h2 className="text-xl font-bold mb-4 text-black dark:text-white">{procedure ? "Edit Procedure" : "Add Procedure"}</h2>
 
             <div>
