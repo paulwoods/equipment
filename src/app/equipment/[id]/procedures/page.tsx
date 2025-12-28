@@ -58,7 +58,6 @@ export default function ProceduresPage() {
 
                 <div className="bg-white shadow rounded-lg overflow-hidden p-6 border border-gray-200">
                     <div className="mb-8 border-b border-gray-100 pb-4">
-                        <h1 className="text-3xl font-bold text-gray-900">Procedures</h1>
                         <p className="text-gray-600 mt-2">
                             For: <span
                             className="font-semibold">{equipmentInfo.manufacturer} - {equipmentInfo.modelNumber}</span>
