@@ -17,14 +17,14 @@ export default function ProcedureForm({ procedure, onSubmit, onCancel }: Procedu
   const [formData, setFormData] = useState<Omit<Procedure, "id">>({
     name: procedure?.name || "",
     description: procedure?.description || "",
-    procedure: procedure?.procedure || "",
+    steps: procedure?.steps || "",
     intervalDays: procedure?.intervalDays || 0,
   });
 
   const mdeOptions = useMemo(() => {
     return {
       spellChecker: false,
-      placeholder: "Enter procedure steps here...",
+      placeholder: "Enter steps here...",
       status: false,
     };
   }, []);
@@ -47,8 +47,8 @@ export default function ProcedureForm({ procedure, onSubmit, onCancel }: Procedu
     }
   };
 
-  const handleProcedureChange = (value: string) => {
-    setFormData((prev) => ({ ...prev, procedure: value }));
+  const handleStepsChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, steps: value }));
   };
 
   return (
@@ -95,8 +95,8 @@ export default function ProcedureForm({ procedure, onSubmit, onCancel }: Procedu
       <div className="prose prose-sm max-w-none">
         <label className="block text-sm font-medium text-gray-700 mb-1">Procedure Steps</label>
         <SimpleMDE
-          value={formData.procedure}
-          onChange={handleProcedureChange}
+          value={formData.steps}
+          onChange={handleStepsChange}
           options={mdeOptions}
         />
       </div>
