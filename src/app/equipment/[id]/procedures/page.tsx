@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { fetchEquipment } from "@/app/actions";
 import { notFound } from "next/navigation";
+import ProcedureManager from "@/components/ProcedureManager";
 
 export default async function ProceduresPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -33,29 +34,7 @@ export default async function ProceduresPage({ params }: { params: Promise<{ id:
             </p>
           </div>
 
-          {procedures.length === 0 ? (
-            <div className="text-center py-10">
-              <p className="text-gray-500 italic">No procedures defined for this equipment.</p>
-            </div>
-          ) : (
-            <div className="space-y-8">
-              {procedures.map((proc) => (
-                <div key={proc.id} className="bg-gray-50 p-4 rounded-md border border-gray-200">
-                  <h3 className="text-xl font-semibold text-gray-800 mb-2">{proc.name}</h3>
-                  <div className="mb-4">
-                    <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-1">Description</h4>
-                    <p className="text-gray-700">{proc.description}</p>
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-1">Procedure</h4>
-                    <div className="text-gray-700 whitespace-pre-wrap bg-white p-3 border border-gray-100 rounded">
-                      {proc.procedure}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+          <ProcedureManager equipmentId={id} initialProcedures={procedures} />
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { Equipment } from "@/types/equipment";
+import { Procedure } from "@/types/procedure";
 import { getEquipment, saveEquipment } from "@/lib/equipmentStore";
 
 export async function fetchEquipment() {
@@ -37,4 +38,17 @@ export async function deleteEquipment(id: string) {
   const filtered = equipment.filter((item) => item.id !== id);
   await saveEquipment(filtered);
   revalidatePath("/");
+}
+
+export async function updateProcedures(equipmentId: string, procedures: Procedure[]) {
+  const equipment = await getEquipment();
+  const index = equipment.findIndex((item) => item.id === equipmentId);
+  if (index !== -1) {
+    equipment[index].procedures = procedures;
+    await saveEquipment(equipment);
+    revalidatePath("/");
+    revalidatePath(`/equipment/${equipmentId}/procedures`);
+    return equipment[index];
+  }
+  throw new Error("Equipment not found");
 }

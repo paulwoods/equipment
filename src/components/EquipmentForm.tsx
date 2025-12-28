@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Equipment } from "@/types/equipment";
-import { Procedure } from "@/types/procedure";
 
 interface EquipmentFormProps {
   equipment?: Equipment;
@@ -36,35 +35,6 @@ export default function EquipmentForm({ equipment, onSubmit, onCancel }: Equipme
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
-  };
-
-  const addProcedure = () => {
-    const newProcedure: Procedure = {
-      id: Math.random().toString(36).substring(2, 9),
-      name: "",
-      description: "",
-      procedure: "",
-    };
-    setFormData((prev) => ({
-      ...prev,
-      procedures: [...(prev.procedures || []), newProcedure],
-    }));
-  };
-
-  const removeProcedure = (id: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      procedures: (prev.procedures || []).filter((p) => p.id !== id),
-    }));
-  };
-
-  const handleProcedureChange = (id: string, field: keyof Procedure, value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      procedures: (prev.procedures || []).map((p) =>
-        p.id === id ? { ...p, [field]: value } : p
-      ),
-    }));
   };
 
   return (
@@ -122,69 +92,6 @@ export default function EquipmentForm({ equipment, onSubmit, onCancel }: Equipme
           required
           className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-black"
         />
-      </div>
-
-      <div className="border-t pt-6">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-medium text-black">Procedures</h3>
-          <button
-            type="button"
-            onClick={addProcedure}
-            className="px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700"
-          >
-            Add Procedure
-          </button>
-        </div>
-
-        {formData.procedures && formData.procedures.length > 0 ? (
-          <div className="space-y-4">
-            {formData.procedures.map((proc) => (
-              <div key={proc.id} className="p-4 border rounded-md bg-gray-50 relative">
-                <button
-                  type="button"
-                  onClick={() => removeProcedure(proc.id)}
-                  className="absolute top-2 right-2 text-red-600 hover:text-red-800"
-                >
-                  Remove
-                </button>
-                <div className="grid grid-cols-1 gap-4">
-                  <div>
-                    <label className="block text-xs font-medium text-gray-500">Name</label>
-                    <input
-                      type="text"
-                      value={proc.name}
-                      onChange={(e) => handleProcedureChange(proc.id, "name", e.target.value)}
-                      required
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm text-black"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-medium text-gray-500">Description</label>
-                    <input
-                      type="text"
-                      value={proc.description}
-                      onChange={(e) => handleProcedureChange(proc.id, "description", e.target.value)}
-                      required
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm text-black"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-medium text-gray-500">Procedure Steps</label>
-                    <textarea
-                      value={proc.procedure}
-                      onChange={(e) => handleProcedureChange(proc.id, "procedure", e.target.value)}
-                      required
-                      rows={2}
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm text-black"
-                    />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-sm text-gray-500 italic">No procedures added yet.</p>
-        )}
       </div>
 
       <div className="flex justify-end space-x-2 pt-4 border-t">
