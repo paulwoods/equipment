@@ -20,6 +20,7 @@ export default function ProcedureManager({ equipmentId, initialProcedures }: Pro
       name: "",
       description: "",
       procedure: "",
+      intervalDays: 0,
     };
     setProcedures((prev) => [...prev, newProcedure]);
   };
@@ -28,7 +29,7 @@ export default function ProcedureManager({ equipmentId, initialProcedures }: Pro
     setProcedures((prev) => prev.filter((p) => p.id !== id));
   };
 
-  const handleProcedureChange = (id: string, field: keyof Procedure, value: string) => {
+  const handleProcedureChange = (id: string, field: keyof Procedure, value: string | number) => {
     setProcedures((prev) =>
       prev.map((p) => (p.id === id ? { ...p, [field]: value } : p))
     );
@@ -100,6 +101,17 @@ export default function ProcedureManager({ equipmentId, initialProcedures }: Pro
                     value={proc.description}
                     onChange={(e) => handleProcedureChange(proc.id, "description", e.target.value)}
                     required
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-black"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 uppercase">Interval (Days)</label>
+                  <input
+                    type="number"
+                    value={proc.intervalDays}
+                    onChange={(e) => handleProcedureChange(proc.id, "intervalDays", parseInt(e.target.value) || 0)}
+                    required
+                    min="0"
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-black"
                   />
                 </div>

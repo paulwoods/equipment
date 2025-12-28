@@ -3,4 +3,5 @@ export interface Procedure {
   name: string;
   description: string;
   procedure: string;
+  intervalDays: number;
 }

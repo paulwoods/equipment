@@ -9,7 +9,8 @@
         "id": "tvmqks2",
         "name": "Clean the Fans",
         "description": "Improves airflow and lowers temperatures",
-        "procedure": "1. Open the bottom.\n2. Use compressed air to blow out fans.\n3. Close the bottom."
+        "procedure": "1. Open the bottom.\n2. Use compressed air to blow out fans.\n3. Close the bottom.",
+        "intervalDays": 180
       }
     ],
     "id": "nvern0a"
