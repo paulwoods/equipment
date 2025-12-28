@@ -35,6 +35,7 @@ export default function RootLayout({
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
+            enableColorScheme
         >
             <Header/>
             {children}
