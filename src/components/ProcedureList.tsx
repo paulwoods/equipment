@@ -24,7 +24,7 @@ export default function ProcedureList({ equipmentId, procedures, onDelete }: Pro
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {procedures.map((proc) => {
-            const calculateDaysTillDue = () => {
+            const calculateDueDetails = () => {
               if (!proc.history || proc.history.length === 0) return null;
               
               const latestDate = new Date(Math.max(...proc.history.map(h => new Date(h.date).getTime())));
@@ -35,10 +35,14 @@ export default function ProcedureList({ equipmentId, procedures, onDelete }: Pro
               const diffTime = today.getTime() - latestDate.getTime();
               const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
               
-              return proc.intervalDays - diffDays;
+              const daysTillDue = proc.intervalDays - diffDays;
+              const dueDate = new Date(today);
+              dueDate.setDate(today.getDate() + daysTillDue);
+              
+              return { daysTillDue, dueDate };
             };
 
-            const daysTillDue = calculateDaysTillDue();
+            const dueDetails = calculateDueDetails();
 
             return (
               <tr key={proc.id}>
@@ -46,10 +50,15 @@ export default function ProcedureList({ equipmentId, procedures, onDelete }: Pro
                 <td className="px-6 py-4 text-sm text-gray-900">{proc.description}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{proc.intervalDays}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {daysTillDue !== null ? (
-                    <span className={daysTillDue <= 0 ? "text-red-600 font-bold" : "text-gray-900"}>
-                      {daysTillDue}
-                    </span>
+                  {dueDetails ? (
+                    <div className={dueDetails.daysTillDue <= 0 ? "text-red-600 font-bold" : "text-gray-900"}>
+                      <div>
+                        {dueDetails.daysTillDue}
+                      </div>
+                      <div className="text-xs opacity-75">
+                        ({dueDetails.dueDate.toLocaleDateString()})
+                      </div>
+                    </div>
                   ) : (
                     <span className="text-gray-400 italic">N/A</span>
                   )}
