@@ -35,6 +35,12 @@ export default function ProcedureList({ equipmentId, procedures, onDelete }: Pro
                   Perform
                 </Link>
                 <Link
+                  href={`/equipment/${equipmentId}/procedures/${proc.id}/history`}
+                  className="text-indigo-600 hover:text-indigo-900 mr-4"
+                >
+                  History
+                </Link>
+                <Link
                   href={`/equipment/${equipmentId}/procedures/${proc.id}/edit`}
                   className="text-blue-600 hover:text-blue-900 mr-4"
                 >
