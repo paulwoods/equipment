@@ -3,6 +3,7 @@ import {Geist, Geist_Mono} from "next/font/google";
 import "./globals.css";
 import {ReactNode} from "react";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import {ThemeProvider} from "@/components/ThemeProvider";
 
@@ -29,7 +30,7 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
         <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+            className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
         >
         <ThemeProvider
             attribute="class"
@@ -42,7 +43,10 @@ export default function RootLayout({
             <div className="max-w-4xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
                 <Breadcrumbs />
             </div>
-            {children}
+            <div className="flex-grow">
+                {children}
+            </div>
+            <Footer/>
         </ThemeProvider>
         </body>
         </html>
