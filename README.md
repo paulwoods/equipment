@@ -26,6 +26,23 @@ This will build the image (if not already built) and start the container with th
 docker build -t equipment-management .
 ```
 
+### Publish to Docker Hub
+
+To publish the image to Docker Hub, you first need to log in, then tag it with your username and push it:
+
+```bash
+# Log in to Docker Hub
+docker login
+
+# Tag the image (replace 'yourusername' with your actual Docker Hub username)
+docker tag equipment-management yourusername/equipment-management:latest
+docker tag equipment-management yourusername/equipment-management:1.0.0
+
+# Push the image
+docker push yourusername/equipment-management:latest
+docker push yourusername/equipment-management:1.0.0
+```
+
 ### Run the container
 
 To persist data, you should mount a volume for the data directory:
