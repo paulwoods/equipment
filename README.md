@@ -49,13 +49,13 @@ To publish the image to Docker Hub, you first need to log in, then tag it with y
 # Log in to Docker Hub
 docker login
 
-# Tag the image (replace 'yourusername' with your actual Docker Hub username)
-docker tag equipment-management yourusername/equipment-management:latest
-docker tag equipment-management yourusername/equipment-management:1.0.0
+# Tag the image (replace 'paulwoods' with your actual Docker Hub username)
+docker tag equipment-management paulwoods/equipment-management:latest
+docker tag equipment-management paulwoods/equipment-management:0.1.1
 
 # Push the image
-docker push yourusername/equipment-management:latest
-docker push yourusername/equipment-management:1.0.0
+docker push paulwoods/equipment-management:latest
+docker push paulwoods/equipment-management:0.1.1
 ```
 
 ### Run the container

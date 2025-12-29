@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = 'equipment-management'
-        DOCKER_HUB_USER = 'yourusername' // Should be configured or passed as a parameter
+        DOCKER_HUB_USER = 'paulwoods' // Should be configured or passed as a parameter
         DOCKER_HUB_CREDENTIALS_ID = 'docker-hub-credentials'
     }
 
