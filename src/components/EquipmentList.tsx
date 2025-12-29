@@ -129,7 +129,11 @@ export default function EquipmentList({items, onDelete}: EquipmentListProps) {
             <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
             {filteredAndSortedItems.map((item) => (
                 <tr key={item.id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{item.modelNumber}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <Link href={`/equipment/${item.id}`} className="text-blue-600 dark:text-blue-400 hover:underline transition-colors">
+                      {item.modelNumber}
+                    </Link>
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{item.manufacturer}</td>
                   <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{item.description}</td>
                   <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
@@ -161,7 +165,9 @@ export default function EquipmentList({items, onDelete}: EquipmentListProps) {
               <div key={item.id} className="p-4 space-y-3">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100">{item.modelNumber}</h3>
+                    <Link href={`/equipment/${item.id}`} className="hover:underline text-blue-600 dark:text-blue-400">
+                      <h3 className="text-sm font-bold">{item.modelNumber}</h3>
+                    </Link>
                     <p className="text-sm text-gray-600 dark:text-gray-400">{item.manufacturer}</p>
                   </div>
                   <ProcedureBadge item={item}/>
