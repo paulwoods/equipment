@@ -28,7 +28,7 @@ export default function Home() {
         <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Equipment List</h1>
+                    <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Equipment</h1>
                     <div className="flex gap-4">
                         <Link
                             href="/dashboard"
