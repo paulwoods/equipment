@@ -106,7 +106,7 @@ export default function Dashboard() {
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
                     <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Dashboard</h1>
                     <Link
-                        href="/"
+                        href="/equipment"
                         className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition w-fit"
                     >
                         Equipment
