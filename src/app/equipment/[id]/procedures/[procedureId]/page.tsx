@@ -1,13 +1,13 @@
 "use client";
 
 import {useEffect, useState} from "react";
-import {useParams, useRouter} from "next/navigation";
+import {useParams} from "next/navigation";
 import Link from "next/link";
 import {fetchEquipment} from "@/app/actions";
 import {Procedure} from "@/types/procedure";
 import {Equipment} from "@/types/equipment";
 import ReactMarkdown from "react-markdown";
-import {Clock, Calendar, FileText, ChevronLeft, Edit, Play, History} from "lucide-react";
+import {Calendar, ChevronLeft, Clock, Edit, FileText, History, Play} from "lucide-react";
 
 export default function ProcedureShowPage() {
     const {id, procedureId} = useParams() as { id: string; procedureId: string };
@@ -32,7 +32,8 @@ export default function ProcedureShowPage() {
     }, [id, procedureId]);
 
     if (loading) return <div className="p-8 text-center text-black dark:text-white">Loading...</div>;
-    if (!procedure || !equipment) return <div className="p-8 text-center text-black dark:text-white">Procedure not found.</div>;
+    if (!procedure || !equipment) return <div className="p-8 text-center text-black dark:text-white">Procedure not
+        found.</div>;
 
     const lastPerformed = procedure.history && procedure.history.length > 0
         ? new Date(Math.max(...procedure.history.map(h => new Date(h.date).getTime())))
@@ -46,7 +47,7 @@ export default function ProcedureShowPage() {
                         href={`/equipment/${id}/procedures`}
                         className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center gap-2 font-medium transition-colors"
                     >
-                        <ChevronLeft className="w-4 h-4" />
+                        <ChevronLeft className="w-4 h-4"/>
                         Back to Procedures
                     </Link>
                     <div className="flex gap-3">
@@ -54,31 +55,34 @@ export default function ProcedureShowPage() {
                             href={`/equipment/${id}/procedures/${procedureId}/edit`}
                             className="flex items-center gap-2 px-3 py-1.5 border border-gray-300 dark:border-gray-700 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-sm font-medium"
                         >
-                            <Edit className="w-4 h-4" />
+                            <Edit className="w-4 h-4"/>
                             Edit
                         </Link>
                         <Link
                             href={`/equipment/${id}/procedures/${procedureId}/perform`}
                             className="flex items-center gap-2 px-3 py-1.5 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors text-sm font-medium"
                         >
-                            <Play className="w-4 h-4" />
+                            <Play className="w-4 h-4"/>
                             Perform
                         </Link>
                     </div>
                 </div>
 
-                <div className="bg-white dark:bg-gray-900 shadow-lg rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800">
+                <div
+                    className="bg-white dark:bg-gray-900 shadow-lg rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800">
                     {/* Header */}
                     <div className="p-6 md:p-8 border-b border-gray-100 dark:border-gray-800">
                         <div className="flex flex-col gap-1 mb-4">
-                            <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider">Procedure Details</span>
+                            <span
+                                className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider">Procedure Details</span>
                             <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">{procedure.name}</h1>
                         </div>
-                        
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
                             <div className="flex items-start gap-3">
-                                <div className="p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg text-blue-600 dark:text-blue-400">
-                                    <FileText className="w-5 h-5" />
+                                <div
+                                    className="p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg text-blue-600 dark:text-blue-400">
+                                    <FileText className="w-5 h-5"/>
                                 </div>
                                 <div>
                                     <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Equipment</p>
@@ -86,8 +90,9 @@ export default function ProcedureShowPage() {
                                 </div>
                             </div>
                             <div className="flex items-start gap-3">
-                                <div className="p-2 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg text-indigo-600 dark:text-indigo-400">
-                                    <Clock className="w-5 h-5" />
+                                <div
+                                    className="p-2 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg text-indigo-600 dark:text-indigo-400">
+                                    <Clock className="w-5 h-5"/>
                                 </div>
                                 <div>
                                     <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Interval</p>
@@ -95,22 +100,25 @@ export default function ProcedureShowPage() {
                                 </div>
                             </div>
                             <div className="flex items-start gap-3">
-                                <div className="p-2 bg-purple-50 dark:bg-purple-900/30 rounded-lg text-purple-600 dark:text-purple-400">
-                                    <Calendar className="w-5 h-5" />
+                                <div
+                                    className="p-2 bg-purple-50 dark:bg-purple-900/30 rounded-lg text-purple-600 dark:text-purple-400">
+                                    <Calendar className="w-5 h-5"/>
                                 </div>
                                 <div>
-                                    <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Last Performed</p>
+                                    <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Last
+                                        Performed</p>
                                     <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
                                         {lastPerformed ? lastPerformed.toLocaleDateString() : "Never"}
                                     </p>
                                 </div>
                             </div>
                             <div className="flex items-start gap-3">
-                                <div className="p-2 bg-orange-50 dark:bg-orange-900/30 rounded-lg text-orange-600 dark:text-orange-400">
-                                    <History className="w-5 h-5" />
+                                <div
+                                    className="p-2 bg-orange-50 dark:bg-orange-900/30 rounded-lg text-orange-600 dark:text-orange-400">
+                                    <History className="w-5 h-5"/>
                                 </div>
                                 <div>
-                                    <Link 
+                                    <Link
                                         href={`/equipment/${id}/procedures/${procedureId}/history`}
                                         className="text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline"
                                     >
@@ -134,7 +142,8 @@ export default function ProcedureShowPage() {
 
                         <div>
                             <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">Procedure Steps</h2>
-                            <div className="prose prose-sm md:prose-base max-w-none dark:prose-invert bg-gray-50 dark:bg-gray-800/50 p-6 rounded-xl border border-gray-100 dark:border-gray-800">
+                            <div
+                                className="prose prose-sm md:prose-base max-w-none dark:prose-invert bg-gray-50 dark:bg-gray-800/50 p-6 rounded-xl border border-gray-100 dark:border-gray-800">
                                 <ReactMarkdown>{procedure.steps || "_No steps provided._"}</ReactMarkdown>
                             </div>
                         </div>
