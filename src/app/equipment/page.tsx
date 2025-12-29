@@ -36,12 +36,6 @@ export default function EquipmentPage() {
                         >
                             Dashboard
                         </Link>
-                        <Link
-                            href="/equipment/new"
-                            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-                        >
-                            Add Equipment
-                        </Link>
                     </div>
                 </div>
 
