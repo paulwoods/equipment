@@ -20,6 +20,21 @@ docker compose up -d
 
 This will build the image (if not already built) and start the container with the `data` directory mounted as a volume.
 
+Here is an example `docker-compose.yaml` file:
+
+```yaml
+services:
+  equipment-management:
+    image: paulwoods/equipment-management:latest
+    ports:
+      - "80:3000"
+    environment:
+      - EQUIPMENT_DATA_DIR=data
+    volumes:
+      - ./data:/app/data
+    restart: always
+```
+
 ### Build the image manually
 
 ```bash

@@ -1,8 +1,6 @@
 services:
   equipment-management:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: paulwoods/equipment-management:latest
     ports:
       - "3000:3000"
     environment:
