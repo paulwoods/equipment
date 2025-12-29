@@ -107,7 +107,7 @@ export default function Dashboard() {
                     <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Procedure Dashboard</h1>
                     <Link
                         href="/"
-                        className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition"
+                        className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
                     >
                         Equipment
                     </Link>
