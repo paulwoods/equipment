@@ -101,15 +101,15 @@ export default function EquipmentList({items, onDelete}: EquipmentListProps) {
             <tr>
               <th
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
-                  onClick={() => handleSort('manufacturer')}
-              >
-                Manufacturer <SortIndicator field="manufacturer" />
-              </th>
-              <th
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
                   onClick={() => handleSort('modelNumber')}
               >
                 Model Number <SortIndicator field="modelNumber" />
+              </th>
+              <th
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
+                  onClick={() => handleSort('manufacturer')}
+              >
+                Manufacturer <SortIndicator field="manufacturer" />
               </th>
               <th
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
@@ -129,8 +129,8 @@ export default function EquipmentList({items, onDelete}: EquipmentListProps) {
             <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
             {filteredAndSortedItems.map((item) => (
                 <tr key={item.id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{item.manufacturer}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{item.modelNumber}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{item.manufacturer}</td>
                   <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{item.description}</td>
                   <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
                     <ProcedureBadge item={item}/>
@@ -161,8 +161,8 @@ export default function EquipmentList({items, onDelete}: EquipmentListProps) {
               <div key={item.id} className="p-4 space-y-3">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100">{item.manufacturer}</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{item.modelNumber}</p>
+                    <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100">{item.modelNumber}</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{item.manufacturer}</p>
                   </div>
                   <ProcedureBadge item={item}/>
                 </div>
