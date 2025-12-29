@@ -57,6 +57,27 @@ If you use a different directory via `EQUIPMENT_DATA_DIR`:
 docker run -p 3000:3000 -e EQUIPMENT_DATA_DIR=mydata -v $(pwd)/mydata:/app/mydata equipment-management
 ```
 
+## CI/CD with Jenkins
+
+A `Jenkinsfile` is provided in the root of the repository to automate the build and deployment process.
+
+### Prerequisites
+
+1.  **Jenkins** with the following plugins:
+    *   Docker Pipeline
+    *   Pipeline: Stage View
+    *   Pipeline: Basic Steps
+2.  **Credentials**: Create a `Username with password` credential in Jenkins with the ID `docker-hub-credentials` containing your Docker Hub username and password.
+
+### Pipeline Stages
+
+1.  **Extract Version**: Reads the version from `package.json`.
+2.  **Build & Test**: Installs dependencies and runs type checking and build.
+3.  **Docker Build**: Builds the Docker image and tags it with `latest` and the version number.
+4.  **Docker Push**: Logs into Docker Hub and pushes the tags.
+
+Note: You should update the `DOCKER_HUB_USER` variable in the `Jenkinsfile` to your actual Docker Hub username.
+
 ## Getting Started
 
 First, run the development server:
