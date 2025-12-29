@@ -2,7 +2,6 @@
 
 import {FormEvent, useEffect, useState} from "react";
 import {useParams, useRouter} from "next/navigation";
-import Link from "next/link";
 import {addPerformanceAction, fetchEquipment} from "@/app/actions";
 
 export default function PerformProcedurePage() {
@@ -37,22 +36,17 @@ export default function PerformProcedurePage() {
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md mx-auto">
-                <div className="mb-6">
-                    <Link
-                        href={`/equipment/${id}/procedures`}
-                        className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center gap-2 font-medium"
-                    >
-                        ← Back to Procedures
-                    </Link>
-                </div>
 
-                <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-900 shadow rounded-lg p-6 border border-gray-200 dark:border-gray-800">
+                <form onSubmit={handleSubmit}
+                      className="bg-white dark:bg-gray-900 shadow rounded-lg p-6 border border-gray-200 dark:border-gray-800">
                     <h1 className="text-2xl font-bold mb-2 text-black dark:text-white">Record Performance</h1>
-                    <p className="text-gray-600 dark:text-gray-400 mb-6">Procedure: <span className="font-semibold text-black dark:text-white">{procedureName}</span>
+                    <p className="text-gray-600 dark:text-gray-400 mb-6">Procedure: <span
+                        className="font-semibold text-black dark:text-white">{procedureName}</span>
                     </p>
 
                     <div className="mb-6">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Performance Date</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Performance
+                            Date</label>
                         <input
                             type="date"
                             value={performDate}

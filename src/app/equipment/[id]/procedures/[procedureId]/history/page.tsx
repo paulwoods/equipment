@@ -1,7 +1,6 @@
 "use client";
 
 import {useEffect, useState} from "react";
-import Link from "next/link";
 import {useParams} from "next/navigation";
 import {fetchEquipment} from "@/app/actions";
 import {Procedure} from "@/types/procedure";
@@ -39,20 +38,14 @@ export default function ProcedureHistoryPage() {
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
-                <div className="mb-6">
-                    <Link
-                        href={`/equipment/${id}/procedures`}
-                        className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center gap-2 font-medium"
-                    >
-                        ← Back to Procedures
-                    </Link>
-                </div>
 
-                <div className="bg-white dark:bg-gray-900 shadow rounded-lg overflow-hidden p-6 border border-gray-200 dark:border-gray-800">
+                <div
+                    className="bg-white dark:bg-gray-900 shadow rounded-lg overflow-hidden p-6 border border-gray-200 dark:border-gray-800">
                     <div className="mb-8 border-b border-gray-100 dark:border-gray-800 pb-4">
                         <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Performance History</h1>
                         <p className="text-gray-600 dark:text-gray-400 mt-2">
-                            Procedure: <span className="font-semibold text-black dark:text-white">{procedure.name}</span>
+                            Procedure: <span
+                            className="font-semibold text-black dark:text-white">{procedure.name}</span>
                         </p>
                         <p className="text-gray-600 dark:text-gray-400">
                             Equipment: <span
@@ -88,7 +81,8 @@ export default function ProcedureHistoryPage() {
                                     ))
                             ) : (
                                 <tr>
-                                    <td colSpan={2} className="px-6 py-10 text-center text-sm text-gray-500 dark:text-gray-400">
+                                    <td colSpan={2}
+                                        className="px-6 py-10 text-center text-sm text-gray-500 dark:text-gray-400">
                                         No performance records found for this procedure.
                                     </td>
                                 </tr>

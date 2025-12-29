@@ -7,7 +7,7 @@ import {fetchEquipment} from "@/app/actions";
 import {Procedure} from "@/types/procedure";
 import {Equipment} from "@/types/equipment";
 import ReactMarkdown from "react-markdown";
-import {Calendar, ChevronLeft, Clock, Edit, FileText, History, Play} from "lucide-react";
+import {Calendar, Clock, Edit, FileText, History, Play} from "lucide-react";
 
 export default function ProcedureShowPage() {
     const {id, procedureId} = useParams() as { id: string; procedureId: string };
@@ -42,30 +42,21 @@ export default function ProcedureShowPage() {
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto">
-                <div className="mb-6 flex justify-between items-center">
+                <div className="mb-6 flex justify-end gap-3">
                     <Link
-                        href={`/equipment/${id}/procedures`}
-                        className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center gap-2 font-medium transition-colors"
+                        href={`/equipment/${id}/procedures/${procedureId}/edit`}
+                        className="flex items-center gap-2 px-3 py-1.5 border border-gray-300 dark:border-gray-700 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-sm font-medium"
                     >
-                        <ChevronLeft className="w-4 h-4"/>
-                        Back to Procedures
+                        <Edit className="w-4 h-4"/>
+                        Edit
                     </Link>
-                    <div className="flex gap-3">
-                        <Link
-                            href={`/equipment/${id}/procedures/${procedureId}/edit`}
-                            className="flex items-center gap-2 px-3 py-1.5 border border-gray-300 dark:border-gray-700 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-sm font-medium"
-                        >
-                            <Edit className="w-4 h-4"/>
-                            Edit
-                        </Link>
-                        <Link
-                            href={`/equipment/${id}/procedures/${procedureId}/perform`}
-                            className="flex items-center gap-2 px-3 py-1.5 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors text-sm font-medium"
-                        >
-                            <Play className="w-4 h-4"/>
-                            Perform
-                        </Link>
-                    </div>
+                    <Link
+                        href={`/equipment/${id}/procedures/${procedureId}/perform`}
+                        className="flex items-center gap-2 px-3 py-1.5 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors text-sm font-medium"
+                    >
+                        <Play className="w-4 h-4"/>
+                        Perform
+                    </Link>
                 </div>
 
                 <div

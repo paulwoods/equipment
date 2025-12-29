@@ -3,6 +3,7 @@ import {Geist, Geist_Mono} from "next/font/google";
 import "./globals.css";
 import {ReactNode} from "react";
 import Header from "@/components/Header";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import {ThemeProvider} from "@/components/ThemeProvider";
 
 const geistSans = Geist({
@@ -38,6 +39,9 @@ export default function RootLayout({
             enableColorScheme
         >
             <Header/>
+            <div className="max-w-4xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
+                <Breadcrumbs />
+            </div>
             {children}
         </ThemeProvider>
         </body>
