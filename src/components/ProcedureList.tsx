@@ -135,7 +135,11 @@ export default function ProcedureList({equipmentId, procedures, onDelete}: Proce
 
                         return (
                             <tr key={proc.id}>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 font-medium">{proc.name}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 font-medium">
+                                    <Link href={`/equipment/${equipmentId}/procedures/${proc.id}`} className="text-blue-600 dark:text-blue-400 hover:underline">
+                                        {proc.name}
+                                    </Link>
+                                </td>
                                 <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-300">{proc.description}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">{proc.intervalDays}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
@@ -159,7 +163,9 @@ export default function ProcedureList({equipmentId, procedures, onDelete}: Proce
                         <div key={proc.id} className="py-4 space-y-3">
                             <div className="flex justify-between items-start">
                                 <div>
-                                    <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100">{proc.name}</h3>
+                                <Link href={`/equipment/${equipmentId}/procedures/${proc.id}`} className="hover:underline text-blue-600 dark:text-blue-400">
+                                    <h3 className="text-sm font-bold">{proc.name}</h3>
+                                </Link>
                                     {proc.description && (
                                         <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{proc.description}</p>
                                     )}
