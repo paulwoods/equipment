@@ -66,16 +66,9 @@
       {
         "name": "Clean Filter",
         "description": "",
-        "steps": "\tblah...",
+        "steps": "# do this\n* step 1\n* step 2\n* step 3\n* step 4",
         "intervalDays": 7,
-        "id": "dfisr26",
-        "history": [
-          {
-            "id": "q9ruxy5",
-            "date": "2025-12-28T00:00:00.000Z",
-            "notes": ""
-          }
-        ]
+        "id": "dfisr26"
       },
       {
         "name": "Replace Filter",
