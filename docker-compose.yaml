@@ -1,0 +1,12 @@
+services:
+  equipment-management:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - EQUIPMENT_DATA_DIR=data
+    volumes:
+      - ./data:/app/data
+    restart: always

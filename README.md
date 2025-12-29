@@ -6,6 +6,40 @@ The application uses the following environment variables:
 
 - `EQUIPMENT_DATA_DIR`: The directory where the equipment data is stored. Defaults to `data` if not specified.
 
+## Docker
+
+You can run the application using Docker.
+
+### Use Docker Compose
+
+The easiest way to run the application is using Docker Compose:
+
+```bash
+docker compose up -d
+```
+
+This will build the image (if not already built) and start the container with the `data` directory mounted as a volume.
+
+### Build the image manually
+
+```bash
+docker build -t equipment-management .
+```
+
+### Run the container
+
+To persist data, you should mount a volume for the data directory:
+
+```bash
+docker run -p 3000:3000 -v $(pwd)/data:/app/data equipment-management
+```
+
+If you use a different directory via `EQUIPMENT_DATA_DIR`:
+
+```bash
+docker run -p 3000:3000 -e EQUIPMENT_DATA_DIR=mydata -v $(pwd)/mydata:/app/mydata equipment-management
+```
+
 ## Getting Started
 
 First, run the development server:
