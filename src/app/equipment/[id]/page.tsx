@@ -28,7 +28,7 @@ export default function EquipmentShowPage() {
     const handleDelete = async () => {
         if (confirm("Are you sure you want to delete this equipment?")) {
             await deleteEquipment(id);
-            router.push("/");
+            router.push("/equipment");
         }
     };
 
@@ -40,7 +40,7 @@ export default function EquipmentShowPage() {
             <div className="max-w-4xl mx-auto">
                 <div className="mb-6 flex justify-between items-center">
                     <Link
-                        href="/"
+                        href="/equipment"
                         className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center gap-2 font-medium"
                     >
                         <ArrowLeft className="w-4 h-4" /> Back to Equipment List

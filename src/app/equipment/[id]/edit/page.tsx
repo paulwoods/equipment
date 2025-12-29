@@ -29,7 +29,7 @@ export default function EditEquipmentPage() {
   const handleSubmit = async (data: Equipment | Omit<Equipment, "id">) => {
     if ("id" in data) {
       await updateEquipment(data as Equipment);
-      router.push("/");
+      router.push("/equipment");
     }
   };
 
@@ -46,7 +46,7 @@ export default function EditEquipmentPage() {
         <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-8 px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Equipment not found</h1>
-            <Link href="/" className="text-blue-600 dark:text-blue-400 hover:underline">
+            <Link href="/equipment" className="text-blue-600 dark:text-blue-400 hover:underline">
               Back to Equipment List
             </Link>
           </div>
@@ -59,7 +59,7 @@ export default function EditEquipmentPage() {
         <div className="max-w-4xl mx-auto">
           <div className="mb-6">
             <Link
-                href="/"
+                href="/equipment"
                 className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center gap-2 font-medium"
             >
               ← Back to Equipment List
@@ -69,7 +69,7 @@ export default function EditEquipmentPage() {
           <EquipmentForm
               equipment={equipment}
               onSubmit={handleSubmit}
-              onCancel={() => router.push("/")}
+              onCancel={() => router.push("/equipment")}
           />
         </div>
       </div>

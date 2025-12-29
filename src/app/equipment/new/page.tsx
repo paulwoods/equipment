@@ -12,7 +12,7 @@ export default function NewEquipmentPage() {
     const handleSubmit = async (data: Omit<Equipment, "id"> | Equipment) => {
         if (!("id" in data)) {
             await addEquipment(data);
-            router.push("/");
+            router.push("/equipment");
         }
     };
 
@@ -21,7 +21,7 @@ export default function NewEquipmentPage() {
             <div className="max-w-4xl mx-auto">
                 <div className="mb-6">
                     <Link
-                        href="/"
+                        href="/equipment"
                         className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center gap-2 font-medium"
                     >
                         ← Back to Equipment List
@@ -30,7 +30,7 @@ export default function NewEquipmentPage() {
 
                 <EquipmentForm
                     onSubmit={handleSubmit}
-                    onCancel={() => router.push("/")}
+                    onCancel={() => router.push("/equipment")}
                 />
             </div>
         </div>
