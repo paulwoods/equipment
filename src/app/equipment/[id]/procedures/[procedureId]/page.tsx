@@ -141,10 +141,11 @@ export default function ProcedureShowPage() {
                         {procedure.requiredTools && (
                             <div>
                                 <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-3 flex items-center gap-2">
-                                    <Wrench className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                                    <Wrench className="w-5 h-5 text-blue-600 dark:text-blue-400"/>
                                     Required Tools / PPE
                                 </h2>
-                                <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-900/30 p-4 rounded-lg prose prose-sm dark:prose-invert max-w-none">
+                                <div
+                                    className="bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-900/30 p-4 rounded-lg prose prose-sm dark:prose-invert max-w-none">
                                     <ReactMarkdown>
                                         {procedure.requiredTools}
                                     </ReactMarkdown>

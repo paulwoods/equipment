@@ -1,10 +1,10 @@
 "use client";
 
-import {useEffect, useState, useMemo} from "react";
+import {useEffect, useMemo, useState} from "react";
 import Link from "next/link";
 import {Equipment} from "@/types/equipment";
 import {Procedure} from "@/types/procedure";
-import {fetchEquipment, deleteProcedureAction} from "../actions";
+import {deleteProcedureAction, fetchEquipment} from "../actions";
 import {Calendar as CalendarIcon, ChevronDown, ChevronUp, List, Search, X} from "lucide-react";
 import CalendarView from "@/components/CalendarView";
 
@@ -151,7 +151,7 @@ export default function Dashboard() {
                                             : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
                                     }`}
                                 >
-                                    <List className="w-4 h-4" />
+                                    <List className="w-4 h-4"/>
                                     List View
                                 </button>
                                 <button
@@ -162,7 +162,7 @@ export default function Dashboard() {
                                             : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
                                     }`}
                                 >
-                                    <CalendarIcon className="w-4 h-4" />
+                                    <CalendarIcon className="w-4 h-4"/>
                                     Calendar View
                                 </button>
                             </div>
@@ -172,8 +172,9 @@ export default function Dashboard() {
                                     {/* Search Bar */}
                                     <div className="px-4 md:px-6 pt-4">
                                         <div className="relative">
-                                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                <Search className="h-4 w-4 text-gray-400" />
+                                            <div
+                                                className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <Search className="h-4 w-4 text-gray-400"/>
                                             </div>
                                             <input
                                                 type="text"
@@ -187,13 +188,13 @@ export default function Dashboard() {
                                                     className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
                                                     onClick={() => setSearchTerm("")}
                                                 >
-                                                    <X className="h-4 w-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200" />
+                                                    <X className="h-4 w-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"/>
                                                 </button>
                                             )}
                                         </div>
                                     </div>
-                                    <DashboardList 
-                                        procedures={filteredAndSortedProcedures} 
+                                    <DashboardList
+                                        procedures={filteredAndSortedProcedures}
                                         onDelete={handleDelete}
                                         sortField={sortField}
                                         sortOrder={sortOrder}
@@ -202,7 +203,7 @@ export default function Dashboard() {
                                 </>
                             ) : (
                                 <div className="p-4 md:p-6">
-                                    <CalendarView events={calendarEvents} />
+                                    <CalendarView events={calendarEvents}/>
                                 </div>
                             )}
                         </div>
@@ -235,7 +236,8 @@ function DueStatus({details}: { details: ReturnType<typeof calculateDueDetails> 
     if (!details) return <span className="text-gray-400 italic text-sm">N/A</span>;
 
     return (
-        <div className={details.daysTillDue <= 0 ? "text-red-600 dark:text-red-400 font-bold" : "text-gray-900 dark:text-gray-100"}>
+        <div
+            className={details.daysTillDue <= 0 ? "text-red-600 dark:text-red-400 font-bold" : "text-gray-900 dark:text-gray-100"}>
             <div className="text-sm">
                 {details.daysTillDue} days
             </div>
@@ -246,18 +248,18 @@ function DueStatus({details}: { details: ReturnType<typeof calculateDueDetails> 
     );
 }
 
-function DashboardList({procedures, onDelete, sortField, sortOrder, onSort}: { 
-    procedures: FlattenedProcedure[], 
+function DashboardList({procedures, onDelete, sortField, sortOrder, onSort}: {
+    procedures: FlattenedProcedure[],
     onDelete: (eqId: string, procId: string) => void,
     sortField: SortField,
     sortOrder: SortOrder,
     onSort: (field: SortField) => void
 }) {
     const SortIndicator = ({field}: { field: SortField }) => {
-        if (sortField !== field) return <div className="w-4 h-4 ml-1 inline-block" />;
+        if (sortField !== field) return <div className="w-4 h-4 ml-1 inline-block"/>;
         return sortOrder === 'asc' ?
-            <ChevronUp className="w-4 h-4 ml-1 inline-block" /> :
-            <ChevronDown className="w-4 h-4 ml-1 inline-block" />;
+            <ChevronUp className="w-4 h-4 ml-1 inline-block"/> :
+            <ChevronDown className="w-4 h-4 ml-1 inline-block"/>;
     };
 
     return (
@@ -267,29 +269,29 @@ function DashboardList({procedures, onDelete, sortField, sortOrder, onSort}: {
                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
                     <thead className="bg-gray-50 dark:bg-gray-800/50">
                     <tr>
-                        <th 
+                        <th
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
                             onClick={() => onSort('equipmentName')}
                         >
-                            Equipment <SortIndicator field="equipmentName" />
+                            Equipment <SortIndicator field="equipmentName"/>
                         </th>
-                        <th 
+                        <th
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
                             onClick={() => onSort('name')}
                         >
-                            Procedure <SortIndicator field="name" />
+                            Procedure <SortIndicator field="name"/>
                         </th>
-                        <th 
+                        <th
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
                             onClick={() => onSort('intervalDays')}
                         >
-                            Interval <SortIndicator field="intervalDays" />
+                            Interval <SortIndicator field="intervalDays"/>
                         </th>
-                        <th 
+                        <th
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
                             onClick={() => onSort('daysTillDue')}
                         >
-                            Due In <SortIndicator field="daysTillDue" />
+                            Due In <SortIndicator field="daysTillDue"/>
                         </th>
                         <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
                     </tr>
@@ -301,12 +303,14 @@ function DashboardList({procedures, onDelete, sortField, sortOrder, onSort}: {
                         return (
                             <tr key={`${proc.equipmentId}-${proc.id}`}>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
-                                    <Link href={`/equipment/${proc.equipmentId}`} className="hover:underline text-blue-600 dark:text-blue-400">
+                                    <Link href={`/equipment/${proc.equipmentId}`}
+                                          className="hover:underline text-blue-600 dark:text-blue-400">
                                         {proc.equipmentName}
                                     </Link>
                                 </td>
                                 <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-300">
-                                    <Link href={`/equipment/${proc.equipmentId}/procedures/${proc.id}`} className="font-medium text-blue-600 dark:text-blue-400 hover:underline transition-colors">
+                                    <Link href={`/equipment/${proc.equipmentId}/procedures/${proc.id}`}
+                                          className="font-medium text-blue-600 dark:text-blue-400 hover:underline transition-colors">
                                         {proc.name}
                                     </Link>
                                     <div className="text-xs text-gray-500 line-clamp-1">{proc.description}</div>
@@ -333,10 +337,12 @@ function DashboardList({procedures, onDelete, sortField, sortOrder, onSort}: {
                         <div key={`${proc.equipmentId}-${proc.id}`} className="p-4 space-y-3">
                             <div className="flex justify-between items-start">
                                 <div>
-                                    <Link href={`/equipment/${proc.equipmentId}`} className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline">
+                                    <Link href={`/equipment/${proc.equipmentId}`}
+                                          className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline">
                                         {proc.equipmentName}
                                     </Link>
-                                    <Link href={`/equipment/${proc.equipmentId}/procedures/${proc.id}`} className="hover:underline text-blue-600 dark:text-blue-400">
+                                    <Link href={`/equipment/${proc.equipmentId}/procedures/${proc.id}`}
+                                          className="hover:underline text-blue-600 dark:text-blue-400">
                                         <h3 className="text-sm font-bold">{proc.name}</h3>
                                     </Link>
                                 </div>

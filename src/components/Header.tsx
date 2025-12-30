@@ -16,7 +16,7 @@ export default function Header() {
                     />
                     <span className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100 truncate">Equipment Manager</span>
                 </Link>
-                <ThemeToggle />
+                <ThemeToggle/>
             </div>
         </header>
     );

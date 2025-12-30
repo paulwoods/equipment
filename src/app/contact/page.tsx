@@ -1,5 +1,5 @@
 import Link from "next/link";
-import {Mail, Phone, MapPin, Send} from "lucide-react";
+import {Mail, MapPin, Phone, Send} from "lucide-react";
 
 export default function ContactPage() {
     return (
@@ -44,7 +44,8 @@ export default function ContactPage() {
                                     </div>
                                     <div>
                                         <p className="font-semibold text-blue-100 text-sm uppercase tracking-wider">Office</p>
-                                        <p className="text-lg font-medium">123 Tech Way, Suite 400<br/>San Francisco, CA 94107</p>
+                                        <p className="text-lg font-medium">123 Tech Way, Suite 400<br/>San Francisco, CA
+                                            94107</p>
                                     </div>
                                 </div>
                             </div>
@@ -54,7 +55,8 @@ export default function ContactPage() {
                         <div className="p-8 md:p-12">
                             <form className="space-y-6">
                                 <div>
-                                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    <label htmlFor="name"
+                                           className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                         Full Name
                                     </label>
                                     <input
@@ -68,7 +70,8 @@ export default function ContactPage() {
                                 </div>
 
                                 <div>
-                                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    <label htmlFor="email"
+                                           className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                         Email Address
                                     </label>
                                     <input
@@ -82,7 +85,8 @@ export default function ContactPage() {
                                 </div>
 
                                 <div>
-                                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    <label htmlFor="message"
+                                           className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                         Message
                                     </label>
                                     <textarea
@@ -100,7 +104,8 @@ export default function ContactPage() {
                                     className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition shadow-lg hover:shadow-xl active:scale-95 group"
                                 >
                                     <span>Send Message</span>
-                                    <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"/>
+                                    <Send
+                                        className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"/>
                                 </button>
                             </form>
                         </div>

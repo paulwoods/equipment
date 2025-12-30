@@ -59,10 +59,13 @@ export default function ProcedureForm({equipment, procedure, onSubmit, onCancel}
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6 bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-800">
+        <form onSubmit={handleSubmit}
+              className="space-y-6 bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-800">
             {equipment && (
-                <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-md border border-gray-100 dark:border-gray-700">
-                    <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Equipment Details</h3>
+                <div
+                    className="mb-6 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-md border border-gray-100 dark:border-gray-700">
+                    <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Equipment
+                        Details</h3>
                     <div className="flex flex-col gap-1">
                         <div className="text-sm font-bold text-gray-900 dark:text-gray-100">
                             {equipment.manufacturer} {equipment.modelNumber}
@@ -91,7 +94,8 @@ export default function ProcedureForm({equipment, procedure, onSubmit, onCancel}
                 </div>
 
                 <div className="md:col-span-1">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Interval (Days)</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Interval
+                        (Days)</label>
                     <input
                         type="number"
                         name="intervalDays"
@@ -117,7 +121,8 @@ export default function ProcedureForm({equipment, procedure, onSubmit, onCancel}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
                 <div className="prose prose-sm max-w-none dark:prose-invert">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Required Tools / PPE</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Required Tools /
+                        PPE</label>
                     <SimpleMDE
                         value={formData.requiredTools}
                         onChange={handleRequiredToolsChange}
@@ -126,7 +131,8 @@ export default function ProcedureForm({equipment, procedure, onSubmit, onCancel}
                 </div>
 
                 <div className="prose prose-sm max-w-none dark:prose-invert">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Procedure Steps</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Procedure
+                        Steps</label>
                     <SimpleMDE
                         value={formData.steps}
                         onChange={handleStepsChange}

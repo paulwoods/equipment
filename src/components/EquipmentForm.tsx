@@ -42,7 +42,8 @@ export default function EquipmentForm({equipment, onSubmit, onCancel}: Equipment
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6 bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-800">
+        <form onSubmit={handleSubmit}
+              className="space-y-6 bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-800">
             <h2 className="text-xl font-bold mb-4 text-black dark:text-white">{equipment ? "Edit Equipment" : "Add Equipment"}</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

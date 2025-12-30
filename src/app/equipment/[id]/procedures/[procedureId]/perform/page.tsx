@@ -5,7 +5,7 @@ import {useParams, useRouter} from "next/navigation";
 import {addPerformanceAction, fetchEquipment} from "@/app/actions";
 import ReactMarkdown from "react-markdown";
 import {Equipment} from "@/types/equipment";
-import {Hash, Tag, MapPin, Wrench} from "lucide-react";
+import {Hash, MapPin, Tag, Wrench} from "lucide-react";
 
 export default function PerformProcedurePage() {
     const {id, procedureId} = useParams() as { id: string; procedureId: string };
@@ -49,39 +49,46 @@ export default function PerformProcedurePage() {
         <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-2xl mx-auto">
 
-                <div className="bg-white dark:bg-gray-900 shadow rounded-lg overflow-hidden border border-gray-200 dark:border-gray-800 mb-6">
+                <div
+                    className="bg-white dark:bg-gray-900 shadow rounded-lg overflow-hidden border border-gray-200 dark:border-gray-800 mb-6">
                     <div className="p-6 border-b border-gray-100 dark:border-gray-800">
                         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4">
                             <div>
                                 <h1 className="text-2xl font-bold text-black dark:text-white">{equipment.manufacturer} {equipment.modelNumber}</h1>
-                                <p className="text-gray-600 dark:text-gray-400">Procedure: <span className="font-semibold text-black dark:text-white">{procedureName}</span></p>
+                                <p className="text-gray-600 dark:text-gray-400">Procedure: <span
+                                    className="font-semibold text-black dark:text-white">{procedureName}</span></p>
                             </div>
-                            <StatusBadge status={equipment.status} />
+                            <StatusBadge status={equipment.status}/>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm mt-4">
                             <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                                <Hash className="w-4 h-4" />
-                                <span>SN: <span className="font-medium text-gray-900 dark:text-gray-100">{equipment.serialNumber || "N/A"}</span></span>
+                                <Hash className="w-4 h-4"/>
+                                <span>SN: <span
+                                    className="font-medium text-gray-900 dark:text-gray-100">{equipment.serialNumber || "N/A"}</span></span>
                             </div>
                             <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                                <Tag className="w-4 h-4" />
-                                <span>Tag: <span className="font-medium text-gray-900 dark:text-gray-100">{equipment.assetTag || "N/A"}</span></span>
+                                <Tag className="w-4 h-4"/>
+                                <span>Tag: <span
+                                    className="font-medium text-gray-900 dark:text-gray-100">{equipment.assetTag || "N/A"}</span></span>
                             </div>
                             <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                                <MapPin className="w-4 h-4" />
-                                <span className="truncate">Loc: <span className="font-medium text-gray-900 dark:text-gray-100">{equipment.location || "N/A"}</span></span>
+                                <MapPin className="w-4 h-4"/>
+                                <span className="truncate">Loc: <span
+                                    className="font-medium text-gray-900 dark:text-gray-100">{equipment.location || "N/A"}</span></span>
                             </div>
                         </div>
                     </div>
 
                     {requiredTools && (
-                        <div className="p-6 bg-blue-50/50 dark:bg-blue-900/10 border-b border-gray-100 dark:border-gray-800">
+                        <div
+                            className="p-6 bg-blue-50/50 dark:bg-blue-900/10 border-b border-gray-100 dark:border-gray-800">
                             <h2 className="text-sm font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-3 flex items-center gap-2">
-                                <Wrench className="w-4 h-4" />
+                                <Wrench className="w-4 h-4"/>
                                 Required Tools / PPE
                             </h2>
-                            <div className="prose prose-sm dark:prose-invert max-w-none bg-white dark:bg-gray-800/50 p-4 rounded-lg border border-blue-100 dark:border-blue-900/30">
+                            <div
+                                className="prose prose-sm dark:prose-invert max-w-none bg-white dark:bg-gray-800/50 p-4 rounded-lg border border-blue-100 dark:border-blue-900/30">
                                 <ReactMarkdown>{requiredTools}</ReactMarkdown>
                             </div>
                         </div>
@@ -89,7 +96,8 @@ export default function PerformProcedurePage() {
 
                     {procedureSteps && (
                         <div className="p-6 bg-gray-50 dark:bg-gray-800/50">
-                            <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wider">Procedure Steps</h2>
+                            <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wider">Procedure
+                                Steps</h2>
                             <div className="prose prose-sm max-w-none dark:prose-invert">
                                 <ReactMarkdown>{procedureSteps}</ReactMarkdown>
                             </div>
@@ -155,7 +163,8 @@ function StatusBadge({status}: { status: Equipment['status'] }) {
     };
 
     return (
-        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${colors[status] || colors.Active}`}>
+        <span
+            className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${colors[status] || colors.Active}`}>
       {status}
     </span>
     );

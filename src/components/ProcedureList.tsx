@@ -2,7 +2,7 @@
 
 import {Procedure} from "@/types/procedure";
 import Link from "next/link";
-import {useState, useMemo} from "react";
+import {useMemo, useState} from "react";
 import {ChevronDown, ChevronUp, Search, X} from "lucide-react";
 
 interface ProcedureListProps {
@@ -72,10 +72,10 @@ export default function ProcedureList({equipmentId, procedures, onDelete}: Proce
     };
 
     const SortIndicator = ({field}: { field: SortField }) => {
-        if (sortField !== field) return <div className="w-4 h-4 ml-1 inline-block" />;
+        if (sortField !== field) return <div className="w-4 h-4 ml-1 inline-block"/>;
         return sortOrder === 'asc' ?
-            <ChevronUp className="w-4 h-4 ml-1 inline-block" /> :
-            <ChevronDown className="w-4 h-4 ml-1 inline-block" />;
+            <ChevronUp className="w-4 h-4 ml-1 inline-block"/> :
+            <ChevronDown className="w-4 h-4 ml-1 inline-block"/>;
     };
 
     return (
@@ -84,7 +84,7 @@ export default function ProcedureList({equipmentId, procedures, onDelete}: Proce
             <div className="pt-2">
                 <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Search className="h-4 w-4 text-gray-400" />
+                        <Search className="h-4 w-4 text-gray-400"/>
                     </div>
                     <input
                         type="text"
@@ -98,7 +98,7 @@ export default function ProcedureList({equipmentId, procedures, onDelete}: Proce
                             className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
                             onClick={() => setSearchTerm("")}
                         >
-                            <X className="h-4 w-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200" />
+                            <X className="h-4 w-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"/>
                         </button>
                     )}
                 </div>
@@ -109,29 +109,29 @@ export default function ProcedureList({equipmentId, procedures, onDelete}: Proce
                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
                     <thead className="bg-gray-50 dark:bg-gray-800/50">
                     <tr>
-                        <th 
+                        <th
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
                             onClick={() => handleSort('name')}
                         >
-                            Name <SortIndicator field="name" />
+                            Name <SortIndicator field="name"/>
                         </th>
-                        <th 
+                        <th
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
                             onClick={() => handleSort('description')}
                         >
-                            Description <SortIndicator field="description" />
+                            Description <SortIndicator field="description"/>
                         </th>
-                        <th 
+                        <th
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
                             onClick={() => handleSort('intervalDays')}
                         >
-                            Interval <SortIndicator field="intervalDays" />
+                            Interval <SortIndicator field="intervalDays"/>
                         </th>
-                        <th 
+                        <th
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
                             onClick={() => handleSort('daysTillDue')}
                         >
-                            Days Till Due <SortIndicator field="daysTillDue" />
+                            Days Till Due <SortIndicator field="daysTillDue"/>
                         </th>
                         <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
                     </tr>
@@ -143,7 +143,8 @@ export default function ProcedureList({equipmentId, procedures, onDelete}: Proce
                         return (
                             <tr key={proc.id}>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 font-medium">
-                                    <Link href={`/equipment/${equipmentId}/procedures/${proc.id}`} className="text-blue-600 dark:text-blue-400 hover:underline">
+                                    <Link href={`/equipment/${equipmentId}/procedures/${proc.id}`}
+                                          className="text-blue-600 dark:text-blue-400 hover:underline">
                                         {proc.name}
                                     </Link>
                                 </td>
@@ -170,9 +171,10 @@ export default function ProcedureList({equipmentId, procedures, onDelete}: Proce
                         <div key={proc.id} className="py-4 space-y-3">
                             <div className="flex justify-between items-start">
                                 <div>
-                                <Link href={`/equipment/${equipmentId}/procedures/${proc.id}`} className="hover:underline text-blue-600 dark:text-blue-400">
-                                    <h3 className="text-sm font-bold">{proc.name}</h3>
-                                </Link>
+                                    <Link href={`/equipment/${equipmentId}/procedures/${proc.id}`}
+                                          className="hover:underline text-blue-600 dark:text-blue-400">
+                                        <h3 className="text-sm font-bold">{proc.name}</h3>
+                                    </Link>
                                     {proc.description && (
                                         <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{proc.description}</p>
                                     )}
@@ -221,7 +223,8 @@ function DueStatus({details}: { details: ReturnType<typeof calculateDueDetails> 
     if (!details) return <span className="text-gray-400 italic text-sm">N/A</span>;
 
     return (
-        <div className={details.daysTillDue <= 0 ? "text-red-600 dark:text-red-400 font-bold" : "text-gray-900 dark:text-gray-100"}>
+        <div
+            className={details.daysTillDue <= 0 ? "text-red-600 dark:text-red-400 font-bold" : "text-gray-900 dark:text-gray-100"}>
             <div className="text-sm">
                 {details.daysTillDue} days
             </div>
