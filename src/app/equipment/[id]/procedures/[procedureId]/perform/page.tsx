@@ -76,22 +76,20 @@ export default function PerformProcedurePage() {
                     </div>
 
                     {requiredTools && (
-                        <div className="px-6 py-4 bg-blue-50 dark:bg-blue-900/20 border-b border-gray-100 dark:border-gray-800">
-                            <div className="flex items-start gap-3">
-                                <Wrench className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5" />
-                                <div>
-                                    <p className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-1">Required Tools / PPE</p>
-                                    <div className="prose prose-sm dark:prose-invert max-w-none">
-                                        <ReactMarkdown>{requiredTools}</ReactMarkdown>
-                                    </div>
-                                </div>
+                        <div className="p-6 bg-blue-50/50 dark:bg-blue-900/10 border-b border-gray-100 dark:border-gray-800">
+                            <h2 className="text-sm font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+                                <Wrench className="w-4 h-4" />
+                                Required Tools / PPE
+                            </h2>
+                            <div className="prose prose-sm dark:prose-invert max-w-none bg-white dark:bg-gray-800/50 p-4 rounded-lg border border-blue-100 dark:border-blue-900/30">
+                                <ReactMarkdown>{requiredTools}</ReactMarkdown>
                             </div>
                         </div>
                     )}
 
                     {procedureSteps && (
                         <div className="p-6 bg-gray-50 dark:bg-gray-800/50">
-                            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wider">Procedure Steps</label>
+                            <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wider">Procedure Steps</h2>
                             <div className="prose prose-sm max-w-none dark:prose-invert">
                                 <ReactMarkdown>{procedureSteps}</ReactMarkdown>
                             </div>

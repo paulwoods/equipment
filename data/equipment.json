@@ -40,6 +40,7 @@
         "name": "Change the Filter",
         "description": "Filtrete 20x20x4 MPR 1550",
         "steps": "1. Open The furnace\n2. Remove the old filter\n3. Add a new filter\n4. Close the furnace\n5. ",
+        "requiredTools": "* tool 111",
         "intervalDays": 90,
         "id": "k6pyktw"
       },
@@ -79,6 +80,7 @@
         "name": "Clean Filter",
         "description": "",
         "steps": "1. step 1\n2. step 2\n3. step 3\n4. step 4",
+        "requiredTools": "here are the tools\n\n* tool 1\n* tool 2\n* ",
         "intervalDays": 7,
         "id": "dfisr26"
       },
