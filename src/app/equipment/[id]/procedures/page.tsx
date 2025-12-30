@@ -7,6 +7,7 @@ import {Procedure} from "@/types/procedure";
 import {Equipment} from "@/types/equipment";
 import ProcedureList from "@/components/ProcedureList";
 import {useParams} from "next/navigation";
+import {Hash, Tag, MapPin} from "lucide-react";
 
 export default function ProceduresPage() {
     const {id} = useParams() as { id: string };
@@ -49,26 +50,31 @@ export default function ProceduresPage() {
                 </div>
 
                 <div className="bg-white dark:bg-gray-900 shadow rounded-lg overflow-hidden p-6 border border-gray-200 dark:border-gray-800">
-                    <div className="mb-8 border-b border-gray-100 dark:border-gray-800 pb-4">
-                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-2">
+                    <div className="mb-8 border-b border-gray-100 dark:border-gray-800 pb-6">
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
                             <div>
                                 <h2 className="text-2xl font-bold text-black dark:text-white">
-                                    {equipment?.manufacturer} - {equipment?.modelNumber}
+                                    {equipment?.manufacturer} {equipment?.modelNumber}
                                 </h2>
-                                <div className="mt-2 flex flex-wrap gap-x-6 gap-y-2 text-sm text-gray-600 dark:text-gray-400">
-                                    {equipment?.serialNumber && (
-                                        <span>SN: <span className="font-medium text-gray-900 dark:text-gray-100">{equipment.serialNumber}</span></span>
-                                    )}
-                                    {equipment?.assetTag && (
-                                        <span>Tag: <span className="font-medium text-gray-900 dark:text-gray-100">{equipment.assetTag}</span></span>
-                                    )}
-                                    {equipment?.location && (
-                                        <span>Location: <span className="font-medium text-gray-900 dark:text-gray-100">{equipment.location}</span></span>
-                                    )}
-                                </div>
+                                <p className="text-gray-600 dark:text-gray-400 mt-1">Maintenance Procedures</p>
                             </div>
                             <div className="mt-2 sm:mt-0">
                                 {equipment && <StatusBadge status={equipment.status} />}
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm mt-6 bg-gray-50 dark:bg-gray-800/50 p-4 rounded-lg border border-gray-100 dark:border-gray-800">
+                            <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                                <Hash className="w-4 h-4 text-blue-500" />
+                                <span>SN: <span className="font-medium text-gray-900 dark:text-gray-100">{equipment?.serialNumber || "N/A"}</span></span>
+                            </div>
+                            <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                                <Tag className="w-4 h-4 text-purple-500" />
+                                <span>Tag: <span className="font-medium text-gray-900 dark:text-gray-100">{equipment?.assetTag || "N/A"}</span></span>
+                            </div>
+                            <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                                <MapPin className="w-4 h-4 text-orange-500" />
+                                <span className="truncate">Loc: <span className="font-medium text-gray-900 dark:text-gray-100">{equipment?.location || "N/A"}</span></span>
                             </div>
                         </div>
                     </div>
