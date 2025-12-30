@@ -17,6 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Enhanced Procedure Requirements**:
     - Added a dedicated field for **Required Tools / PPE** to maintenance procedures with Markdown support.
     - Displayed pre-requisites on procedure detail and performance pages.
+- **Dashboard Calendar View**:
+    - Added a tab bar to the dashboard to toggle between List and Calendar views.
+    - Implemented a monthly calendar view that highlights procedure due dates.
+    - Color-coded calendar entries (blue for scheduled, red for overdue).
+    - Added quick navigation to procedure details from the calendar.
 
 ### Changed
 - Improved sorting logic on the equipment procedures page to prioritize procedures without performance history.

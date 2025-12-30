@@ -5,7 +5,8 @@ import Link from "next/link";
 import {Equipment} from "@/types/equipment";
 import {Procedure} from "@/types/procedure";
 import {fetchEquipment, deleteProcedureAction} from "../actions";
-import {ChevronDown, ChevronUp, Search, X} from "lucide-react";
+import {Calendar as CalendarIcon, ChevronDown, ChevronUp, List, Search, X} from "lucide-react";
+import CalendarView from "@/components/CalendarView";
 
 interface FlattenedProcedure extends Procedure {
     equipmentId: string;
@@ -21,6 +22,7 @@ export default function Dashboard() {
     const [searchTerm, setSearchTerm] = useState("");
     const [sortField, setSortField] = useState<SortField>('daysTillDue');
     const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
+    const [activeTab, setActiveTab] = useState<'list' | 'calendar'>('list');
 
     const loadData = async () => {
         setLoading(true);
@@ -42,6 +44,20 @@ export default function Dashboard() {
         setProcedures(flattened);
         setLoading(false);
     };
+
+    const calendarEvents = useMemo(() => {
+        return procedures.map(proc => {
+            const due = calculateDueDetails(proc);
+            return {
+                date: due?.dueDate || new Date(),
+                equipmentId: proc.equipmentId,
+                equipmentName: proc.equipmentName,
+                procedureId: proc.id,
+                procedureName: proc.name,
+                isOverdue: (due?.daysTillDue || 0) <= 0 && due !== null
+            };
+        }).filter(event => event !== null);
+    }, [procedures]);
 
     const filteredAndSortedProcedures = useMemo(() => {
         let result = [...procedures];
@@ -125,36 +141,70 @@ export default function Dashboard() {
                         <div className="p-8 text-center text-gray-500">Loading...</div>
                     ) : (
                         <div className="space-y-4">
-                            {/* Search Bar */}
-                            <div className="px-4 md:px-6 pt-4">
-                                <div className="relative">
-                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <Search className="h-4 w-4 text-gray-400" />
-                                    </div>
-                                    <input
-                                        type="text"
-                                        placeholder="Search procedures..."
-                                        className="block w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-700 rounded-md leading-5 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors"
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                    />
-                                    {searchTerm && (
-                                        <button
-                                            className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
-                                            onClick={() => setSearchTerm("")}
-                                        >
-                                            <X className="h-4 w-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200" />
-                                        </button>
-                                    )}
-                                </div>
+                            {/* Tab Bar */}
+                            <div className="flex border-b border-gray-200 dark:border-gray-800">
+                                <button
+                                    onClick={() => setActiveTab('list')}
+                                    className={`flex items-center gap-2 px-6 py-3 text-sm font-medium transition-colors border-b-2 ${
+                                        activeTab === 'list'
+                                            ? 'border-blue-600 text-blue-600 dark:text-blue-400'
+                                            : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+                                    }`}
+                                >
+                                    <List className="w-4 h-4" />
+                                    List View
+                                </button>
+                                <button
+                                    onClick={() => setActiveTab('calendar')}
+                                    className={`flex items-center gap-2 px-6 py-3 text-sm font-medium transition-colors border-b-2 ${
+                                        activeTab === 'calendar'
+                                            ? 'border-blue-600 text-blue-600 dark:text-blue-400'
+                                            : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+                                    }`}
+                                >
+                                    <CalendarIcon className="w-4 h-4" />
+                                    Calendar View
+                                </button>
                             </div>
-                            <DashboardList 
-                                procedures={filteredAndSortedProcedures} 
-                                onDelete={handleDelete}
-                                sortField={sortField}
-                                sortOrder={sortOrder}
-                                onSort={handleSort}
-                            />
+
+                            {activeTab === 'list' ? (
+                                <>
+                                    {/* Search Bar */}
+                                    <div className="px-4 md:px-6 pt-4">
+                                        <div className="relative">
+                                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <Search className="h-4 w-4 text-gray-400" />
+                                            </div>
+                                            <input
+                                                type="text"
+                                                placeholder="Search procedures..."
+                                                className="block w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-700 rounded-md leading-5 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors"
+                                                value={searchTerm}
+                                                onChange={(e) => setSearchTerm(e.target.value)}
+                                            />
+                                            {searchTerm && (
+                                                <button
+                                                    className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                                                    onClick={() => setSearchTerm("")}
+                                                >
+                                                    <X className="h-4 w-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200" />
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <DashboardList 
+                                        procedures={filteredAndSortedProcedures} 
+                                        onDelete={handleDelete}
+                                        sortField={sortField}
+                                        sortOrder={sortOrder}
+                                        onSort={handleSort}
+                                    />
+                                </>
+                            ) : (
+                                <div className="p-4 md:p-6">
+                                    <CalendarView events={calendarEvents} />
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
