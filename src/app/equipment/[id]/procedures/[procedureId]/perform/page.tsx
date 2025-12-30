@@ -5,7 +5,7 @@ import {useParams, useRouter} from "next/navigation";
 import {addPerformanceAction, fetchEquipment} from "@/app/actions";
 import ReactMarkdown from "react-markdown";
 import {Equipment} from "@/types/equipment";
-import {Hash, Tag, MapPin} from "lucide-react";
+import {Hash, Tag, MapPin, Wrench} from "lucide-react";
 
 export default function PerformProcedurePage() {
     const {id, procedureId} = useParams() as { id: string; procedureId: string };
@@ -14,6 +14,7 @@ export default function PerformProcedurePage() {
     const [notes, setNotes] = useState("");
     const [procedureName, setProcedureName] = useState("");
     const [procedureSteps, setProcedureSteps] = useState("");
+    const [requiredTools, setRequiredTools] = useState("");
     const [equipment, setEquipment] = useState<Equipment | null>(null);
     const [loading, setLoading] = useState(true);
 
@@ -27,6 +28,7 @@ export default function PerformProcedurePage() {
                 if (procedure) {
                     setProcedureName(procedure.name);
                     setProcedureSteps(procedure.steps || "");
+                    setRequiredTools(procedure.requiredTools || "");
                 }
             }
             setLoading(false);
@@ -72,6 +74,20 @@ export default function PerformProcedurePage() {
                             </div>
                         </div>
                     </div>
+
+                    {requiredTools && (
+                        <div className="px-6 py-4 bg-blue-50 dark:bg-blue-900/20 border-b border-gray-100 dark:border-gray-800">
+                            <div className="flex items-start gap-3">
+                                <Wrench className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5" />
+                                <div>
+                                    <p className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-1">Required Tools / PPE</p>
+                                    <div className="prose prose-sm dark:prose-invert max-w-none">
+                                        <ReactMarkdown>{requiredTools}</ReactMarkdown>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
                     {procedureSteps && (
                         <div className="p-6 bg-gray-50 dark:bg-gray-800/50">

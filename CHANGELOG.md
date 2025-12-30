@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Added Status management (Active, In Use, Under Repair, Decommissioned, In Storage) with color-coded badges.
     - Updated equipment forms, lists, and detail views to support new fields.
     - Improved sorting and filtering on the equipment list page.
+- **Enhanced Procedure Requirements**:
+    - Added a dedicated field for **Required Tools / PPE** to maintenance procedures with Markdown support.
+    - Displayed pre-requisites on procedure detail and performance pages.
 
 ### Changed
 - Improved sorting logic on the equipment procedures page to prioritize procedures without performance history.

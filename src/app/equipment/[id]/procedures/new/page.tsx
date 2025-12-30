@@ -39,7 +39,7 @@ export default function AddProcedurePage() {
 
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-8 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-2xl mx-auto">
+            <div className="max-w-5xl mx-auto">
                 <ProcedureForm
                     equipment={equipment || undefined}
                     onSubmit={handleSubmit}
