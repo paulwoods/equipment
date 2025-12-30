@@ -58,12 +58,19 @@ export default function Dashboard() {
 
         // Sorting
         result.sort((a, b) => {
+            // Always place procedures with null due details at the top
+            const aDue = calculateDueDetails(a);
+            const bDue = calculateDueDetails(b);
+
+            if (aDue === null && bDue !== null) return -1;
+            if (aDue !== null && bDue === null) return 1;
+
             let aValue: any;
             let bValue: any;
 
             if (sortField === 'daysTillDue') {
-                aValue = calculateDueDetails(a)?.daysTillDue ?? Infinity;
-                bValue = calculateDueDetails(b)?.daysTillDue ?? Infinity;
+                aValue = aDue?.daysTillDue ?? 0;
+                bValue = bDue?.daysTillDue ?? 0;
             } else if (sortField === 'equipmentName' || sortField === 'name') {
                 aValue = a[sortField].toLowerCase();
                 bValue = b[sortField].toLowerCase();
