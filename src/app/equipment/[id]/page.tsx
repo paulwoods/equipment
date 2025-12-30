@@ -5,7 +5,7 @@ import Link from "next/link";
 import {useParams, useRouter} from "next/navigation";
 import {fetchEquipment, deleteEquipment} from "@/app/actions";
 import {Equipment} from "@/types/equipment";
-import {Calendar, PenSquare, Trash2, ListChecks, ArrowLeft} from "lucide-react";
+import {Calendar, PenSquare, Trash2, ListChecks, ArrowLeft, Hash, Tag, MapPin, Info} from "lucide-react";
 
 export default function EquipmentShowPage() {
     const {id} = useParams() as { id: string };
@@ -64,10 +64,13 @@ export default function EquipmentShowPage() {
                 <div className="bg-white dark:bg-gray-900 shadow rounded-lg overflow-hidden border border-gray-200 dark:border-gray-800">
                     <div className="p-6 md:p-8">
                         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-8">
-                            <div>
-                                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-                                    {equipment.modelNumber}
-                                </h1>
+                            <div className="flex-grow">
+                                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-1">
+                                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                                        {equipment.modelNumber}
+                                    </h1>
+                                    <StatusBadge status={equipment.status} />
+                                </div>
                                 <p className="text-xl text-gray-600 dark:text-gray-400 font-medium">
                                     {equipment.manufacturer}
                                 </p>
@@ -78,6 +81,36 @@ export default function EquipmentShowPage() {
                             >
                                 <ListChecks className="w-5 h-5" /> View Procedures
                             </Link>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 bg-gray-50 dark:bg-gray-800/50 p-6 rounded-xl border border-gray-100 dark:border-gray-800">
+                            <div className="flex items-start gap-3">
+                                <div className="p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg text-blue-600 dark:text-blue-400">
+                                    <Hash className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Serial Number</p>
+                                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{equipment.serialNumber || "N/A"}</p>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-3">
+                                <div className="p-2 bg-purple-50 dark:bg-purple-900/30 rounded-lg text-purple-600 dark:text-purple-400">
+                                    <Tag className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Asset Tag</p>
+                                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{equipment.assetTag || "N/A"}</p>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-3">
+                                <div className="p-2 bg-orange-50 dark:bg-orange-900/30 rounded-lg text-orange-600 dark:text-orange-400">
+                                    <MapPin className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Location</p>
+                                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{equipment.location || "N/A"}</p>
+                                </div>
+                            </div>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-gray-100 dark:border-gray-800 pt-8">
@@ -133,5 +166,21 @@ export default function EquipmentShowPage() {
                 </div>
             </div>
         </div>
+    );
+}
+
+function StatusBadge({status}: { status: Equipment['status'] }) {
+    const colors = {
+        'Active': 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
+        'In Use': 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
+        'Under Repair': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300',
+        'Decommissioned': 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
+        'In Storage': 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-300'
+    };
+
+    return (
+        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${colors[status] || colors.Active}`}>
+      {status}
+    </span>
     );
 }

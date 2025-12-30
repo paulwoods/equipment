@@ -1,8 +1,11 @@
 [
   {
-    "id": "nvern0a",
     "manufacturer": "Dell",
     "modelNumber": "G15 5515",
+    "serialNumber": "",
+    "assetTag": "",
+    "location": "Dad's Bedroom",
+    "status": "Active",
     "description": "Gaming Laptop",
     "purchaseDate": "2020-12-28T00:00:00.000Z",
     "procedures": [
@@ -20,11 +23,16 @@
           }
         ]
       }
-    ]
+    ],
+    "id": "nvern0a"
   },
   {
     "manufacturer": "Honeywell",
     "modelNumber": "Heater / AC",
+    "serialNumber": "",
+    "assetTag": "",
+    "location": "Heater Closet",
+    "status": "Active",
     "description": "HVAC",
     "purchaseDate": "2005-12-28T00:00:00.000Z",
     "procedures": [
@@ -60,6 +68,10 @@
   {
     "manufacturer": "Narwal",
     "modelNumber": "Freo-Z",
+    "serialNumber": "",
+    "assetTag": "",
+    "location": "Kitchen",
+    "status": "Active",
     "description": "Robot Vac",
     "purchaseDate": "2024-06-28T00:00:00.000Z",
     "procedures": [
@@ -90,6 +102,10 @@
   {
     "manufacturer": "Bambu Labs",
     "modelNumber": "X1C",
+    "serialNumber": "",
+    "assetTag": "",
+    "location": "Hobby Room",
+    "status": "Active",
     "description": "3D Printer",
     "purchaseDate": "2023-06-28T00:00:00.000Z",
     "procedures": [],

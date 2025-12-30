@@ -13,6 +13,10 @@ export default function EquipmentForm({equipment, onSubmit, onCancel}: Equipment
     const [formData, setFormData] = useState<Omit<Equipment, "id">>({
         manufacturer: equipment?.manufacturer || "",
         modelNumber: equipment?.modelNumber || "",
+        serialNumber: equipment?.serialNumber || "",
+        assetTag: equipment?.assetTag || "",
+        location: equipment?.location || "",
+        status: equipment?.status || "Active",
         description: equipment?.description || "",
         purchaseDate: equipment ? new Date(equipment.purchaseDate) : new Date(),
         procedures: equipment?.procedures || [],
@@ -27,7 +31,7 @@ export default function EquipmentForm({equipment, onSubmit, onCancel}: Equipment
         }
     };
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const {name, value} = e.target;
         if (name === "purchaseDate") {
             const dateValue = value ? new Date(value) : new Date();
@@ -63,6 +67,57 @@ export default function EquipmentForm({equipment, onSubmit, onCancel}: Equipment
                         required
                         className="mt-1 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm p-2 text-black dark:text-white dark:bg-gray-800"
                     />
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Serial Number</label>
+                    <input
+                        type="text"
+                        name="serialNumber"
+                        value={formData.serialNumber}
+                        onChange={handleChange}
+                        className="mt-1 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm p-2 text-black dark:text-white dark:bg-gray-800"
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Asset Tag</label>
+                    <input
+                        type="text"
+                        name="assetTag"
+                        value={formData.assetTag}
+                        onChange={handleChange}
+                        className="mt-1 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm p-2 text-black dark:text-white dark:bg-gray-800"
+                    />
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Location</label>
+                    <input
+                        type="text"
+                        name="location"
+                        value={formData.location}
+                        onChange={handleChange}
+                        className="mt-1 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm p-2 text-black dark:text-white dark:bg-gray-800"
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Status</label>
+                    <select
+                        name="status"
+                        value={formData.status}
+                        onChange={handleChange}
+                        className="mt-1 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm p-2 text-black dark:text-white dark:bg-gray-800"
+                    >
+                        <option value="Active">Active</option>
+                        <option value="In Use">In Use</option>
+                        <option value="Under Repair">Under Repair</option>
+                        <option value="Decommissioned">Decommissioned</option>
+                        <option value="In Storage">In Storage</option>
+                    </select>
                 </div>
             </div>
 

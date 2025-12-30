@@ -78,6 +78,13 @@ export default function ProcedureShowPage() {
                                 <div>
                                     <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Equipment</p>
                                     <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{equipment.manufacturer} {equipment.modelNumber}</p>
+                                    {(equipment.serialNumber || equipment.assetTag) && (
+                                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                                            {equipment.serialNumber && `SN: ${equipment.serialNumber}`}
+                                            {equipment.serialNumber && equipment.assetTag && " | "}
+                                            {equipment.assetTag && `Tag: ${equipment.assetTag}`}
+                                        </p>
+                                    )}
                                 </div>
                             </div>
                             <div className="flex items-start gap-3">

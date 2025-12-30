@@ -1,6 +1,6 @@
 "use client";
 
-import {Equipment} from "@/types/equipment";
+import {Equipment, EquipmentStatus} from "@/types/equipment";
 import Link from "next/link";
 import {useState, useMemo} from "react";
 import {ChevronDown, ChevronUp, Search, X} from "lucide-react";
@@ -10,7 +10,7 @@ interface EquipmentListProps {
   onDelete: (id: string) => void;
 }
 
-type SortField = 'manufacturer' | 'modelNumber' | 'description' | 'procedures';
+type SortField = 'manufacturer' | 'modelNumber' | 'location' | 'status' | 'procedures';
 type SortOrder = 'asc' | 'desc';
 
 export default function EquipmentList({items, onDelete}: EquipmentListProps) {
@@ -27,6 +27,8 @@ export default function EquipmentList({items, onDelete}: EquipmentListProps) {
       result = result.filter(item =>
           item.manufacturer.toLowerCase().includes(lowerSearch) ||
           item.modelNumber.toLowerCase().includes(lowerSearch) ||
+          (item.location && item.location.toLowerCase().includes(lowerSearch)) ||
+          (item.status && item.status.toLowerCase().includes(lowerSearch)) ||
           (item.description && item.description.toLowerCase().includes(lowerSearch))
       );
     }
@@ -121,9 +123,15 @@ export default function EquipmentList({items, onDelete}: EquipmentListProps) {
               </th>
               <th
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
-                  onClick={() => handleSort('description')}
+                  onClick={() => handleSort('location')}
               >
-                Description <SortIndicator field="description" />
+                Location <SortIndicator field="location" />
+              </th>
+              <th
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
+                  onClick={() => handleSort('status')}
+              >
+                Status <SortIndicator field="status" />
               </th>
               <th
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
@@ -143,7 +151,10 @@ export default function EquipmentList({items, onDelete}: EquipmentListProps) {
                     </Link>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{item.manufacturer}</td>
-                  <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{item.description}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{item.location || "-"}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                    <StatusBadge status={item.status} />
+                  </td>
                   <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
                     <ProcedureBadge item={item}/>
                   </td>
@@ -177,8 +188,12 @@ export default function EquipmentList({items, onDelete}: EquipmentListProps) {
                       <h3 className="text-sm font-bold">{item.modelNumber}</h3>
                     </Link>
                     <p className="text-sm text-gray-600 dark:text-gray-400">{item.manufacturer}</p>
+                    {item.location && <p className="text-xs text-gray-500 dark:text-gray-500">{item.location}</p>}
                   </div>
-                  <ProcedureBadge item={item}/>
+                  <div className="flex flex-col items-end gap-2">
+                    <ProcedureBadge item={item}/>
+                    <StatusBadge status={item.status} />
+                  </div>
                 </div>
                 {item.description && (
                     <p className="text-sm text-gray-700 dark:text-gray-300">{item.description}</p>
@@ -207,6 +222,22 @@ export default function EquipmentList({items, onDelete}: EquipmentListProps) {
             </div>
         )}
       </div>
+  );
+}
+
+function StatusBadge({status}: { status: EquipmentStatus }) {
+  const colors = {
+    'Active': 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
+    'In Use': 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
+    'Under Repair': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300',
+    'Decommissioned': 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
+    'In Storage': 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-300'
+  };
+
+  return (
+      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${colors[status] || colors.Active}`}>
+      {status}
+    </span>
   );
 }
 

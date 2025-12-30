@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.6] - 2025-12-29
 
+### Added
+- **Advanced Equipment Tracking**:
+    - Added Serial Number and Asset Tag fields to equipment.
+    - Added Location tracking for equipment.
+    - Added Status management (Active, In Use, Under Repair, Decommissioned, In Storage) with color-coded badges.
+    - Updated equipment forms, lists, and detail views to support new fields.
+    - Improved sorting and filtering on the equipment list page.
+
 ### Changed
 - Improved sorting logic on the equipment procedures page to prioritize procedures without performance history.
 - Refined procedure steps display on the performance page for better clarity.
