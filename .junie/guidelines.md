@@ -36,3 +36,4 @@ The project is a Next.js application using the App Router.
 - Always ensure that data persistence logic in `src/lib/equipmentStore.ts` is respected.
 - When adding new features, update both the UI in `src/app/` and the necessary types/logic in `src/types/` and `src/lib/`.
 - If modifying the data structure, ensure backward compatibility with existing JSON data if possible.
+- **Version Management**: Do not bump the project version or run `git tag` unless explicitly instructed by the user.
