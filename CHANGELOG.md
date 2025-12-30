@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.7] - 2025-12-29
+
+### Added
+
+- **Dashboard Calendar View**:
+  - Added a tab bar to the dashboard to toggle between List and Calendar views.
+  - Implemented a monthly calendar view that highlights procedure due dates.
+  - Color-coded calendar entries (blue for scheduled, red for overdue).
+  - Added quick navigation to procedure details from the calendar.
+- **Enhanced Procedure Requirements**:
+  - Added a dedicated field for **Required Tools / PPE** to maintenance procedures with Markdown support.
+  - Displayed pre-requisites on procedure detail and performance pages.
+  - Updated procedure forms to a 2-column layout on larger screens.
+
+### Changed
+
+- Improved display of equipment tracking fields (SN, Asset Tag, Location, Status) across all relevant pages.
+
 ## [0.1.6] - 2025-12-29
 
 ### Added
@@ -14,14 +32,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Added Status management (Active, In Use, Under Repair, Decommissioned, In Storage) with color-coded badges.
     - Updated equipment forms, lists, and detail views to support new fields.
     - Improved sorting and filtering on the equipment list page.
-- **Enhanced Procedure Requirements**:
-    - Added a dedicated field for **Required Tools / PPE** to maintenance procedures with Markdown support.
-    - Displayed pre-requisites on procedure detail and performance pages.
-- **Dashboard Calendar View**:
-    - Added a tab bar to the dashboard to toggle between List and Calendar views.
-    - Implemented a monthly calendar view that highlights procedure due dates.
-    - Color-coded calendar entries (blue for scheduled, red for overdue).
-    - Added quick navigation to procedure details from the calendar.
 
 ### Changed
 - Improved sorting logic on the equipment procedures page to prioritize procedures without performance history.
