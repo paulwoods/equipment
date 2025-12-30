@@ -3,6 +3,7 @@
 import {FormEvent, useEffect, useState} from "react";
 import {useParams, useRouter} from "next/navigation";
 import {addPerformanceAction, fetchEquipment} from "@/app/actions";
+import ReactMarkdown from "react-markdown";
 
 export default function PerformProcedurePage() {
     const {id, procedureId} = useParams() as { id: string; procedureId: string };
@@ -10,6 +11,7 @@ export default function PerformProcedurePage() {
     const [performDate, setPerformDate] = useState(new Date().toISOString().split("T")[0]);
     const [notes, setNotes] = useState("");
     const [procedureName, setProcedureName] = useState("");
+    const [procedureSteps, setProcedureSteps] = useState("");
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -19,6 +21,7 @@ export default function PerformProcedurePage() {
             const procedure = equipment?.procedures?.find((p) => p.id === procedureId);
             if (procedure) {
                 setProcedureName(procedure.name);
+                setProcedureSteps(procedure.steps || "");
             }
             setLoading(false);
         };
@@ -43,6 +46,17 @@ export default function PerformProcedurePage() {
                     <p className="text-gray-600 dark:text-gray-400 mb-6">Procedure: <span
                         className="font-semibold text-black dark:text-white">{procedureName}</span>
                     </p>
+
+                    {procedureSteps && (
+                        <div className="mb-6">
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Procedure
+                                Steps</label>
+                            <div
+                                className="prose prose-sm max-w-none dark:prose-invert bg-gray-50 dark:bg-gray-800/50 p-4 rounded-lg border border-gray-100 dark:border-gray-800">
+                                <ReactMarkdown>{procedureSteps}</ReactMarkdown>
+                            </div>
+                        </div>
+                    )}
 
                     <div className="mb-6">
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Performance
