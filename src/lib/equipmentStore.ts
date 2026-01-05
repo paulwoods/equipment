@@ -2,7 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import {Equipment} from '@/types/equipment';
 
-const DATA_DIR = process.env.EQUIPMENT_DATA_DIR || 'data';
+const DATA_DIR = process.env.APP_DATA_DIR || 'data';
 const DATA_FILE = path.join(process.cwd(), DATA_DIR, 'equipment.json');
 
 async function ensureDataDir() {

@@ -52,7 +52,7 @@ ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
 # Set default data directory
-ENV EQUIPMENT_DATA_DIR=data
+ENV APP_DATA_DIR=data
 
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:3000/ || exit 1

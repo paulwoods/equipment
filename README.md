@@ -4,7 +4,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 The application uses the following environment variables:
 
-- `EQUIPMENT_DATA_DIR`: The directory where the equipment data is stored. Defaults to `data` if not specified.
+- `APP_DATA_DIR`: The directory where the equipment data is stored. Defaults to `data` if not specified.
 - `APP_USERNAME`: The username required for authentication.
 - `APP_PASSWORD`: The password required for authentication.
 
@@ -31,7 +31,7 @@ services:
     ports:
       - "80:3000"
     environment:
-      - EQUIPMENT_DATA_DIR=data
+      - APP_DATA_DIR=data
     volumes:
       - ./data:/app/data
     restart: always
@@ -68,10 +68,10 @@ To persist data, you should mount a volume for the data directory:
 docker run -p 3000:3000 -v $(pwd)/data:/app/data equipment-management
 ```
 
-If you use a different directory via `EQUIPMENT_DATA_DIR`:
+If you use a different directory via `APP_DATA_DIR`:
 
 ```bash
-docker run -p 3000:3000 -e EQUIPMENT_DATA_DIR=mydata -v $(pwd)/mydata:/app/mydata equipment-management
+docker run -p 3000:3000 -e APP_DATA_DIR=mydata -v $(pwd)/mydata:/app/mydata equipment-management
 ```
 
 ## CI/CD with Jenkins
