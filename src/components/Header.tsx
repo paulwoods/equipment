@@ -8,6 +8,7 @@ import {cookies} from "next/headers";
 export default async function Header() {
     const cookieStore = await cookies();
     const isAuthenticated = cookieStore.get("auth_token")?.value === "authenticated";
+    const username = cookieStore.get("username")?.value;
 
     return (
         <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm">
@@ -25,15 +26,23 @@ export default async function Header() {
                 <div className="flex items-center gap-4">
                     <ThemeToggle/>
                     {isAuthenticated && (
-                        <form action={logout}>
-                            <button
-                                type="submit"
-                                className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors"
-                            >
-                                <LogOut className="w-4 h-4"/>
-                                <span className="hidden sm:inline">Logout</span>
-                            </button>
-                        </form>
+                        <div className="flex items-center gap-4 border-l border-gray-200 dark:border-gray-800 pl-4">
+                            <div className="flex flex-col items-end">
+                                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                                    <span className="font-medium text-xs opacity-75">Welcome, </span>
+                                    <span className="font-medium">{username}</span>
+                                </div>
+                                <form action={logout}>
+                                    <button
+                                        type="submit"
+                                        className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                                    >
+                                        <LogOut className="w-4 h-4"/>
+                                        <span className="hidden sm:inline">Logout</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
                     )}
                 </div>
             </div>

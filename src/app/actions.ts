@@ -22,6 +22,12 @@ export async function login(formData: FormData) {
             sameSite: "lax",
             path: "/",
         });
+        cookieStore.set("username", username, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            path: "/",
+        });
         redirect("/");
     } else {
         return {error: "Invalid username or password"};
@@ -31,7 +37,8 @@ export async function login(formData: FormData) {
 export async function logout() {
     const cookieStore = await cookies();
     cookieStore.delete("auth_token");
-    redirect("/login");
+    cookieStore.delete("username");
+    redirect("/");
 }
 
 export async function fetchEquipment() {
