@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.9] - 2026-01-04
+
+### Fixed
+
+- **Authentication**: Fixed an issue where authentication cookies were not persisted in production environments without
+  HTTPS by setting the `secure` flag to `false`.
+
 ## [0.1.8] - 2026-01-04
 
 ### Added
@@ -17,11 +24,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **User Interface Enhancements**:
   - Added a "Welcome, [username]" message and a Logout button to the application header.
   - Updated breadcrumbs to be hidden on the login page.
-
-### Fixed
-
-- **Authentication**: Fixed an issue where authentication cookies were not persisted in production environments without
-  HTTPS by setting the `secure` flag to `false`.
 
 ### Changed
 
