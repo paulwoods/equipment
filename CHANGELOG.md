@@ -18,6 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added a "Welcome, [username]" message and a Logout button to the application header.
   - Updated breadcrumbs to be hidden on the login page.
 
+### Fixed
+
+- **Authentication**: Fixed an issue where authentication cookies were not persisted in production environments without
+  HTTPS by setting the `secure` flag to `false`.
+
 ### Changed
 
 - **Data Configuration**:
