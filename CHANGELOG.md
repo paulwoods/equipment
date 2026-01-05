@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.8] - 2026-01-04
+
+### Added
+
+- **Authentication System**:
+  - Implemented username/password authentication using `APP_USERNAME` and `APP_PASSWORD` environment variables.
+  - Added a login page and logout functionality.
+  - Implemented middleware to protect all routes except the home page.
+  - Added a session-based authentication using secure HTTP-only cookies.
+- **User Interface Enhancements**:
+  - Added a "Welcome, [username]" message and a Logout button to the application header.
+  - Updated breadcrumbs to be hidden on the login page.
+
+### Changed
+
+- **Data Configuration**:
+  - Renamed the environment variable `EQUIPMENT_DATA_DIR` to `APP_DATA_DIR` for better consistency.
+- **Maintenance Logic Improvements**:
+  - Refactored `calculateDueDetails` into a common utility file (`src/lib/procedureUtils.ts`) to reduce code
+    duplication.
+  - Updated due date calculations to use `Math.ceil` for more accurate "days remaining" estimates.
+  - Improved precision in maintenance scheduling by preserving the time setting in date calculations.
+- **Navigation**:
+  - Updated the logout process to redirect users back to the home page.
+
 ## [0.1.7] - 2025-12-29
 
 ### Added

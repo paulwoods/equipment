@@ -53,11 +53,11 @@ docker login
 
 # Tag the image (replace 'paulwoods' with your actual Docker Hub username)
 docker tag equipment-management paulwoods/equipment-management:latest
-docker tag equipment-management paulwoods/equipment-management:0.1.1
+docker tag equipment-management paulwoods/equipment-management:0.1.8
 
 # Push the image
 docker push paulwoods/equipment-management:latest
-docker push paulwoods/equipment-management:0.1.1
+docker push paulwoods/equipment-management:0.1.8
 ```
 
 ### Run the container
