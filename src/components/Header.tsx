@@ -1,8 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import {ThemeToggle} from "@/components/ThemeToggle";
+import {logout} from "@/app/actions";
+import {LogOut} from "lucide-react";
+import {cookies} from "next/headers";
 
-export default function Header() {
+export default async function Header() {
+    const cookieStore = await cookies();
+    const isAuthenticated = cookieStore.get("auth_token")?.value === "authenticated";
+
     return (
         <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm">
             <div className="max-w-4xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex items-center justify-between">
@@ -16,7 +22,20 @@ export default function Header() {
                     />
                     <span className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100 truncate">Equipment Manager</span>
                 </Link>
-                <ThemeToggle/>
+                <div className="flex items-center gap-4">
+                    <ThemeToggle/>
+                    {isAuthenticated && (
+                        <form action={logout}>
+                            <button
+                                type="submit"
+                                className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                            >
+                                <LogOut className="w-4 h-4"/>
+                                <span className="hidden sm:inline">Logout</span>
+                            </button>
+                        </form>
+                    )}
+                </div>
             </div>
         </header>
     );

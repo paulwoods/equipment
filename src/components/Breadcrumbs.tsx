@@ -25,7 +25,7 @@ export default function Breadcrumbs() {
         loadData();
     }, []);
 
-    if (pathname === "/") return null;
+    if (pathname === "/" || pathname === "/login") return null;
 
     const pathSegments = pathname.split("/").filter((segment) => segment !== "");
 

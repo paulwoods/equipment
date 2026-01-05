@@ -5,6 +5,8 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 The application uses the following environment variables:
 
 - `EQUIPMENT_DATA_DIR`: The directory where the equipment data is stored. Defaults to `data` if not specified.
+- `APP_USERNAME`: The username required for authentication.
+- `APP_PASSWORD`: The password required for authentication.
 
 ## Docker
 

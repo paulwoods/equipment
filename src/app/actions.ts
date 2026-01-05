@@ -1,9 +1,38 @@
 "use server";
 
 import {revalidatePath} from "next/cache";
+import {cookies} from "next/headers";
+import {redirect} from "next/navigation";
 import {Equipment} from "@/types/equipment";
 import {Procedure} from "@/types/procedure";
 import {getEquipment, saveEquipment} from "@/lib/equipmentStore";
+
+export async function login(formData: FormData) {
+    const username = formData.get("username") as string;
+    const password = formData.get("password") as string;
+
+    const correctUsername = process.env.APP_USERNAME;
+    const correctPassword = process.env.APP_PASSWORD;
+
+    if (username === correctUsername && password === correctPassword) {
+        const cookieStore = await cookies();
+        cookieStore.set("auth_token", "authenticated", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            path: "/",
+        });
+        redirect("/");
+    } else {
+        return {error: "Invalid username or password"};
+    }
+}
+
+export async function logout() {
+    const cookieStore = await cookies();
+    cookieStore.delete("auth_token");
+    redirect("/login");
+}
 
 export async function fetchEquipment() {
     return await getEquipment();
