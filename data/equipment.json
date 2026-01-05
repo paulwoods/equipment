@@ -82,7 +82,14 @@
         "steps": "1. step 1\n2. step 2\n3. step 3\n4. step 4",
         "requiredTools": "here are the tools\n\n* tool 1\n* tool 2\n* ",
         "intervalDays": 7,
-        "id": "dfisr26"
+        "id": "dfisr26",
+        "history": [
+          {
+            "id": "eoxjwqu",
+            "date": "2026-01-05T00:00:00.000Z",
+            "notes": ""
+          }
+        ]
       },
       {
         "name": "Replace Filter",

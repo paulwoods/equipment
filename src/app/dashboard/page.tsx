@@ -4,6 +4,7 @@ import {useEffect, useMemo, useState} from "react";
 import Link from "next/link";
 import {Equipment} from "@/types/equipment";
 import {Procedure} from "@/types/procedure";
+import {calculateDueDetails} from "@/lib/procedureUtils";
 import {deleteProcedureAction, fetchEquipment} from "../actions";
 import {Calendar as CalendarIcon, ChevronDown, ChevronUp, List, Search, X} from "lucide-react";
 import CalendarView from "@/components/CalendarView";
@@ -214,23 +215,6 @@ export default function Dashboard() {
     );
 }
 
-function calculateDueDetails(proc: Procedure) {
-    if (!proc.history || proc.history.length === 0) return null;
-
-    const latestDate = new Date(Math.max(...proc.history.map(h => new Date(h.date).getTime())));
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    latestDate.setHours(0, 0, 0, 0);
-
-    const diffTime = today.getTime() - latestDate.getTime();
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-
-    const daysTillDue = proc.intervalDays - diffDays;
-    const dueDate = new Date(today);
-    dueDate.setDate(today.getDate() + daysTillDue);
-
-    return {daysTillDue, dueDate};
-}
 
 function DueStatus({details}: { details: ReturnType<typeof calculateDueDetails> }) {
     if (!details) return <span className="text-gray-400 italic text-sm">N/A</span>;
