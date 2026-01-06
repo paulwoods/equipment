@@ -5,8 +5,8 @@ import Link from "next/link";
 import {Equipment} from "@/types/equipment";
 import {Procedure} from "@/types/procedure";
 import {calculateDueDetails} from "@/lib/procedureUtils";
-import {deleteProcedureAction, fetchEquipment} from "../actions";
-import {Calendar as CalendarIcon, ChevronDown, ChevronUp, List, Search, X} from "lucide-react";
+import {deleteProcedureAction, fetchEquipment, sendDashboardEmailAction} from "../actions";
+import {Calendar as CalendarIcon, ChevronDown, ChevronUp, List, Mail, Search, X} from "lucide-react";
 import CalendarView from "@/components/CalendarView";
 
 interface FlattenedProcedure extends Procedure {
@@ -24,6 +24,7 @@ export default function Dashboard() {
     const [sortField, setSortField] = useState<SortField>('daysTillDue');
     const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
     const [activeTab, setActiveTab] = useState<'list' | 'calendar'>('list');
+    const [emailSending, setEmailSending] = useState(false);
 
     const loadData = async () => {
         setLoading(true);
@@ -124,17 +125,38 @@ export default function Dashboard() {
         }
     };
 
+    const handleEmailDashboard = async () => {
+        setEmailSending(true);
+        const result = await sendDashboardEmailAction();
+        setEmailSending(false);
+        if (result.success) {
+            alert("Dashboard email sent successfully!");
+        } else {
+            alert("Failed to send dashboard email: " + result.error);
+        }
+    };
+
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-6xl mx-auto">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
                     <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Dashboard</h1>
-                    <Link
-                        href="/equipment"
-                        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition w-fit"
-                    >
-                        Equipment
-                    </Link>
+                    <div className="flex gap-2">
+                        <button
+                            onClick={handleEmailDashboard}
+                            disabled={emailSending}
+                            className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-700 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition disabled:opacity-50"
+                        >
+                            <Mail className="w-4 h-4"/>
+                            {emailSending ? "Sending..." : "Email Dashboard"}
+                        </button>
+                        <Link
+                            href="/equipment"
+                            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition w-fit"
+                        >
+                            Equipment
+                        </Link>
+                    </div>
                 </div>
 
                 <div className="bg-white dark:bg-gray-900 shadow rounded-lg overflow-hidden">

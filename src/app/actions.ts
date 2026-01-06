@@ -6,6 +6,7 @@ import {redirect} from "next/navigation";
 import {Equipment} from "@/types/equipment";
 import {Procedure} from "@/types/procedure";
 import {getEquipment, saveEquipment} from "@/lib/equipmentStore";
+import {sendDashboardEmail} from "@/lib/emailService";
 
 export async function login(formData: FormData) {
     const username = formData.get("username") as string;
@@ -74,6 +75,17 @@ export async function deleteEquipment(id: string) {
     const filtered = equipment.filter((item) => item.id !== id);
     await saveEquipment(filtered);
     revalidatePath("/");
+}
+
+export async function sendDashboardEmailAction() {
+    try {
+        await sendDashboardEmail();
+        return {success: true};
+    } catch (error: unknown) {
+        console.error("Failed to send dashboard email:", error);
+        const errorMessage = error instanceof Error ? error.message : "Failed to send dashboard email";
+        return {error: errorMessage};
+    }
 }
 
 export async function addProcedureToAction(equipmentId: string, procedureData: Omit<Procedure, "id">) {
