@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-01-05
+
+### Added
+
+- **Dashboard Emailing**: Added a feature to email the dashboard status to a specific user on-demand and on a weekly
+  schedule.
+- **Scheduled Tasks**: Implemented a cron job to send dashboard emails every Saturday at 7:00 AM CST.
+- **Gmail Integration**: Configured the email service to use Google Gmail for reliable delivery.
+
+### Changed
+
+- **Environment Variables**: Renamed SMTP configuration variables to use the `APP_` prefix for consistency.
+
 ## [0.1.9] - 2026-01-04
 
 ### Fixed
