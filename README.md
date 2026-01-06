@@ -7,12 +7,12 @@ The application uses the following environment variables:
 - `APP_DATA_DIR`: The directory where the equipment data is stored. Defaults to `data` if not specified.
 - `APP_USERNAME`: The username required for authentication.
 - `APP_PASSWORD`: The password required for authentication.
-- `APP_SMTP_HOST`: SMTP server hostname.
-- `APP_SMTP_PORT`: SMTP server port (default: 587).
-- `APP_SMTP_SECURE`: 'true' for SSL/TLS (default: false).
-- `APP_SMTP_USER`: SMTP username.
-- `APP_SMTP_PASS`: SMTP password.
+- `APP_SMTP_USER`: Gmail address (e.g., your-email@gmail.com).
+- `APP_SMTP_PASS`: Google App Password (not your regular Gmail password).
 - `APP_SMTP_FROM`: Sender email address (default: "Equipment Management" <noreply@example.com>).
+
+*Note: `APP_SMTP_HOST`, `APP_SMTP_PORT`, and `APP_SMTP_SECURE` are no longer used as the application is configured to
+use the Gmail service directly.*
 
 ## Docker
 

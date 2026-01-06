@@ -84,7 +84,7 @@ export async function sendDashboardEmail() {
     `;
 
     await transporter.sendMail({
-        from: process.env.APP_SMTP_FROM || '"Equipment Management" <noreply@example.com>',
+        from: process.env.APP_SMTP_FROM || '"Equipment Management" <mr.paul.woods@gmail.com>',
         to: recipient,
         subject: `Equipment Maintenance Dashboard - ${new Date().toLocaleDateString()}`,
         html: html,
