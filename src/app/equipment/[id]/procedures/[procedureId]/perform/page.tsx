@@ -39,7 +39,7 @@ export default function PerformProcedurePage() {
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         await addPerformanceAction(id, procedureId, new Date(performDate), notes);
-        router.push(`/equipment/${id}/procedures`);
+        router.push(`/dashboard`);
     };
 
     if (loading) return <div className="p-8 text-center text-black dark:text-white">Loading...</div>;
