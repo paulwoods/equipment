@@ -17,14 +17,29 @@ interface FlattenedProcedure extends Procedure {
 type SortField = 'equipmentName' | 'name' | 'intervalDays' | 'daysTillDue';
 type SortOrder = 'asc' | 'desc';
 
+const STORAGE_KEY = 'dashboard_settings';
+
 export default function Dashboard() {
     const [procedures, setProcedures] = useState<FlattenedProcedure[]>([]);
     const [loading, setLoading] = useState(true);
-    const [searchTerm, setSearchTerm] = useState("");
-    const [sortField, setSortField] = useState<SortField>('daysTillDue');
-    const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
+    const [searchTerm, setSearchTerm] = useState(() => {
+        if (typeof window === 'undefined') return "";
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}').searchTerm ?? "";
+    });
+    const [sortField, setSortField] = useState<SortField>(() => {
+        if (typeof window === 'undefined') return 'daysTillDue';
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}').sortField ?? 'daysTillDue';
+    });
+    const [sortOrder, setSortOrder] = useState<SortOrder>(() => {
+        if (typeof window === 'undefined') return 'asc';
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}').sortOrder ?? 'asc';
+    });
     const [activeTab, setActiveTab] = useState<'list' | 'calendar'>('list');
     const [emailSending, setEmailSending] = useState(false);
+
+    useEffect(() => {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({searchTerm, sortField, sortOrder}));
+    }, [searchTerm, sortField, sortOrder]);
 
     const loadData = async () => {
         setLoading(true);
