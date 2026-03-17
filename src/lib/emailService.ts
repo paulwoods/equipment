@@ -63,9 +63,12 @@ export async function sendDashboardEmail() {
         </tr>
     `).join('');
 
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+
     const html = `
         <h1>Equipment Maintenance Dashboard</h1>
         <p>Current dashboard status as of ${new Date().toLocaleString()}</p>
+        <p><a href="${appUrl}">View Dashboard</a></p>
         <table style="width: 100%; border-collapse: collapse;">
             <thead>
                 <tr style="background-color: #f2f2f2; text-align: left;">
