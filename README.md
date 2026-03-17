@@ -14,6 +14,21 @@ The application uses the following environment variables:
 *Note: `APP_SMTP_HOST`, `APP_SMTP_PORT`, and `APP_SMTP_SECURE` are no longer used as the application is configured to
 use the Gmail service directly.*
 
+### Getting a Google App Password
+
+A Google App Password is required for `APP_SMTP_PASS`. Do **not** use your regular Gmail password.
+
+1. Go to your [Google Account](https://myaccount.google.com) and sign in.
+2. Enable **2-Step Verification** if not already enabled (required for App Passwords):
+    - Navigate to **Security** → **2-Step Verification** and follow the prompts.
+3. Once 2-Step Verification is enabled, go to **Security** → **App passwords**.
+    - You can also navigate directly to [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords).
+4. Under **App name**, enter a name (e.g., `Equipment Management`).
+5. Click **Create**.
+6. Copy the 16-character password shown — this is your `APP_SMTP_PASS` value.
+
+> **Note:** App passwords are only shown once. Store it securely.
+
 ## Docker
 
 You can run the application using Docker.
@@ -35,6 +50,7 @@ services:
   equipment-management:
     image: paulwoods/equipment-management:latest
     ports:
+      -
       - "80:3000"
     environment:
       - APP_DATA_DIR=data
