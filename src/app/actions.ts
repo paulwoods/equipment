@@ -29,7 +29,7 @@ export async function login(formData: FormData) {
             sameSite: "lax",
             path: "/",
         });
-        redirect("/");
+        redirect("/dashboard");
     } else {
         return {error: "Invalid username or password"};
     }
