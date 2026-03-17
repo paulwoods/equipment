@@ -1,5 +1,5 @@
 docker build -t equipment-management .
-docker tag equipment-management paulwoods/equipment-management:0.2.1
+docker tag equipment-management paulwoods/equipment-management:0.2.2
 docker tag equipment-management paulwoods/equipment-management:latest
-docker push paulwoods/equipment-management:0.2.1
+docker push paulwoods/equipment-management:0.2.2
 docker push paulwoods/equipment-management:latest
