@@ -10,6 +10,8 @@ The application uses the following environment variables:
 - `APP_SMTP_USER`: Gmail address (e.g., your-email@gmail.com).
 - `APP_SMTP_PASS`: Google App Password (not your regular Gmail password).
 - `APP_SMTP_FROM`: Sender email address (default: "Equipment Management" <noreply@example.com>).
+- `NEXT_PUBLIC_APP_URL`: The public URL of the application (e.g., `http://localhost:3000`). Used to generate links in
+  emails.
 
 *Note: `APP_SMTP_HOST`, `APP_SMTP_PORT`, and `APP_SMTP_SECURE` are no longer used as the application is configured to
 use the Gmail service directly.*
