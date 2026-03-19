@@ -19,13 +19,13 @@ export async function login(formData: FormData) {
         const cookieStore = await cookies();
         cookieStore.set("auth_token", "authenticated", {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+            secure: false, // Changed from process.env.NODE_ENV === "production" to support non-HTTPS deployments
             sameSite: "lax",
             path: "/",
         });
         cookieStore.set("username", username, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+            secure: false, // Changed from process.env.NODE_ENV === "production" to support non-HTTPS deployments
             sameSite: "lax",
             path: "/",
         });
