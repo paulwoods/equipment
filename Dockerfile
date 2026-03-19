@@ -32,7 +32,7 @@ ENV NODE_ENV=production
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-RUN mkdir -p /app/home && chown nextjs:nodejs /app/home
+RUN mkdir -p /app/home /app/data && chown nextjs:nodejs /app/home /app/data
 
 COPY --from=builder /app/public ./public
 
