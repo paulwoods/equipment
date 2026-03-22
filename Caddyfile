@@ -1,4 +1,0 @@
-equipment.woods.local {
-    tls internal
-    reverse_proxy equipment-management:3000
-}

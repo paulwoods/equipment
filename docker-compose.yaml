@@ -1,16 +1,4 @@
 services:
-  caddy:
-    image: caddy:alpine
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - caddy_data:/data
-      - caddy_config:/config
-    depends_on:
-      - equipment-management
-    restart: always
 
   equipment-management:
     image: paulwoods/equipment-management:latest
@@ -21,7 +9,3 @@ services:
     volumes:
       - ./data:/app/data
     restart: always
-
-volumes:
-  caddy_data:
-  caddy_config:
