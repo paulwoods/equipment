@@ -22,7 +22,7 @@ COPY . .
 RUN npm run build
 
 # Stage 3: Production server
-FROM node:20-alpine AS runner
+FROM node:24-alpine AS runner
 
 RUN chown nextjs:nodejs /app
 
