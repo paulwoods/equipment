@@ -11,8 +11,8 @@ RUN npm install
 # Stage 2: Build the application
 FROM node:20-alpine AS builder
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+COPY --chown=nextjs:nodejs --from=deps /app/node_modules ./node_modules
+COPY --chown=nextjs:nodejs  . .
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
@@ -24,29 +24,31 @@ RUN npm run build
 # Stage 3: Production server
 FROM node:24-alpine AS runner
 
-RUN chown nextjs:nodejs /app
-
-WORKDIR /app
-
 ENV NODE_ENV=production
-# Uncomment the following line in case you want to disable telemetry during runtime.
-# ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-RUN mkdir -p /app/home /app/data && chown nextjs:nodejs /app/home /app/data
+RUN mkdir /app
+RUN chown nextjs:nodejs /app
+
+RUN mkdir /app/home
+RUN chown nextjs:nodejs /app/home
+
+RUN mkdir /app/data
+RUN chown nextjs:nodejs /app/data
 
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 
-# Set the correct permission for prerender cache
-RUN mkdir .next
-RUN chown nextjs:nodejs .next
+RUN mkdir /app/.next
+RUN chown nextjs:nodejs /app/.next
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+WORKDIR /app
 
 USER nextjs
 
