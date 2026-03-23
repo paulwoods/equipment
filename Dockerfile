@@ -23,6 +23,9 @@ RUN npm run build
 
 # Stage 3: Production server
 FROM node:20-alpine AS runner
+
+RUN chown nextjs:nodejs /app
+
 WORKDIR /app
 
 ENV NODE_ENV=production
