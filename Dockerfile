@@ -1,67 +1,30 @@
-# Stage 1: Install dependencies
-FROM node:20-alpine AS deps
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apk add --no-cache libc6-compat
-WORKDIR /app
-
-# Install dependencies based on the preferred package manager
-COPY package.json package-lock.json* ./
-RUN npm install
-
-# Stage 2: Build the application
-FROM node:20-alpine AS builder
-WORKDIR /app
-COPY --chown=nextjs:nodejs --from=deps /app/node_modules ./node_modules
-COPY --chown=nextjs:nodejs  . .
-
-# Next.js collects completely anonymous telemetry data about general usage.
-# Learn more here: https://nextjs.org/telemetry
-# Uncomment the following line in case you want to disable telemetry during the build.
-# ENV NEXT_TELEMETRY_DISABLED 1
-
+# Stage 1: Build Vite frontend
+FROM node:22-alpine AS frontend-builder
+WORKDIR /frontend
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci
+COPY frontend/ ./
 RUN npm run build
 
-# Stage 3: Production server
-FROM node:24-alpine AS runner
-
-ENV NODE_ENV=production
-
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-RUN mkdir /app
-RUN chown nextjs:nodejs /app
-
-RUN mkdir /app/home
-RUN chown nextjs:nodejs /app/home
-
-RUN mkdir /app/data
-RUN chown nextjs:nodejs /app/data
-
-COPY --from=builder --chown=nextjs:nodejs /app/public ./public
-
-RUN mkdir /app/.next
-RUN chown nextjs:nodejs /app/.next
-
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
+# Stage 2: Build Spring Boot backend
+FROM eclipse-temurin:25-jdk AS backend-builder
 WORKDIR /app
+COPY backend/mvnw backend/mvnw.cmd ./
+COPY backend/.mvn ./.mvn
+COPY backend/pom.xml ./
+RUN ./mvnw dependency:go-offline -q
+COPY backend/src ./src
+COPY --from=frontend-builder /frontend/dist ./src/main/resources/static
+RUN ./mvnw package -DskipTests -q
 
-USER nextjs
-
-EXPOSE 3000
-
-ENV PORT=3000
-# set hostname to localhost
-ENV HOSTNAME="0.0.0.0"
-
-# Set default data directory
-ENV APP_DATA_DIR=data
-
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:3000/ || exit 1
-
-CMD ["node", "server.js"]
+# Stage 3: Runtime
+FROM eclipse-temurin:25-jre AS runner
+RUN groupadd --gid 1001 spring && useradd --uid 1001 --gid spring spring
+RUN mkdir /app /data && chown spring:spring /app /data
+WORKDIR /app
+COPY --from=backend-builder --chown=spring:spring /app/target/*.jar app.jar
+USER spring
+EXPOSE 8080
+ENV APP_DATA_DIR=/data
+HEALTHCHECK --interval=30s CMD wget -q --spider http://localhost:8080/actuator/health || exit 1
+ENTRYPOINT ["java", "-jar", "app.jar"]

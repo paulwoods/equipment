@@ -1,0 +1,52 @@
+import {useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import ProcedureForm from "../components/ProcedureForm";
+import {getEquipment, updateProcedure} from "../api/client";
+import type {Procedure} from "../types/procedure";
+import type {Equipment} from "../types/equipment";
+
+export default function EditProcedurePage() {
+    const navigate = useNavigate();
+    const {id, procedureId} = useParams() as { id: string; procedureId: string };
+    const [procedure, setProcedure] = useState<Procedure | null>(null);
+    const [equipment, setEquipment] = useState<Equipment | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        getEquipment(id)
+            .then((eq) => {
+                setEquipment(eq);
+                const proc = eq.procedures?.find((p) => p.id === procedureId);
+                setProcedure(proc || null);
+            })
+            .catch(() => setEquipment(null))
+            .finally(() => setLoading(false));
+    }, [id, procedureId]);
+
+    const handleSubmit = async (data: Omit<Procedure, "id"> | Procedure) => {
+        try {
+            const {id: procId, history, ...rest} = data as Procedure;
+            await updateProcedure(id, procId, rest as Omit<Procedure, "id">);
+            navigate(`/equipment/${id}/procedures`);
+        } catch (error) {
+            console.error("Failed to update procedure:", error);
+            alert("Failed to update procedure.");
+        }
+    };
+
+    if (loading) return <div className="p-8 text-center text-black dark:text-white">Loading...</div>;
+    if (!procedure) return <div className="p-8 text-center text-black dark:text-white">Procedure not found.</div>;
+
+    return (
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-8 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-5xl mx-auto">
+                <ProcedureForm
+                    equipment={equipment || undefined}
+                    procedure={procedure}
+                    onSubmit={handleSubmit}
+                    onCancel={() => navigate(`/equipment/${id}/procedures`)}
+                />
+            </div>
+        </div>
+    );
+}
