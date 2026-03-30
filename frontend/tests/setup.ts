@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
 
+
 // jsdom may not provide a working localStorage in all configurations — ensure it's available
 const localStorageMock = (() => {
     let store: Record<string, string> = {};
