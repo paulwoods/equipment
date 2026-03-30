@@ -1,5 +1,6 @@
 [
   {
+    "id": "nvern0a",
     "manufacturer": "Dell",
     "modelNumber": "G15 5515",
     "serialNumber": "",
@@ -7,26 +8,32 @@
     "location": "Dad's Bedroom",
     "status": "Active",
     "description": "Gaming Laptop",
-    "purchaseDate": "2020-12-28T00:00:00.000Z",
+    "purchaseDate": "2020-12-28",
     "procedures": [
       {
+        "id": "tvmqks2",
         "name": "Clean the Fans",
         "description": "Improves airflow and lowers temperatures.",
         "steps": "1. Open the bottom.\n2. Use compressed air to blow out fans.\n3. Close the bottom.",
+        "requiredTools": null,
         "intervalDays": 90,
-        "id": "tvmqks2",
         "history": [
           {
             "id": "fxqm2yu",
-            "date": "2025-12-28T00:00:00.000Z",
+            "date": "2025-12-28",
+            "notes": ""
+          },
+          {
+            "id": "qa97h68",
+            "date": "2026-03-30",
             "notes": ""
           }
         ]
       }
-    ],
-    "id": "nvern0a"
+    ]
   },
   {
+    "id": "2dbz1lw",
     "manufacturer": "Honeywell",
     "modelNumber": "Heater / AC",
     "serialNumber": "",
@@ -34,39 +41,41 @@
     "location": "Heater Closet",
     "status": "Active",
     "description": "HVAC",
-    "purchaseDate": "2005-12-28T00:00:00.000Z",
+    "purchaseDate": "2005-12-28",
     "procedures": [
       {
+        "id": "k6pyktw",
         "name": "Change the Filter",
         "description": "Filtrete 20x20x4 MPR 1550",
         "steps": "1. Open The furnace\n2. Remove the old filter\n3. Add a new filter\n4. Close the furnace\n5. ",
         "requiredTools": "* tool 111",
         "intervalDays": 90,
-        "id": "k6pyktw"
+        "history": null
       },
       {
+        "id": "o7f1jv3",
         "name": "Clean the condenser coils",
         "description": "",
         "steps": "1. Spay them down",
+        "requiredTools": null,
         "intervalDays": 180,
-        "id": "o7f1jv3",
         "history": [
           {
             "id": "1372qyt",
-            "date": "2025-01-28T00:00:00.000Z",
+            "date": "2025-01-28",
             "notes": ""
           },
           {
             "id": "oqy9479",
-            "date": "2025-12-28T00:00:00.000Z",
+            "date": "2025-12-28",
             "notes": ""
           }
         ]
       }
-    ],
-    "id": "2dbz1lw"
+    ]
   },
   {
+    "id": "iuttjsn",
     "manufacturer": "Narwal",
     "modelNumber": "Freo-Z",
     "serialNumber": "",
@@ -74,51 +83,62 @@
     "location": "Kitchen",
     "status": "Active",
     "description": "Robot Vac",
-    "purchaseDate": "2024-06-28T00:00:00.000Z",
+    "purchaseDate": "2024-06-28",
     "procedures": [
       {
+        "id": "dfisr26",
         "name": "Clean Filter",
         "description": "",
         "steps": "1. step 1\n2. step 2\n3. step 3\n4. step 4",
         "requiredTools": "here are the tools\n\n* tool 1\n* tool 2\n* ",
         "intervalDays": 7,
-        "id": "dfisr26",
         "history": [
           {
             "id": "eoxjwqu",
-            "date": "2026-01-05T00:00:00.000Z",
+            "date": "2026-01-05",
             "notes": ""
           },
           {
             "id": "giextwd",
-            "date": "2026-03-17T00:00:00.000Z",
+            "date": "2026-03-17",
             "notes": ""
           },
           {
             "id": "mk67nm9",
-            "date": "2026-03-17T00:00:00.000Z",
+            "date": "2026-03-17",
+            "notes": ""
+          },
+          {
+            "id": "zgdnhoi",
+            "date": "2026-03-30",
             "notes": ""
           }
         ]
       },
       {
+        "id": "w5icm1z",
         "name": "Replace Filter",
         "description": "",
         "steps": "blah...",
+        "requiredTools": null,
         "intervalDays": 90,
-        "id": "w5icm1z",
         "history": [
           {
             "id": "hecn1ib",
-            "date": "2025-12-28T00:00:00.000Z",
+            "date": "2025-12-28",
+            "notes": ""
+          },
+          {
+            "id": "j8vhyo5",
+            "date": "2026-03-30",
             "notes": ""
           }
         ]
       }
-    ],
-    "id": "iuttjsn"
+    ]
   },
   {
+    "id": "0v9y9jw",
     "manufacturer": "Bambu Labs",
     "modelNumber": "X1C",
     "serialNumber": "",
@@ -126,8 +146,7 @@
     "location": "Hobby Room",
     "status": "Active",
     "description": "3D Printer",
-    "purchaseDate": "2023-06-28T00:00:00.000Z",
-    "procedures": [],
-    "id": "0v9y9jw"
+    "purchaseDate": "2023-06-28",
+    "procedures": []
   }
 ]
