@@ -148,5 +148,17 @@
     "description": "3D Printer",
     "purchaseDate": "2023-06-28",
     "procedures": []
+  },
+  {
+    "id": "5qvhdxr",
+    "manufacturer": "aa",
+    "modelNumber": "bb",
+    "serialNumber": "cc",
+    "assetTag": "dd",
+    "location": "ee",
+    "status": "In Use",
+    "description": "ff",
+    "purchaseDate": "2026-03-31",
+    "procedures": []
   }
 ]
