@@ -21,6 +21,7 @@ import ProcedureShowPage from './pages/ProcedureShowPage';
 import EditProcedurePage from './pages/EditProcedurePage';
 import PerformProcedurePage from './pages/PerformProcedurePage';
 import ProcedureHistoryPage from './pages/ProcedureHistoryPage';
+import ImportEquipmentPage from './pages/ImportEquipmentPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 
@@ -97,6 +98,9 @@ export default function App() {
                         }/>
                         <Route path="/equipment/new" element={
                             username ? <Layout><NewEquipmentPage/></Layout> : <Navigate to="/login" replace/>
+                        }/>
+                        <Route path="/equipment/import" element={
+                            username ? <Layout><ImportEquipmentPage/></Layout> : <Navigate to="/login" replace/>
                         }/>
                         <Route path="/equipment/:id" element={
                             username ? <Layout><EquipmentShowPage/></Layout> : <Navigate to="/login" replace/>

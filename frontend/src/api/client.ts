@@ -1,4 +1,4 @@
-import type {Equipment} from "../types/equipment";
+import type {Equipment, ImportResult} from "../types/equipment";
 import type {Procedure} from "../types/procedure";
 
 const api = async (path: string, opts?: RequestInit) => {
@@ -67,6 +67,17 @@ export const updateEquipment = (id: string, data: Omit<Equipment, 'id'>): Promis
 
 export const deleteEquipment = (id: string): Promise<void> =>
     api(`/api/equipment/${id}`, {method: 'DELETE'}).then(() => undefined);
+
+export const importEquipment = async (file: File): Promise<ImportResult> => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const res = await api('/api/equipment/import', {method: 'POST', body: formData});
+    if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text || `Import failed: ${res.status}`);
+    }
+    return res.json();
+};
 
 // Procedures
 export const fetchProcedures = (equipmentId: string): Promise<Procedure[]> =>

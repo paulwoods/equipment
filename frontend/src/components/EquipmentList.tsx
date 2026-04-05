@@ -91,6 +91,12 @@ export default function EquipmentList({items, onDelete}: EquipmentListProps) {
                         )}
                     </div>
                     <Link
+                        to="/equipment/import"
+                        className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition flex items-center justify-center whitespace-nowrap"
+                    >
+                        Import
+                    </Link>
+                    <Link
                         to="/equipment/new"
                         className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition flex items-center justify-center whitespace-nowrap"
                     >
