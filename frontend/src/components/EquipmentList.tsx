@@ -59,13 +59,6 @@ export default function EquipmentList({items, onDelete}: EquipmentListProps) {
         }
     };
 
-    const SortIndicator = ({field}: { field: SortField }) => {
-        if (sortField !== field) return <div className="w-4 h-4 ml-1 inline-block"/>;
-        return sortOrder === 'asc' ?
-            <ChevronUp className="w-4 h-4 ml-1 inline-block"/> :
-            <ChevronDown className="w-4 h-4 ml-1 inline-block"/>;
-    };
-
     return (
         <div className="space-y-4">
             <div className="px-4 md:px-6 pt-4">
@@ -113,31 +106,33 @@ export default function EquipmentList({items, onDelete}: EquipmentListProps) {
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
                             onClick={() => handleSort('modelNumber')}
                         >
-                            Model Number <SortIndicator field="modelNumber"/>
+                            Model Number <SortIndicator field="modelNumber" sortField={sortField}
+                                                        sortOrder={sortOrder}/>
                         </th>
                         <th
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
                             onClick={() => handleSort('manufacturer')}
                         >
-                            Manufacturer <SortIndicator field="manufacturer"/>
+                            Manufacturer <SortIndicator field="manufacturer" sortField={sortField}
+                                                        sortOrder={sortOrder}/>
                         </th>
                         <th
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
                             onClick={() => handleSort('location')}
                         >
-                            Location <SortIndicator field="location"/>
+                            Location <SortIndicator field="location" sortField={sortField} sortOrder={sortOrder}/>
                         </th>
                         <th
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
                             onClick={() => handleSort('status')}
                         >
-                            Status <SortIndicator field="status"/>
+                            Status <SortIndicator field="status" sortField={sortField} sortOrder={sortOrder}/>
                         </th>
                         <th
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
                             onClick={() => handleSort('procedures')}
                         >
-                            Procedures <SortIndicator field="procedures"/>
+                            Procedures <SortIndicator field="procedures" sortField={sortField} sortOrder={sortOrder}/>
                         </th>
                         <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
                     </tr>
@@ -225,6 +220,17 @@ export default function EquipmentList({items, onDelete}: EquipmentListProps) {
             )}
         </div>
     );
+}
+
+function SortIndicator({field, sortField, sortOrder}: {
+    field: SortField;
+    sortField: SortField;
+    sortOrder: SortOrder;
+}) {
+    if (sortField !== field) return <div className="w-4 h-4 ml-1 inline-block"/>;
+    return sortOrder === 'asc'
+        ? <ChevronUp className="w-4 h-4 ml-1 inline-block"/>
+        : <ChevronDown className="w-4 h-4 ml-1 inline-block"/>;
 }
 
 function StatusBadge({status}: { status: EquipmentStatus }) {
