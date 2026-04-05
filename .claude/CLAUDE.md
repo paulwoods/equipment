@@ -37,3 +37,8 @@ The frontend is a React app running typescript and built using vite
 - Use TypeScript.
 - Use Vite for development.
 - Use ESLint for linting.
+
+### Actions
+
+- after making code changes, verify there are no eslint errors or typescript errors.
+
