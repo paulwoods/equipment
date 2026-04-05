@@ -31,8 +31,8 @@ export default function EquipmentList({items, onDelete}: EquipmentListProps) {
         }
 
         result.sort((a, b) => {
-            let aValue: any;
-            let bValue: any;
+            let aValue: string | number;
+            let bValue: string | number;
 
             if (sortField === 'procedures') {
                 aValue = a.procedures?.length || 0;
