@@ -29,7 +29,8 @@ docker build \
   --platform linux/amd64 \
   -t "paulwoods/equipment-frontend:${VERSION}" \
   -t "paulwoods/equipment-frontend:latest" \
-  ./nginx
+  -f ./nginx/Dockerfile \
+  .
 docker push "paulwoods/equipment-frontend:${VERSION}"
 docker push "paulwoods/equipment-frontend:latest"
 
