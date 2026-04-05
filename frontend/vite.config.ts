@@ -10,14 +10,14 @@ export default defineConfig({
             '/api': 'http://localhost:8080'
         }
     },
-    test: {
-        environment: 'jsdom',
-        globals: true,
-        setupFiles: ['./tests/setup.ts'],
-        environmentOptions: {
-            jsdom: {
-                url: 'http://localhost',
-            },
-        },
-    },
+    // test: {
+    //     environment: 'jsdom',
+    //     globals: true,
+    //     setupFiles: ['./tests/setup.ts'],
+    //     environmentOptions: {
+    //         jsdom: {
+    //             url: 'http://localhost',
+    //         },
+    //     },
+    // },
 })
