@@ -1,12 +1,16 @@
 import {useState} from "react";
-import {login} from "../api/client";
+import {setupAdmin} from "../api/client";
 import {Lock, Mail} from "lucide-react";
-import {useAuth} from "../hooks/useAuth";
+import {useNavigate} from "react-router-dom";
 
-export default function LoginPage() {
+interface SetupPageProps {
+    onSetupComplete: (email: string) => void;
+}
+
+export default function SetupPage({onSetupComplete}: SetupPageProps) {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
-    const {setAuthenticated} = useAuth();
+    const navigate = useNavigate();
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -18,16 +22,20 @@ export default function LoginPage() {
         const password = formData.get("password") as string;
 
         try {
-            const res = await login(email, password);
+            const res = await setupAdmin(email, password);
             if (res.ok) {
-                setAuthenticated(true);
-                window.location.href = '/';
+                onSetupComplete(email);
+                window.location.href = '/dashboard';
+            } else if (res.status === 409) {
+                setError("Setup already completed. Redirecting to login...");
+                setTimeout(() => navigate('/login', {replace: true}), 2000);
+                setLoading(false);
             } else {
-                setError("Invalid email or password");
+                setError("Setup failed. Please try again.");
                 setLoading(false);
             }
         } catch {
-            setError("Login failed. Please try again.");
+            setError("Setup failed. Please try again.");
             setLoading(false);
         }
     }
@@ -38,10 +46,10 @@ export default function LoginPage() {
                 className="max-w-md w-full space-y-8 bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
                 <div>
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-gray-100">
-                        Sign in to your account
+                        Welcome
                     </h2>
                     <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
-                        Please enter your email and password
+                        Create your admin account to get started
                     </p>
                 </div>
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -65,8 +73,9 @@ export default function LoginPage() {
                                     name="email"
                                     type="email"
                                     required
+                                    autoFocus
                                     className="appearance-none rounded-md relative block w-full px-10 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                                    placeholder="Email address"
+                                    placeholder="Admin email address"
                                 />
                             </div>
                         </div>
@@ -96,7 +105,7 @@ export default function LoginPage() {
                             disabled={loading}
                             className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {loading ? "Signing in..." : "Sign in"}
+                            {loading ? "Creating account..." : "Create admin account"}
                         </button>
                     </div>
                 </form>

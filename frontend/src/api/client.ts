@@ -26,10 +26,13 @@ const jsonBody = (method: string, data: unknown) => ({
 });
 
 // Auth
-export const login = (username: string, password: string) => {
-    const params = new URLSearchParams({username, password});
-    return api('/api/auth/login', {method: 'POST', body: params});
-};
+export const login = (email: string, password: string) =>
+    fetch('/api/auth/login', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({email, password}),
+    });
 
 export const logout = () => api('/api/auth/logout', {method: 'POST'});
 
@@ -37,6 +40,18 @@ export const getMe = () =>
     fetch('/api/auth/me', {credentials: 'include'}).then(res => {
         if (!res.ok) throw new Error('Unauthorized');
         return res.json();
+    });
+
+// Setup
+export const getSetupStatus = (): Promise<{ setupRequired: boolean }> =>
+    fetch('/api/setup/status', {credentials: 'include'}).then(res => res.json());
+
+export const setupAdmin = (email: string, password: string) =>
+    fetch('/api/setup', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({email, password}),
     });
 
 // Equipment

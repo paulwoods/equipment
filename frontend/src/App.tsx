@@ -2,13 +2,14 @@ import {useEffect, useState} from 'react';
 import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
 import {ThemeProvider} from './components/ThemeProvider';
 import {AuthContext} from './hooks/useAuth';
-import {getMe} from './api/client';
+import {getMe, getSetupStatus} from './api/client';
 import Header from './components/Header';
 import Breadcrumbs from './components/Breadcrumbs';
 import Footer from './components/Footer';
 
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
+import SetupPage from './pages/SetupPage';
 import DashboardPage from './pages/DashboardPage';
 import EquipmentPage from './pages/EquipmentPage';
 import NewEquipmentPage from './pages/NewEquipmentPage';
@@ -41,19 +42,21 @@ function Layout({children}: { children: React.ReactNode }) {
 export default function App() {
     const [username, setUsername] = useState<string | null>(null);
     const [authChecked, setAuthChecked] = useState(false);
+    const [setupRequired, setSetupRequired] = useState(false);
 
     useEffect(() => {
-        getMe()
-            .then((data) => setUsername(data.username))
-            .catch(() => setUsername(null))
-            .finally(() => setAuthChecked(true));
+        Promise.all([
+            getMe().then((data) => setUsername(data.email)).catch(() => setUsername(null)),
+            getSetupStatus().then((data) => setSetupRequired(data.setupRequired)).catch(() => {
+            }),
+        ]).finally(() => setAuthChecked(true));
     }, []);
 
     const setAuthenticated = (authenticated: boolean) => {
         if (!authenticated) {
             setUsername(null);
         } else {
-            getMe().then((data) => setUsername(data.username)).catch(() => setUsername(null));
+            getMe().then((data) => setUsername(data.email)).catch(() => setUsername(null));
         }
     };
 
@@ -66,7 +69,21 @@ export default function App() {
             <AuthContext.Provider value={{username, setAuthenticated}}>
                 <BrowserRouter>
                     <Routes>
-                        <Route path="/login" element={<LoginPage/>}/>
+                        <Route path="/login" element={
+                            setupRequired
+                                ? <Navigate to="/setup" replace/>
+                                : <LoginPage/>
+                        }/>
+                        <Route path="/setup" element={
+                            !setupRequired
+                                ? <Navigate to="/login" replace/>
+                                : username
+                                    ? <Navigate to="/dashboard" replace/>
+                                    : <SetupPage onSetupComplete={(email) => {
+                                        setSetupRequired(false);
+                                        setUsername(email);
+                                    }}/>
+                        }/>
                         <Route path="/" element={
                             <Layout>
                                 <HomePage/>
