@@ -10,5 +10,23 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  backend:
+    image: paulwoods/equipment-backend:latest
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/equipment
+      SPRING_DATASOURCE_USERNAME: equipment
+      SPRING_DATASOURCE_PASSWORD: equipment
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+  frontend:
+    image: paulwoods/equipment-frontend:latest
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
 volumes:
   postgres_data:
