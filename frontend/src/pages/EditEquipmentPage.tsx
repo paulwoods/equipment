@@ -19,7 +19,7 @@ export default function EditEquipmentPage() {
 
     const handleSubmit = async (data: Equipment | Omit<Equipment, "id">) => {
         if ("id" in data) {
-            const {id: equipId, procedures, ...rest} = data as Equipment;
+            const {id: equipId, ...rest} = data as Equipment;
             await updateEquipment(equipId, rest as Omit<Equipment, "id">);
             navigate("/equipment");
         }

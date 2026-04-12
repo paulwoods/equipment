@@ -13,6 +13,17 @@ interface ProcedureListProps {
 type SortField = 'name' | 'description' | 'intervalDays' | 'daysTillDue';
 type SortOrder = 'asc' | 'desc';
 
+function SortIndicator({field, sortField, sortOrder}: {
+    field: SortField;
+    sortField: SortField;
+    sortOrder: SortOrder
+}) {
+    if (sortField !== field) return <div className="w-4 h-4 ml-1 inline-block"/>;
+    return sortOrder === 'asc' ?
+        <ChevronUp className="w-4 h-4 ml-1 inline-block"/> :
+        <ChevronDown className="w-4 h-4 ml-1 inline-block"/>;
+}
+
 export default function ProcedureList({equipmentId, procedures, onDelete}: ProcedureListProps) {
     const [searchTerm, setSearchTerm] = useState("");
     const [sortField, setSortField] = useState<SortField>('name');
@@ -36,8 +47,8 @@ export default function ProcedureList({equipmentId, procedures, onDelete}: Proce
             if (aDue === null && bDue !== null) return -1;
             if (aDue !== null && bDue === null) return 1;
 
-            let aValue: any;
-            let bValue: any;
+            let aValue: string | number;
+            let bValue: string | number;
 
             if (sortField === 'daysTillDue') {
                 aValue = aDue?.daysTillDue ?? 0;
@@ -67,12 +78,6 @@ export default function ProcedureList({equipmentId, procedures, onDelete}: Proce
         }
     };
 
-    const SortIndicator = ({field}: { field: SortField }) => {
-        if (sortField !== field) return <div className="w-4 h-4 ml-1 inline-block"/>;
-        return sortOrder === 'asc' ?
-            <ChevronUp className="w-4 h-4 ml-1 inline-block"/> :
-            <ChevronDown className="w-4 h-4 ml-1 inline-block"/>;
-    };
 
     return (
         <div className="space-y-4">
@@ -107,25 +112,26 @@ export default function ProcedureList({equipmentId, procedures, onDelete}: Proce
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
                             onClick={() => handleSort('name')}
                         >
-                            Name <SortIndicator field="name"/>
+                            Name <SortIndicator field="name" sortField={sortField} sortOrder={sortOrder}/>
                         </th>
                         <th
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
                             onClick={() => handleSort('description')}
                         >
-                            Description <SortIndicator field="description"/>
+                            Description <SortIndicator field="description" sortField={sortField} sortOrder={sortOrder}/>
                         </th>
                         <th
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
                             onClick={() => handleSort('intervalDays')}
                         >
-                            Interval <SortIndicator field="intervalDays"/>
+                            Interval <SortIndicator field="intervalDays" sortField={sortField} sortOrder={sortOrder}/>
                         </th>
                         <th
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
                             onClick={() => handleSort('daysTillDue')}
                         >
-                            Days Till Due <SortIndicator field="daysTillDue"/>
+                            Days Till Due <SortIndicator field="daysTillDue" sortField={sortField}
+                                                         sortOrder={sortOrder}/>
                         </th>
                         <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
                     </tr>

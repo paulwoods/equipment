@@ -47,7 +47,7 @@ export default function App() {
 
     useEffect(() => {
         Promise.all([
-            getMe().then((data) => setUsername(data.email)).catch(() => setUsername(null)),
+            getMe().then((data) => setUsername(data.username)).catch(() => setUsername(null)),
             getSetupStatus().then((data) => setSetupRequired(data.setupRequired)).catch(() => {
             }),
         ]).finally(() => setAuthChecked(true));
@@ -57,7 +57,7 @@ export default function App() {
         if (!authenticated) {
             setUsername(null);
         } else {
-            getMe().then((data) => setUsername(data.email)).catch(() => setUsername(null));
+            getMe().then((data) => setUsername(data.username)).catch(() => setUsername(null));
         }
     };
 

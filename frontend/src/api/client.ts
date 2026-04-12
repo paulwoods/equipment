@@ -26,12 +26,11 @@ const jsonBody = (method: string, data: unknown) => ({
 });
 
 // Auth
-export const login = (email: string, password: string) =>
+export const login = (username: string, password: string) =>
     fetch('/api/auth/login', {
         method: 'POST',
         credentials: 'include',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({email, password}),
+        body: new URLSearchParams({username, password}),
     });
 
 export const logout = () => api('/api/auth/logout', {method: 'POST'});

@@ -25,7 +25,7 @@ export default function EditProcedurePage() {
 
     const handleSubmit = async (data: Omit<Procedure, "id"> | Procedure) => {
         try {
-            const {id: procId, history, ...rest} = data as Procedure;
+            const {id: procId, ...rest} = data as Procedure;
             await updateProcedure(id, procId, rest as Omit<Procedure, "id">);
             navigate(`/equipment/${id}/procedures`);
         } catch (error) {

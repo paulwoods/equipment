@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {login} from "../api/client";
-import {Lock, Mail} from "lucide-react";
+import {Lock, User} from "lucide-react";
 import {useAuth} from "../hooks/useAuth";
 
 export default function LoginPage() {
@@ -14,16 +14,16 @@ export default function LoginPage() {
         setError(null);
 
         const formData = new FormData(event.currentTarget);
-        const email = formData.get("email") as string;
+        const username = formData.get("username") as string;
         const password = formData.get("password") as string;
 
         try {
-            const res = await login(email, password);
+            const res = await login(username, password);
             if (res.ok) {
                 setAuthenticated(true);
                 window.location.href = '/';
             } else {
-                setError("Invalid email or password");
+                setError("Invalid username or password");
                 setLoading(false);
             }
         } catch {
@@ -41,7 +41,7 @@ export default function LoginPage() {
                         Sign in to your account
                     </h2>
                     <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
-                        Please enter your email and password
+                        Please enter your username and password
                     </p>
                 </div>
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -53,20 +53,20 @@ export default function LoginPage() {
                     )}
                     <div className="rounded-md shadow-sm space-y-4">
                         <div>
-                            <label htmlFor="email" className="sr-only">
-                                Email
+                            <label htmlFor="username" className="sr-only">
+                                Username
                             </label>
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <Mail className="h-5 w-5 text-gray-400"/>
+                                    <User className="h-5 w-5 text-gray-400"/>
                                 </div>
                                 <input
-                                    id="email"
-                                    name="email"
-                                    type="email"
+                                    id="username"
+                                    name="username"
+                                    type="text"
                                     required
                                     className="appearance-none rounded-md relative block w-full px-10 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                                    placeholder="Email address"
+                                    placeholder="Username"
                                 />
                             </div>
                         </div>

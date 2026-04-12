@@ -43,31 +43,35 @@ export default function DashboardPage() {
     });
     const [activeTab, setActiveTab] = useState<'list' | 'calendar'>('list');
     const [emailSending, setEmailSending] = useState(false);
+    const [refreshCount, setRefreshCount] = useState(0);
 
     useEffect(() => {
         localStorage.setItem(STORAGE_KEY, JSON.stringify({searchTerm, sortField, sortOrder}));
     }, [searchTerm, sortField, sortOrder]);
 
-    const loadData = async () => {
-        setLoading(true);
-        const allEquipment = await fetchEquipment();
-        const flattened: FlattenedProcedure[] = [];
-
-        allEquipment.forEach((eq: Equipment) => {
-            if (eq.procedures) {
-                eq.procedures.forEach((proc: Procedure) => {
-                    flattened.push({
-                        ...proc,
-                        equipmentId: eq.id,
-                        equipmentName: `${eq.manufacturer} ${eq.modelNumber}`
+    useEffect(() => {
+        let cancelled = false;
+        fetchEquipment().then((allEquipment) => {
+            if (cancelled) return;
+            const flattened: FlattenedProcedure[] = [];
+            allEquipment.forEach((eq: Equipment) => {
+                if (eq.procedures) {
+                    eq.procedures.forEach((proc: Procedure) => {
+                        flattened.push({
+                            ...proc,
+                            equipmentId: eq.id,
+                            equipmentName: `${eq.manufacturer} ${eq.modelNumber}`
+                        });
                     });
-                });
-            }
+                }
+            });
+            setProcedures(flattened);
+            setLoading(false);
         });
-
-        setProcedures(flattened);
-        setLoading(false);
-    };
+        return () => {
+            cancelled = true;
+        };
+    }, [refreshCount]);
 
     const calendarEvents = useMemo(() => {
         return procedures.map(proc => {
@@ -102,8 +106,8 @@ export default function DashboardPage() {
             if (aDue === null && bDue !== null) return -1;
             if (aDue !== null && bDue === null) return 1;
 
-            let aValue: any;
-            let bValue: any;
+            let aValue: string | number;
+            let bValue: string | number;
 
             if (sortField === 'daysTillDue') {
                 aValue = aDue?.daysTillDue ?? 0;
@@ -133,14 +137,10 @@ export default function DashboardPage() {
         }
     };
 
-    useEffect(() => {
-        loadData();
-    }, []);
-
     const handleDelete = async (equipmentId: string, procedureId: string) => {
         if (confirm("Are you sure you want to delete this procedure?")) {
             await deleteProcedure(equipmentId, procedureId);
-            await loadData();
+            setRefreshCount(c => c + 1);
         }
     };
 
@@ -271,6 +271,17 @@ function DueStatus({details}: { details: ReturnType<typeof calculateDueDetails> 
     );
 }
 
+function DashboardSortIndicator({field, sortField, sortOrder}: {
+    field: SortField;
+    sortField: SortField;
+    sortOrder: SortOrder
+}) {
+    if (sortField !== field) return <div className="w-4 h-4 ml-1 inline-block"/>;
+    return sortOrder === 'asc' ?
+        <ChevronUp className="w-4 h-4 ml-1 inline-block"/> :
+        <ChevronDown className="w-4 h-4 ml-1 inline-block"/>;
+}
+
 function DashboardList({procedures, onDelete, sortField, sortOrder, onSort}: {
     procedures: FlattenedProcedure[],
     onDelete: (eqId: string, procId: string) => void,
@@ -278,13 +289,6 @@ function DashboardList({procedures, onDelete, sortField, sortOrder, onSort}: {
     sortOrder: SortOrder,
     onSort: (field: SortField) => void
 }) {
-    const SortIndicator = ({field}: { field: SortField }) => {
-        if (sortField !== field) return <div className="w-4 h-4 ml-1 inline-block"/>;
-        return sortOrder === 'asc' ?
-            <ChevronUp className="w-4 h-4 ml-1 inline-block"/> :
-            <ChevronDown className="w-4 h-4 ml-1 inline-block"/>;
-    };
-
     return (
         <div>
             <div className="hidden md:block overflow-x-auto">
@@ -295,25 +299,28 @@ function DashboardList({procedures, onDelete, sortField, sortOrder, onSort}: {
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
                             onClick={() => onSort('equipmentName')}
                         >
-                            Equipment <SortIndicator field="equipmentName"/>
+                            Equipment <DashboardSortIndicator field="equipmentName" sortField={sortField}
+                                                              sortOrder={sortOrder}/>
                         </th>
                         <th
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
                             onClick={() => onSort('name')}
                         >
-                            Procedure <SortIndicator field="name"/>
+                            Procedure <DashboardSortIndicator field="name" sortField={sortField} sortOrder={sortOrder}/>
                         </th>
                         <th
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
                             onClick={() => onSort('intervalDays')}
                         >
-                            Interval <SortIndicator field="intervalDays"/>
+                            Interval <DashboardSortIndicator field="intervalDays" sortField={sortField}
+                                                             sortOrder={sortOrder}/>
                         </th>
                         <th
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
                             onClick={() => onSort('daysTillDue')}
                         >
-                            Due In <SortIndicator field="daysTillDue"/>
+                            Due In <DashboardSortIndicator field="daysTillDue" sortField={sortField}
+                                                           sortOrder={sortOrder}/>
                         </th>
                         <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
                     </tr>
