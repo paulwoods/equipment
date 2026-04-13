@@ -1,0 +1,5 @@
+# Per-host state — never commit
+postgres_data/
+caddy_data/
+caddy_config/
+.env
