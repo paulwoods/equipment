@@ -6,7 +6,7 @@ services:
     ports:
       - "127.0.0.1:5432:5432"
     volumes:
-      - ./postgres_data:/var/lib/postgresql/data
+      - ./postgres-data:/var/lib/postgresql
     restart: unless-stopped
     logging:
       driver: json-file
@@ -18,8 +18,8 @@ services:
     image: paulwoods/equipment-backend:latest
     env_file:
       - .env
-    ports:
-      - "127.0.0.1:8080:8080"
+    #   ports:
+    #     - "127.0.0.1:8080:8080"
     depends_on:
       - postgres
     restart: unless-stopped
@@ -31,8 +31,8 @@ services:
 
   frontend:
     image: paulwoods/equipment-frontend:latest
-    ports:
-      - "127.0.0.1:80:80"
+    #    ports:
+    #      - "127.0.0.1:80:81"
     depends_on:
       - backend
     restart: unless-stopped

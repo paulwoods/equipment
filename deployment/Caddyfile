@@ -1,8 +1,9 @@
 {
-	email {$CADDY_EMAIL}
+	email mr.paul.woods@gmail.com
 }
 
-{$CADDY_DOMAIN} {
+mrpaulwoods.com {
+
 	encode zstd gzip
 
 	handle /api/* {
