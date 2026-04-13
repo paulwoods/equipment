@@ -47,15 +47,16 @@ describe('client', () => {
     // ─── Auth ──────────────────────────────────────────────────────────────
 
     describe('login', () => {
-        it('POSTs to /api/auth/login with form-encoded credentials', async () => {
+        it('POSTs to /api/auth/login with JSON credentials', async () => {
             mockFetch.mockResolvedValue(makeResponse(null));
-            await login('user', 'pass');
+            await login('user@example.com', 'pass');
 
             expect(mockFetch).toHaveBeenCalledOnce();
             const [url, opts] = mockFetch.mock.calls[0];
             expect(url).toBe('/api/auth/login');
             expect(opts.method).toBe('POST');
-            expect(opts.body.toString()).toBe('username=user&password=pass');
+            expect(opts.headers['Content-Type']).toBe('application/json');
+            expect(opts.body).toBe(JSON.stringify({email: 'user@example.com', password: 'pass'}));
         });
     });
 
