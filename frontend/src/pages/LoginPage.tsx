@@ -14,11 +14,11 @@ export default function LoginPage() {
         setError(null);
 
         const formData = new FormData(event.currentTarget);
-        const username = formData.get("username") as string;
+        const email = formData.get("email") as string;
         const password = formData.get("password") as string;
 
         try {
-            const res = await login(username, password);
+            const res = await login(email, password);
             if (res.ok) {
                 setAuthenticated(true);
                 window.location.href = '/';
@@ -41,7 +41,7 @@ export default function LoginPage() {
                         Sign in to your account
                     </h2>
                     <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
-                        Please enter your username and password
+                        Please enter your email and password
                     </p>
                 </div>
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -53,20 +53,20 @@ export default function LoginPage() {
                     )}
                     <div className="rounded-md shadow-sm space-y-4">
                         <div>
-                            <label htmlFor="username" className="sr-only">
-                                Username
+                            <label htmlFor="email" className="sr-only">
+                                Email
                             </label>
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <User className="h-5 w-5 text-gray-400"/>
                                 </div>
                                 <input
-                                    id="username"
-                                    name="username"
-                                    type="text"
+                                    id="email"
+                                    name="email"
+                                    type="email"
                                     required
                                     className="appearance-none rounded-md relative block w-full px-10 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                                    placeholder="Username"
+                                    placeholder="Email"
                                 />
                             </div>
                         </div>

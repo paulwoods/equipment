@@ -28,9 +28,9 @@ describe('LoginPage', () => {
         expect(screen.getByRole('heading', {name: /Sign in to your account/i})).toBeInTheDocument();
     });
 
-    it('renders username and password inputs', () => {
+    it('renders email and password inputs', () => {
         renderPage();
-        expect(screen.getByPlaceholderText('Username')).toBeInTheDocument();
+        expect(screen.getByPlaceholderText('Email')).toBeInTheDocument();
         expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
     });
 
@@ -44,13 +44,13 @@ describe('LoginPage', () => {
         mockLogin.mockResolvedValue({ok: true});
         renderPage(setAuthenticated);
 
-        await userEvent.type(screen.getByPlaceholderText('Username'), 'alice');
+        await userEvent.type(screen.getByPlaceholderText('Email'), 'alice@example.com');
         await userEvent.type(screen.getByPlaceholderText('Password'), 'secret');
         await act(async () => {
             await userEvent.click(screen.getByRole('button', {name: /Sign in/i}));
         });
 
-        expect(mockLogin).toHaveBeenCalledWith('alice', 'secret');
+        expect(mockLogin).toHaveBeenCalledWith('alice@example.com', 'secret');
         expect(setAuthenticated).toHaveBeenCalledWith(true);
     });
 
@@ -58,7 +58,7 @@ describe('LoginPage', () => {
         mockLogin.mockResolvedValue({ok: false});
         renderPage();
 
-        await userEvent.type(screen.getByPlaceholderText('Username'), 'alice');
+        await userEvent.type(screen.getByPlaceholderText('Email'), 'alice@example.com');
         await userEvent.type(screen.getByPlaceholderText('Password'), 'wrong');
         await act(async () => {
             await userEvent.click(screen.getByRole('button', {name: /Sign in/i}));
@@ -71,7 +71,7 @@ describe('LoginPage', () => {
         mockLogin.mockRejectedValue(new Error('network error'));
         renderPage();
 
-        await userEvent.type(screen.getByPlaceholderText('Username'), 'alice');
+        await userEvent.type(screen.getByPlaceholderText('Email'), 'alice@example.com');
         await userEvent.type(screen.getByPlaceholderText('Password'), 'secret');
         await act(async () => {
             await userEvent.click(screen.getByRole('button', {name: /Sign in/i}));
@@ -85,7 +85,7 @@ describe('LoginPage', () => {
         })); // never resolves
         renderPage();
 
-        await userEvent.type(screen.getByPlaceholderText('Username'), 'alice');
+        await userEvent.type(screen.getByPlaceholderText('Email'), 'alice@example.com');
         await userEvent.type(screen.getByPlaceholderText('Password'), 'secret');
         await userEvent.click(screen.getByRole('button', {name: /Sign in/i}));
 
