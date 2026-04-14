@@ -25,7 +25,6 @@ export default function Header() {
                         <div className="flex items-center gap-4 border-l border-gray-200 dark:border-gray-800 pl-4">
                             <div className="flex flex-col items-end">
                                 <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                                    <span className="font-medium text-xs opacity-75">Welcome, </span>
                                     <span className="font-medium">{username}</span>
                                 </div>
                                 <button
