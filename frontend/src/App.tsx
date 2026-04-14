@@ -41,13 +41,13 @@ function Layout({children}: { children: React.ReactNode }) {
 }
 
 export default function App() {
-    const [username, setUsername] = useState<string | null>(null);
+    const [email, setEmail] = useState<string | null>(null);
     const [authChecked, setAuthChecked] = useState(false);
     const [setupRequired, setSetupRequired] = useState(false);
 
     useEffect(() => {
         Promise.all([
-            getMe().then((data) => setUsername(data.username)).catch(() => setUsername(null)),
+            getMe().then((data) => setEmail(data.email)).catch(() => setEmail(null)),
             getSetupStatus().then((data) => setSetupRequired(data.setupRequired)).catch(() => {
             }),
         ]).finally(() => setAuthChecked(true));
@@ -55,9 +55,9 @@ export default function App() {
 
     const setAuthenticated = (authenticated: boolean) => {
         if (!authenticated) {
-            setUsername(null);
+            setEmail(null);
         } else {
-            getMe().then((data) => setUsername(data.username)).catch(() => setUsername(null));
+            getMe().then((data) => setEmail(data.email)).catch(() => setEmail(null));
         }
     };
 
@@ -67,7 +67,7 @@ export default function App() {
 
     return (
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <AuthContext.Provider value={{username, setAuthenticated}}>
+            <AuthContext.Provider value={{username: email, setAuthenticated}}>
                 <BrowserRouter>
                     <Routes>
                         <Route path="/login" element={
@@ -78,11 +78,11 @@ export default function App() {
                         <Route path="/setup" element={
                             !setupRequired
                                 ? <Navigate to="/login" replace/>
-                                : username
+                                : email
                                     ? <Navigate to="/dashboard" replace/>
                                     : <SetupPage onSetupComplete={(email) => {
                                         setSetupRequired(false);
-                                        setUsername(email);
+                                        setEmail(email);
                                     }}/>
                         }/>
                         <Route path="/" element={
@@ -91,40 +91,40 @@ export default function App() {
                             </Layout>
                         }/>
                         <Route path="/dashboard" element={
-                            username ? <Layout><DashboardPage/></Layout> : <Navigate to="/login" replace/>
+                            email ? <Layout><DashboardPage/></Layout> : <Navigate to="/login" replace/>
                         }/>
                         <Route path="/equipment" element={
-                            username ? <Layout><EquipmentPage/></Layout> : <Navigate to="/login" replace/>
+                            email ? <Layout><EquipmentPage/></Layout> : <Navigate to="/login" replace/>
                         }/>
                         <Route path="/equipment/new" element={
-                            username ? <Layout><NewEquipmentPage/></Layout> : <Navigate to="/login" replace/>
+                            email ? <Layout><NewEquipmentPage/></Layout> : <Navigate to="/login" replace/>
                         }/>
                         <Route path="/equipment/import" element={
-                            username ? <Layout><ImportEquipmentPage/></Layout> : <Navigate to="/login" replace/>
+                            email ? <Layout><ImportEquipmentPage/></Layout> : <Navigate to="/login" replace/>
                         }/>
                         <Route path="/equipment/:id" element={
-                            username ? <Layout><EquipmentShowPage/></Layout> : <Navigate to="/login" replace/>
+                            email ? <Layout><EquipmentShowPage/></Layout> : <Navigate to="/login" replace/>
                         }/>
                         <Route path="/equipment/:id/edit" element={
-                            username ? <Layout><EditEquipmentPage/></Layout> : <Navigate to="/login" replace/>
+                            email ? <Layout><EditEquipmentPage/></Layout> : <Navigate to="/login" replace/>
                         }/>
                         <Route path="/equipment/:id/procedures" element={
-                            username ? <Layout><ProceduresPage/></Layout> : <Navigate to="/login" replace/>
+                            email ? <Layout><ProceduresPage/></Layout> : <Navigate to="/login" replace/>
                         }/>
                         <Route path="/equipment/:id/procedures/new" element={
-                            username ? <Layout><NewProcedurePage/></Layout> : <Navigate to="/login" replace/>
+                            email ? <Layout><NewProcedurePage/></Layout> : <Navigate to="/login" replace/>
                         }/>
                         <Route path="/equipment/:id/procedures/:procedureId" element={
-                            username ? <Layout><ProcedureShowPage/></Layout> : <Navigate to="/login" replace/>
+                            email ? <Layout><ProcedureShowPage/></Layout> : <Navigate to="/login" replace/>
                         }/>
                         <Route path="/equipment/:id/procedures/:procedureId/edit" element={
-                            username ? <Layout><EditProcedurePage/></Layout> : <Navigate to="/login" replace/>
+                            email ? <Layout><EditProcedurePage/></Layout> : <Navigate to="/login" replace/>
                         }/>
                         <Route path="/equipment/:id/procedures/:procedureId/perform" element={
-                            username ? <Layout><PerformProcedurePage/></Layout> : <Navigate to="/login" replace/>
+                            email ? <Layout><PerformProcedurePage/></Layout> : <Navigate to="/login" replace/>
                         }/>
                         <Route path="/equipment/:id/procedures/:procedureId/history" element={
-                            username ? <Layout><ProcedureHistoryPage/></Layout> : <Navigate to="/login" replace/>
+                            email ? <Layout><ProcedureHistoryPage/></Layout> : <Navigate to="/login" replace/>
                         }/>
                         <Route path="/about" element={<Layout><AboutPage/></Layout>}/>
                         <Route path="/contact" element={<Layout><ContactPage/></Layout>}/>

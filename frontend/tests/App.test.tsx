@@ -27,7 +27,7 @@ describe('App', () => {
     });
 
     it('renders the home page after successful auth check', async () => {
-        mockGetMe.mockResolvedValue({username: 'alice'});
+        mockGetMe.mockResolvedValue({email: 'alice'});
         await act(async () => {
             render(<App/>);
         });
@@ -44,7 +44,7 @@ describe('App', () => {
     });
 
     it('provides the username to AuthContext so Header shows it', async () => {
-        mockGetMe.mockResolvedValue({username: 'alice'});
+        mockGetMe.mockResolvedValue({email: 'alice'});
         await act(async () => {
             render(<App/>);
         });
@@ -52,7 +52,7 @@ describe('App', () => {
     });
 
     it('clears username when logout is triggered', async () => {
-        mockGetMe.mockResolvedValue({username: 'alice'});
+        mockGetMe.mockResolvedValue({email: 'alice'});
         await act(async () => {
             render(<App/>);
         });
@@ -69,7 +69,7 @@ describe('App', () => {
     });
 
     it('calls getMe once on mount for the initial auth check', async () => {
-        mockGetMe.mockResolvedValue({username: 'alice'});
+        mockGetMe.mockResolvedValue({email: 'alice'});
         await act(async () => {
             render(<App/>);
         });
@@ -79,8 +79,8 @@ describe('App', () => {
     it('re-fetches user via getMe when setAuthenticated(true) is called', async () => {
         // First call: auth check succeeds, second call: after setAuthenticated(true)
         mockGetMe
-            .mockResolvedValueOnce({username: 'alice'})
-            .mockResolvedValueOnce({username: 'bob'});
+            .mockResolvedValueOnce({email: 'alice'})
+            .mockResolvedValueOnce({email: 'bob'});
 
         await act(async () => {
             render(<App/>);
