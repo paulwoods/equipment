@@ -65,6 +65,23 @@ export const updateEquipment = (id: string, data: Omit<Equipment, 'id'>): Promis
 export const deleteEquipment = (id: string): Promise<void> =>
     api(`/api/equipment/${id}`, {method: 'DELETE'}).then(() => undefined);
 
+export const exportEquipment = async (): Promise<void> => {
+    const res = await api('/api/equipment/export');
+    if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text || `Export failed: ${res.status}`);
+    }
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    const disposition = res.headers.get('Content-Disposition');
+    const match = disposition?.match(/filename="(.+)"/);
+    a.download = match?.[1] ?? 'equipment-export.json';
+    a.click();
+    URL.revokeObjectURL(url);
+};
+
 export const importEquipment = async (file: File): Promise<ImportResult> => {
     const formData = new FormData();
     formData.append('file', file);

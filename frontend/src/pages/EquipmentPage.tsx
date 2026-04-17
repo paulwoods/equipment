@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import type {Equipment} from "../types/equipment";
 import EquipmentList from "../components/EquipmentList";
-import {deleteEquipment, fetchEquipment} from "../api/client";
+import {deleteEquipment, exportEquipment, fetchEquipment} from "../api/client";
 
 export default function EquipmentPage() {
     const [equipmentList, setEquipmentList] = useState<Equipment[]>([]);
@@ -14,6 +14,10 @@ export default function EquipmentPage() {
         };
         loadEquipment();
     }, []);
+
+    const handleExport = async () => {
+        await exportEquipment();
+    };
 
     const handleDelete = async (id: string) => {
         if (confirm("Are you sure you want to delete this equipment?")) {
@@ -28,6 +32,12 @@ export default function EquipmentPage() {
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
                     <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Equipment</h1>
                     <div className="flex gap-4">
+                        <button
+                            onClick={handleExport}
+                            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+                        >
+                            Export
+                        </button>
                         <Link
                             to="/dashboard"
                             className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
