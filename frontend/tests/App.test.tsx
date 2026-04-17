@@ -7,6 +7,7 @@ const {mockGetMe} = vi.hoisted(() => ({mockGetMe: vi.fn()}));
 vi.mock('../src/api/client', () => ({
     getMe: mockGetMe,
     getSetupStatus: vi.fn().mockResolvedValue({setupRequired: false}),
+    getVersion: vi.fn().mockResolvedValue({version: '2.0.15'}),
     logout: vi.fn().mockResolvedValue(undefined),
     fetchEquipment: vi.fn().mockResolvedValue([]),
 }));

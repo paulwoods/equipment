@@ -1,28 +1,26 @@
-import {Link} from "react-router-dom";
+import {useEffect, useState} from "react";
+import {getVersion} from "../api/client";
 
 export default function Footer() {
+    const [serverVersion, setServerVersion] = useState<string | null>(null);
+
+    useEffect(() => {
+        getVersion()
+            .then(data => setServerVersion(data.version))
+            .catch(() => {
+            });
+    }, []);
+
     return (
         <footer
-            className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-8 px-4 sm:px-6 lg:px-8 mt-auto">
+            className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-4 px-4 sm:px-6 lg:px-8 mt-auto">
             <div
-                className="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-                <div className="text-center md:text-left">
-                    &copy; {new Date().getFullYear()} Equipment Manager. All rights reserved.
-                </div>
-                <div className="flex gap-6">
-                    <Link to="/about" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                        About
-                    </Link>
-                    <Link to="/contact" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                        Contact
-                    </Link>
-                    <Link to="/equipment" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                        Equipment
-                    </Link>
-                    <Link to="/dashboard" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                        Dashboard
-                    </Link>
-                </div>
+                className="max-w-4xl mx-auto flex justify-center items-center gap-8 text-sm text-gray-500 dark:text-gray-400">
+                <span>Equipment Manager</span>
+                <span>
+                    {serverVersion && <>Server Version {serverVersion} / </>}
+                    Client Version {__APP_VERSION__}
+                </span>
             </div>
         </footer>
     );

@@ -21,6 +21,9 @@ const jsonBody = (method: string, data: unknown) => ({
     body: JSON.stringify(data),
 });
 
+// Version
+export const getVersion = (): Promise<{ version: string }> => json('/api/version');
+
 // Auth
 export const login = (email: string, password: string) =>
     fetch('/api/auth/login', {
