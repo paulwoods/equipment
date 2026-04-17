@@ -36,7 +36,7 @@ export const logout = () =>
 export const getMe = () =>
     fetch('/api/auth/me', {credentials: 'include'}).then(res => {
         if (!res.ok) throw new Error('Unauthorized');
-        return res.json();
+        return res.text().then(text => (text ? JSON.parse(text) : null));
     });
 
 // Setup

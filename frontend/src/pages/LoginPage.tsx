@@ -2,11 +2,14 @@ import {useState} from "react";
 import {login} from "../api/client";
 import {Lock, User} from "lucide-react";
 import {useAuth} from "../hooks/useAuth";
+import {useNavigate, useSearchParams} from "react-router-dom";
 
 export default function LoginPage() {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const {setAuthenticated} = useAuth();
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -21,7 +24,8 @@ export default function LoginPage() {
             const res = await login(email, password);
             if (res.ok) {
                 setAuthenticated(true);
-                window.location.href = '/';
+                const returnTo = searchParams.get('returnTo');
+                navigate(returnTo ? decodeURIComponent(returnTo) : '/', {replace: true});
             } else {
                 setError("Invalid username or password");
                 setLoading(false);

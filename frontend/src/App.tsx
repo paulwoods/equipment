@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
+import {BrowserRouter, Navigate, Route, Routes, useLocation} from 'react-router-dom';
 import {ThemeProvider} from './components/ThemeProvider';
 import {AuthContext} from './hooks/useAuth';
 import {getMe, getSetupStatus} from './api/client';
@@ -25,6 +25,15 @@ import ImportEquipmentPage from './pages/ImportEquipmentPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 
+function ProtectedRoute({email, children}: { email: string | null; children: React.ReactNode }) {
+    const location = useLocation();
+    if (!email) {
+        const returnTo = encodeURIComponent(location.pathname + location.search);
+        return <Navigate to={`/login?returnTo=${returnTo}`} replace/>;
+    }
+    return <>{children}</>;
+}
+
 function Layout({children}: { children: React.ReactNode }) {
     return (
         <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-gray-950">
@@ -47,7 +56,7 @@ export default function App() {
 
     useEffect(() => {
         Promise.all([
-            getMe().then((data) => setEmail(data.email)).catch(() => setEmail(null)),
+            getMe().then((data) => setEmail(data?.email ?? null)).catch(() => setEmail(null)),
             getSetupStatus().then((data) => setSetupRequired(data.setupRequired)).catch(() => {
             }),
         ]).finally(() => setAuthChecked(true));
@@ -57,7 +66,7 @@ export default function App() {
         if (!authenticated) {
             setEmail(null);
         } else {
-            getMe().then((data) => setEmail(data.email)).catch(() => setEmail(null));
+            getMe().then((data) => setEmail(data?.email ?? null)).catch(() => setEmail(null));
         }
     };
 
@@ -91,40 +100,40 @@ export default function App() {
                             </Layout>
                         }/>
                         <Route path="/dashboard" element={
-                            email ? <Layout><DashboardPage/></Layout> : <Navigate to="/login" replace/>
+                            <ProtectedRoute email={email}><Layout><DashboardPage/></Layout></ProtectedRoute>
                         }/>
                         <Route path="/equipment" element={
-                            email ? <Layout><EquipmentPage/></Layout> : <Navigate to="/login" replace/>
+                            <ProtectedRoute email={email}><Layout><EquipmentPage/></Layout></ProtectedRoute>
                         }/>
                         <Route path="/equipment/new" element={
-                            email ? <Layout><NewEquipmentPage/></Layout> : <Navigate to="/login" replace/>
+                            <ProtectedRoute email={email}><Layout><NewEquipmentPage/></Layout></ProtectedRoute>
                         }/>
                         <Route path="/equipment/import" element={
-                            email ? <Layout><ImportEquipmentPage/></Layout> : <Navigate to="/login" replace/>
+                            <ProtectedRoute email={email}><Layout><ImportEquipmentPage/></Layout></ProtectedRoute>
                         }/>
                         <Route path="/equipment/:id" element={
-                            email ? <Layout><EquipmentShowPage/></Layout> : <Navigate to="/login" replace/>
+                            <ProtectedRoute email={email}><Layout><EquipmentShowPage/></Layout></ProtectedRoute>
                         }/>
                         <Route path="/equipment/:id/edit" element={
-                            email ? <Layout><EditEquipmentPage/></Layout> : <Navigate to="/login" replace/>
+                            <ProtectedRoute email={email}><Layout><EditEquipmentPage/></Layout></ProtectedRoute>
                         }/>
                         <Route path="/equipment/:id/procedures" element={
-                            email ? <Layout><ProceduresPage/></Layout> : <Navigate to="/login" replace/>
+                            <ProtectedRoute email={email}><Layout><ProceduresPage/></Layout></ProtectedRoute>
                         }/>
                         <Route path="/equipment/:id/procedures/new" element={
-                            email ? <Layout><NewProcedurePage/></Layout> : <Navigate to="/login" replace/>
+                            <ProtectedRoute email={email}><Layout><NewProcedurePage/></Layout></ProtectedRoute>
                         }/>
                         <Route path="/equipment/:id/procedures/:procedureId" element={
-                            email ? <Layout><ProcedureShowPage/></Layout> : <Navigate to="/login" replace/>
+                            <ProtectedRoute email={email}><Layout><ProcedureShowPage/></Layout></ProtectedRoute>
                         }/>
                         <Route path="/equipment/:id/procedures/:procedureId/edit" element={
-                            email ? <Layout><EditProcedurePage/></Layout> : <Navigate to="/login" replace/>
+                            <ProtectedRoute email={email}><Layout><EditProcedurePage/></Layout></ProtectedRoute>
                         }/>
                         <Route path="/equipment/:id/procedures/:procedureId/perform" element={
-                            email ? <Layout><PerformProcedurePage/></Layout> : <Navigate to="/login" replace/>
+                            <ProtectedRoute email={email}><Layout><PerformProcedurePage/></Layout></ProtectedRoute>
                         }/>
                         <Route path="/equipment/:id/procedures/:procedureId/history" element={
-                            email ? <Layout><ProcedureHistoryPage/></Layout> : <Navigate to="/login" replace/>
+                            <ProtectedRoute email={email}><Layout><ProcedureHistoryPage/></Layout></ProtectedRoute>
                         }/>
                         <Route path="/about" element={<Layout><AboutPage/></Layout>}/>
                         <Route path="/contact" element={<Layout><ContactPage/></Layout>}/>
