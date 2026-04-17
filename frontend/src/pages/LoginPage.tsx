@@ -23,7 +23,7 @@ export default function LoginPage() {
         try {
             const res = await login(email, password);
             if (res.ok) {
-                setAuthenticated(true);
+                await setAuthenticated(true);
                 const returnTo = searchParams.get('returnTo');
                 navigate(returnTo ? decodeURIComponent(returnTo) : '/', {replace: true});
             } else {

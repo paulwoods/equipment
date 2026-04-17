@@ -62,11 +62,12 @@ export default function App() {
         ]).finally(() => setAuthChecked(true));
     }, []);
 
-    const setAuthenticated = (authenticated: boolean) => {
+    const setAuthenticated = async (authenticated: boolean) => {
         if (!authenticated) {
             setEmail(null);
         } else {
-            getMe().then((data) => setEmail(data?.email ?? null)).catch(() => setEmail(null));
+            const data = await getMe().catch(() => null);
+            setEmail(data?.email ?? null);
         }
     };
 
