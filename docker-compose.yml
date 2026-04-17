@@ -2,7 +2,7 @@ services:
   postgres:
     image: postgres:18
     env_file:
-      - .env
+      - ./deployment/.env
     volumes:
       - ./postgres_data:/var/lib/postgresql
     healthcheck:
