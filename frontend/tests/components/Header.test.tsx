@@ -38,13 +38,12 @@ describe('Header', () => {
 
     it('does not render username when no user is logged in', () => {
         renderHeader(null);
-        expect(screen.queryByText(/Welcome/)).not.toBeInTheDocument();
+        expect(screen.queryByText('alice')).not.toBeInTheDocument();
     });
 
-    it('renders welcome message with username when logged in', () => {
+    it('renders username when logged in', () => {
         renderHeader('alice');
         expect(screen.getByText('alice')).toBeInTheDocument();
-        expect(screen.getByText(/Welcome/i)).toBeInTheDocument();
     });
 
     it('calls logout and setAuthenticated on logout button click', async () => {

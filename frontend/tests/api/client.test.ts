@@ -89,10 +89,10 @@ describe('client', () => {
     // ─── 401 redirect ─────────────────────────────────────────────────────
 
     describe('401 handling', () => {
-        it('redirects to /login and throws on 401', async () => {
+        it('does not redirect on 401', async () => {
             mockFetch.mockResolvedValue(makeResponse(null, 401, false));
-            await expect(fetchEquipment()).rejects.toThrow('Unauthorized');
-            expect(mockLocation.href).toBe('/login');
+            await expect(fetchEquipment()).rejects.toThrow();
+            expect(mockLocation.href).not.toBe('/login');
         });
     });
 

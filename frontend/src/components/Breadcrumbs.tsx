@@ -16,9 +16,11 @@ export default function Breadcrumbs() {
     const [equipmentList, setEquipmentList] = useState<Equipment[]>([]);
 
     useEffect(() => {
-        fetchEquipment().then(setEquipmentList).catch(() => {
-        });
-    }, []);
+        if (params.id) {
+            fetchEquipment().then(setEquipmentList).catch(() => {
+            });
+        }
+    }, [params.id]);
 
     if (pathname === "/" || pathname === "/login") return null;
 

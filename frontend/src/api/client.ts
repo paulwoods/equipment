@@ -3,10 +3,6 @@ import type {Procedure} from "../types/procedure";
 
 const api = async (path: string, opts?: RequestInit) => {
     const res = await fetch(path, {credentials: 'include', ...opts});
-    if (res.status === 401) {
-        window.location.href = '/login';
-        throw new Error('Unauthorized');
-    }
     return res;
 };
 
@@ -34,7 +30,8 @@ export const login = (email: string, password: string) =>
         body: JSON.stringify({email, password}),
     });
 
-export const logout = () => api('/api/auth/logout', {method: 'POST'});
+export const logout = () =>
+    fetch('/api/auth/logout', {method: 'POST', credentials: 'include'});
 
 export const getMe = () =>
     fetch('/api/auth/me', {credentials: 'include'}).then(res => {
