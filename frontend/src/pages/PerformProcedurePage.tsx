@@ -1,7 +1,7 @@
 import type {FormEvent} from "react";
 import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import {getEquipment, recordPerformance} from "../api/client";
+import {getEquipment, getProcedure, recordPerformance} from "../api/client";
 import ReactMarkdown from "react-markdown";
 import type {Equipment} from "../types/equipment";
 import {Hash, MapPin, Tag, Wrench} from "lucide-react";
@@ -18,15 +18,12 @@ export default function PerformProcedurePage() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        getEquipment(id)
-            .then((eq) => {
+        Promise.all([getEquipment(id), getProcedure(id, procedureId)])
+            .then(([eq, procedure]) => {
                 setEquipment(eq);
-                const procedure = eq.procedures?.find((p) => p.id === procedureId);
-                if (procedure) {
-                    setProcedureName(procedure.name);
-                    setProcedureSteps(procedure.steps || "");
-                    setRequiredTools(procedure.requiredTools || "");
-                }
+                setProcedureName(procedure.name);
+                setProcedureSteps(procedure.steps || "");
+                setRequiredTools(procedure.requiredTools || "");
             })
             .catch(() => setEquipment(null))
             .finally(() => setLoading(false));

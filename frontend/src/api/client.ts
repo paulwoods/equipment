@@ -1,5 +1,5 @@
-import type {Equipment, ImportResult} from "../types/equipment";
-import type {Procedure} from "../types/procedure";
+import type {DashboardItem, Equipment, ImportResult} from "../types/equipment";
+import type {Perform, Procedure} from "../types/procedure";
 
 const api = async (path: string, opts?: RequestInit) => {
     const res = await fetch(path, {credentials: 'include', ...opts});
@@ -22,11 +22,11 @@ const jsonBody = (method: string, data: unknown) => ({
 });
 
 // Version
-export const getVersion = (): Promise<{ version: string }> => json('/api/version');
+export const getVersion = (): Promise<{ version: string }> => json('/api/v1/version');
 
 // Auth
 export const login = (email: string, password: string) =>
-    fetch('/api/auth/login', {
+    fetch('/api/v1/auth/login', {
         method: 'POST',
         credentials: 'include',
         headers: {'Content-Type': 'application/json'},
@@ -34,20 +34,20 @@ export const login = (email: string, password: string) =>
     });
 
 export const logout = () =>
-    fetch('/api/auth/logout', {method: 'POST', credentials: 'include'});
+    fetch('/api/v1/auth/logout', {method: 'POST', credentials: 'include'});
 
 export const getMe = () =>
-    fetch('/api/auth/me', {credentials: 'include'}).then(res => {
+    fetch('/api/v1/auth/me', {credentials: 'include'}).then(res => {
         if (!res.ok) throw new Error('Unauthorized');
         return res.text().then(text => (text ? JSON.parse(text) : null));
     });
 
 // Setup
 export const getSetupStatus = (): Promise<{ setupRequired: boolean }> =>
-    fetch('/api/setup/status', {credentials: 'include'}).then(res => res.json());
+    fetch('/api/v1/setup/status', {credentials: 'include'}).then(res => res.json());
 
 export const setupAdmin = (email: string, password: string) =>
-    fetch('/api/setup', {
+    fetch('/api/v1/setup', {
         method: 'POST',
         credentials: 'include',
         headers: {'Content-Type': 'application/json'},
@@ -55,21 +55,22 @@ export const setupAdmin = (email: string, password: string) =>
     });
 
 // Equipment
-export const fetchEquipment = (): Promise<Equipment[]> => json('/api/equipment');
+export const fetchEquipment = (): Promise<Equipment[]> =>
+    json('/api/v1/equipment').then((page: { content: Equipment[] }) => page.content);
 
-export const getEquipment = (id: string): Promise<Equipment> => json(`/api/equipment/${id}`);
+export const getEquipment = (id: string): Promise<Equipment> => json(`/api/v1/equipment/${id}`);
 
 export const addEquipment = (data: Omit<Equipment, 'id'>): Promise<Equipment> =>
-    json('/api/equipment', jsonBody('POST', data));
+    json('/api/v1/equipment', jsonBody('POST', data));
 
 export const updateEquipment = (id: string, data: Omit<Equipment, 'id'>): Promise<Equipment> =>
-    json(`/api/equipment/${id}`, jsonBody('PUT', data));
+    json(`/api/v1/equipment/${id}`, jsonBody('PUT', data));
 
 export const deleteEquipment = (id: string): Promise<void> =>
-    api(`/api/equipment/${id}`, {method: 'DELETE'}).then(() => undefined);
+    api(`/api/v1/equipment/${id}`, {method: 'DELETE'}).then(() => undefined);
 
 export const exportEquipment = async (): Promise<void> => {
-    const res = await api('/api/equipment/export');
+    const res = await api('/api/v1/equipment/export');
     if (!res.ok) {
         const text = await res.text();
         throw new Error(text || `Export failed: ${res.status}`);
@@ -88,7 +89,7 @@ export const exportEquipment = async (): Promise<void> => {
 export const importEquipment = async (file: File): Promise<ImportResult> => {
     const formData = new FormData();
     formData.append('file', file);
-    const res = await api('/api/equipment/import', {method: 'POST', body: formData});
+    const res = await api('/api/v1/equipment/import', {method: 'POST', body: formData});
     if (!res.ok) {
         const text = await res.text();
         throw new Error(text || `Import failed: ${res.status}`);
@@ -98,24 +99,30 @@ export const importEquipment = async (file: File): Promise<ImportResult> => {
 
 // Procedures
 export const fetchProcedures = (equipmentId: string): Promise<Procedure[]> =>
-    json(`/api/equipment/${equipmentId}/procedures`);
+    json(`/api/v1/equipment/${equipmentId}/procedures`);
 
 export const getProcedure = (equipmentId: string, procedureId: string): Promise<Procedure> =>
-    json(`/api/equipment/${equipmentId}/procedures/${procedureId}`);
+    json(`/api/v1/equipment/${equipmentId}/procedures/${procedureId}`);
 
 export const addProcedure = (equipmentId: string, data: Omit<Procedure, 'id'>): Promise<Procedure> =>
-    json(`/api/equipment/${equipmentId}/procedures`, jsonBody('POST', data));
+    json(`/api/v1/equipment/${equipmentId}/procedures`, jsonBody('POST', data));
 
 export const updateProcedure = (equipmentId: string, procedureId: string, data: Omit<Procedure, 'id'>): Promise<Procedure> =>
-    json(`/api/equipment/${equipmentId}/procedures/${procedureId}`, jsonBody('PUT', data));
+    json(`/api/v1/equipment/${equipmentId}/procedures/${procedureId}`, jsonBody('PUT', data));
 
 export const deleteProcedure = (equipmentId: string, procedureId: string): Promise<void> =>
-    api(`/api/equipment/${equipmentId}/procedures/${procedureId}`, {method: 'DELETE'}).then(() => undefined);
+    api(`/api/v1/equipment/${equipmentId}/procedures/${procedureId}`, {method: 'DELETE'}).then(() => undefined);
 
 // Performance History
+export const fetchHistory = (equipmentId: string, procedureId: string): Promise<Perform[]> =>
+    json(`/api/v1/equipment/${equipmentId}/procedures/${procedureId}/history`);
+
 export const recordPerformance = (equipmentId: string, procedureId: string, date: string, notes: string) =>
-    json(`/api/equipment/${equipmentId}/procedures/${procedureId}/history`, jsonBody('POST', {date, notes}));
+    json(`/api/v1/equipment/${equipmentId}/procedures/${procedureId}/history`, jsonBody('POST', {date, notes}));
+
+// Dashboard
+export const getDashboard = (): Promise<DashboardItem[]> => json('/api/v1/dashboard');
 
 // Email
 export const sendDashboardEmail = (): Promise<{ success?: boolean; error?: string }> =>
-    json('/api/email/dashboard', {method: 'POST'});
+    json('/api/v1/email/dashboard', {method: 'POST'});

@@ -1,5 +1,4 @@
 import type {Procedure} from "../types/procedure";
-import {calculateDueDetails} from "../lib/procedureUtils";
 import {Link} from "react-router-dom";
 import {useMemo, useState} from "react";
 import {ChevronDown, ChevronUp, Search, X} from "lucide-react";
@@ -10,7 +9,7 @@ interface ProcedureListProps {
     onDelete: (id: string) => void;
 }
 
-type SortField = 'name' | 'description' | 'intervalDays' | 'daysTillDue';
+type SortField = 'name' | 'description' | 'intervalDays';
 type SortOrder = 'asc' | 'desc';
 
 function SortIndicator({field, sortField, sortOrder}: {
@@ -41,19 +40,10 @@ export default function ProcedureList({equipmentId, procedures, onDelete}: Proce
         }
 
         result.sort((a, b) => {
-            const aDue = calculateDueDetails(a);
-            const bDue = calculateDueDetails(b);
-
-            if (aDue === null && bDue !== null) return -1;
-            if (aDue !== null && bDue === null) return 1;
-
             let aValue: string | number;
             let bValue: string | number;
 
-            if (sortField === 'daysTillDue') {
-                aValue = aDue?.daysTillDue ?? 0;
-                bValue = bDue?.daysTillDue ?? 0;
-            } else if (sortField === 'name' || sortField === 'description') {
+            if (sortField === 'name' || sortField === 'description') {
                 aValue = (a[sortField] || "").toLowerCase();
                 bValue = (b[sortField] || "").toLowerCase();
             } else {
@@ -126,69 +116,49 @@ export default function ProcedureList({equipmentId, procedures, onDelete}: Proce
                         >
                             Interval <SortIndicator field="intervalDays" sortField={sortField} sortOrder={sortOrder}/>
                         </th>
-                        <th
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
-                            onClick={() => handleSort('daysTillDue')}
-                        >
-                            Days Till Due <SortIndicator field="daysTillDue" sortField={sortField}
-                                                         sortOrder={sortOrder}/>
-                        </th>
                         <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
                     </tr>
                     </thead>
                     <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
-                    {filteredAndSortedProcedures.map((proc) => {
-                        const dueDetails = calculateDueDetails(proc);
-
-                        return (
-                            <tr key={proc.id}>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 font-medium">
-                                    <Link to={`/equipment/${equipmentId}/procedures/${proc.id}`}
-                                          className="text-blue-600 dark:text-blue-400 hover:underline">
-                                        {proc.name}
-                                    </Link>
-                                </td>
-                                <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-300">{proc.description}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">{proc.intervalDays}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
-                                    <DueStatus details={dueDetails}/>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <ActionLinks equipmentId={equipmentId} proc={proc} onDelete={onDelete}/>
-                                </td>
-                            </tr>
-                        );
-                    })}
+                    {filteredAndSortedProcedures.map((proc) => (
+                        <tr key={proc.id}>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 font-medium">
+                                <Link to={`/equipment/${equipmentId}/procedures/${proc.id}`}
+                                      className="text-blue-600 dark:text-blue-400 hover:underline">
+                                    {proc.name}
+                                </Link>
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-300">{proc.description}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">{proc.intervalDays}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <ActionLinks equipmentId={equipmentId} proc={proc} onDelete={onDelete}/>
+                            </td>
+                        </tr>
+                    ))}
                     </tbody>
                 </table>
             </div>
 
             <div className="md:hidden divide-y divide-gray-200 dark:divide-gray-800">
-                {filteredAndSortedProcedures.map((proc) => {
-                    const dueDetails = calculateDueDetails(proc);
-                    return (
-                        <div key={proc.id} className="py-4 space-y-3">
-                            <div className="flex justify-between items-start">
-                                <div>
-                                    <Link to={`/equipment/${equipmentId}/procedures/${proc.id}`}
-                                          className="hover:underline text-blue-600 dark:text-blue-400">
-                                        <h3 className="text-sm font-bold">{proc.name}</h3>
-                                    </Link>
-                                    {proc.description && (
-                                        <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{proc.description}</p>
-                                    )}
-                                </div>
-                                <DueStatus details={dueDetails}/>
-                            </div>
-                            <div className="text-xs text-gray-500 dark:text-gray-400">
-                                Interval: {proc.intervalDays} days
-                            </div>
-                            <div className="flex flex-wrap justify-end gap-3 pt-2">
-                                <ActionLinks equipmentId={equipmentId} proc={proc} onDelete={onDelete}/>
-                            </div>
+                {filteredAndSortedProcedures.map((proc) => (
+                    <div key={proc.id} className="py-4 space-y-3">
+                        <div>
+                            <Link to={`/equipment/${equipmentId}/procedures/${proc.id}`}
+                                  className="hover:underline text-blue-600 dark:text-blue-400">
+                                <h3 className="text-sm font-bold">{proc.name}</h3>
+                            </Link>
+                            {proc.description && (
+                                <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{proc.description}</p>
+                            )}
                         </div>
-                    );
-                })}
+                        <div className="text-xs text-gray-500 dark:text-gray-400">
+                            Interval: {proc.intervalDays} days
+                        </div>
+                        <div className="flex flex-wrap justify-end gap-3 pt-2">
+                            <ActionLinks equipmentId={equipmentId} proc={proc} onDelete={onDelete}/>
+                        </div>
+                    </div>
+                ))}
             </div>
 
             {filteredAndSortedProcedures.length === 0 && (
@@ -200,22 +170,6 @@ export default function ProcedureList({equipmentId, procedures, onDelete}: Proce
     );
 }
 
-
-function DueStatus({details}: { details: ReturnType<typeof calculateDueDetails> }) {
-    if (!details) return <span className="text-gray-400 italic text-sm">N/A</span>;
-
-    return (
-        <div
-            className={details.daysTillDue <= 0 ? "text-red-600 dark:text-red-400 font-bold" : "text-gray-900 dark:text-gray-100"}>
-            <div className="text-sm">
-                {details.daysTillDue} days
-            </div>
-            <div className="text-xs opacity-75">
-                ({details.dueDate.toLocaleDateString()})
-            </div>
-        </div>
-    );
-}
 
 function ActionLinks({equipmentId, proc, onDelete}: {
     equipmentId: string;

@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
-import {getEquipment} from "../api/client";
-import type {Procedure} from "../types/procedure";
+import {fetchHistory, getEquipment, getProcedure} from "../api/client";
+import type {Perform, Procedure} from "../types/procedure";
 import type {Equipment} from "../types/equipment";
 import ReactMarkdown from "react-markdown";
 import {Calendar, Clock, Edit, FileText, History, Play, Wrench} from "lucide-react";
@@ -9,15 +9,16 @@ import {Calendar, Clock, Edit, FileText, History, Play, Wrench} from "lucide-rea
 export default function ProcedureShowPage() {
     const {id, procedureId} = useParams() as { id: string; procedureId: string };
     const [procedure, setProcedure] = useState<Procedure | null>(null);
+    const [history, setHistory] = useState<Perform[]>([]);
     const [equipment, setEquipment] = useState<Equipment | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        getEquipment(id)
-            .then((eq) => {
+        Promise.all([getEquipment(id), getProcedure(id, procedureId), fetchHistory(id, procedureId)])
+            .then(([eq, proc, hist]) => {
                 setEquipment(eq);
-                const proc = eq.procedures?.find((p) => p.id === procedureId);
-                setProcedure(proc || null);
+                setProcedure(proc);
+                setHistory(hist);
             })
             .catch(() => setEquipment(null))
             .finally(() => setLoading(false));
@@ -27,8 +28,8 @@ export default function ProcedureShowPage() {
     if (!procedure || !equipment) return <div className="p-8 text-center text-black dark:text-white">Procedure not
         found.</div>;
 
-    const lastPerformed = procedure.history && procedure.history.length > 0
-        ? new Date(Math.max(...procedure.history.map(h => new Date(h.date).getTime())))
+    const lastPerformed = history.length > 0
+        ? new Date(Math.max(...history.map((h: Perform) => new Date(h.date).getTime())))
         : null;
 
     return (

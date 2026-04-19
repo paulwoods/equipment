@@ -1,8 +1,9 @@
 import {Link, useLocation, useParams} from "react-router-dom";
 import {ChevronRight, Home} from "lucide-react";
 import {useEffect, useState} from "react";
-import {fetchEquipment} from "../api/client";
+import {fetchEquipment, getProcedure} from "../api/client";
 import type {Equipment} from "../types/equipment";
+import type {Procedure} from "../types/procedure";
 
 interface BreadcrumbItem {
     label: string;
@@ -14,6 +15,7 @@ export default function Breadcrumbs() {
     const params = useParams();
     const pathname = location.pathname;
     const [equipmentList, setEquipmentList] = useState<Equipment[]>([]);
+    const [procedure, setProcedure] = useState<Procedure | null>(null);
 
     useEffect(() => {
         if (params.id) {
@@ -21,6 +23,20 @@ export default function Breadcrumbs() {
             });
         }
     }, [params.id]);
+
+    useEffect(() => {
+        if (!params.id || !params.procedureId) return;
+        let cancelled = false;
+        getProcedure(params.id, params.procedureId)
+            .then(p => {
+                if (!cancelled) setProcedure(p);
+            })
+            .catch(() => {
+            });
+        return () => {
+            cancelled = true;
+        };
+    }, [params.id, params.procedureId]);
 
     if (pathname === "/" || pathname === "/login") return null;
 
@@ -45,9 +61,6 @@ export default function Breadcrumbs() {
         }
 
         if (params.procedureId === segment) {
-            const equipmentId = params.id as string;
-            const equipment = equipmentList.find(e => e.id === equipmentId);
-            const procedure = equipment?.procedures?.find(p => p.id === segment);
             label = procedure ? procedure.name : "Procedure Details";
         }
 

@@ -8,7 +8,7 @@ interface EquipmentListProps {
     onDelete: (id: string) => void;
 }
 
-type SortField = 'manufacturer' | 'modelNumber' | 'location' | 'status' | 'procedures';
+type SortField = 'manufacturer' | 'modelNumber' | 'location' | 'status';
 type SortOrder = 'asc' | 'desc';
 
 export default function EquipmentList({items, onDelete}: EquipmentListProps) {
@@ -31,16 +31,8 @@ export default function EquipmentList({items, onDelete}: EquipmentListProps) {
         }
 
         result.sort((a, b) => {
-            let aValue: string | number;
-            let bValue: string | number;
-
-            if (sortField === 'procedures') {
-                aValue = a.procedures?.length || 0;
-                bValue = b.procedures?.length || 0;
-            } else {
-                aValue = a[sortField]?.toLowerCase() || "";
-                bValue = b[sortField]?.toLowerCase() || "";
-            }
+            const aValue: string = a[sortField]?.toLowerCase() || "";
+            const bValue: string = b[sortField]?.toLowerCase() || "";
 
             if (aValue < bValue) return sortOrder === 'asc' ? -1 : 1;
             if (aValue > bValue) return sortOrder === 'asc' ? 1 : -1;
@@ -128,12 +120,7 @@ export default function EquipmentList({items, onDelete}: EquipmentListProps) {
                         >
                             Status <SortIndicator field="status" sortField={sortField} sortOrder={sortOrder}/>
                         </th>
-                        <th
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
-                            onClick={() => handleSort('procedures')}
-                        >
-                            Procedures <SortIndicator field="procedures" sortField={sortField} sortOrder={sortOrder}/>
-                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Procedures</th>
                         <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
                     </tr>
                     </thead>
@@ -251,22 +238,12 @@ function StatusBadge({status}: { status: EquipmentStatus }) {
 }
 
 function ProcedureBadge({item}: { item: Equipment }) {
-    if (item.procedures && item.procedures.length > 0) {
-        return (
-            <Link
-                to={`/equipment/${item.id}/procedures`}
-                className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
-            >
-                {item.procedures.length} {item.procedures.length === 1 ? 'procedure' : 'procedures'}
-            </Link>
-        );
-    }
     return (
         <Link
-            to={`/equipment/${item.id}/procedures/new`}
-            className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+            to={`/equipment/${item.id}/procedures`}
+            className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
         >
-            0 procedures
+            View
         </Link>
     );
 }

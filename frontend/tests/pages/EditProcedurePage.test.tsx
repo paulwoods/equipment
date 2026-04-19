@@ -3,14 +3,17 @@ import {act, render, screen} from '@testing-library/react';
 import {MemoryRouter, Route, Routes} from 'react-router-dom';
 import EditProcedurePage from '../../src/pages/EditProcedurePage';
 import type {Equipment} from '../../src/types/equipment';
+import type {Procedure} from '../../src/types/procedure';
 
-const {mockGetEquipment, mockUpdateProcedure} = vi.hoisted(() => ({
+const {mockGetEquipment, mockGetProcedure, mockUpdateProcedure} = vi.hoisted(() => ({
     mockGetEquipment: vi.fn(),
+    mockGetProcedure: vi.fn(),
     mockUpdateProcedure: vi.fn(),
 }));
 
 vi.mock('../../src/api/client', () => ({
     getEquipment: mockGetEquipment,
+    getProcedure: mockGetProcedure,
     updateProcedure: mockUpdateProcedure,
 }));
 
@@ -22,8 +25,9 @@ vi.mock('react-simplemde-editor', () => ({
 
 const equipment: Equipment = {
     id: 'eq1', manufacturer: 'Acme', modelNumber: 'X-100', status: 'Active', purchaseDate: '2024-01-01',
-    procedures: [{id: 'p1', name: 'Oil Change', steps: '', intervalDays: 30}],
 };
+
+const procedure: Procedure = {id: 'p1', name: 'Oil Change', steps: '', intervalDays: 30};
 
 const renderPage = () =>
     render(
@@ -41,12 +45,15 @@ describe('EditProcedurePage', () => {
     it('shows loading initially', () => {
         mockGetEquipment.mockReturnValue(new Promise(() => {
         }));
+        mockGetProcedure.mockReturnValue(new Promise(() => {
+        }));
         renderPage();
         expect(screen.getByText('Loading...')).toBeInTheDocument();
     });
 
     it('shows not found when procedure is missing', async () => {
-        mockGetEquipment.mockResolvedValue({...equipment, procedures: []});
+        mockGetEquipment.mockResolvedValue(equipment);
+        mockGetProcedure.mockRejectedValue(new Error('not found'));
         await act(async () => {
             renderPage();
         });
@@ -55,6 +62,7 @@ describe('EditProcedurePage', () => {
 
     it('renders the Edit Procedure form pre-populated', async () => {
         mockGetEquipment.mockResolvedValue(equipment);
+        mockGetProcedure.mockResolvedValue(procedure);
         await act(async () => {
             renderPage();
         });
@@ -64,6 +72,7 @@ describe('EditProcedurePage', () => {
 
     it('calls updateProcedure and navigates on submit', async () => {
         mockGetEquipment.mockResolvedValue(equipment);
+        mockGetProcedure.mockResolvedValue(procedure);
         mockUpdateProcedure.mockResolvedValue({});
         await act(async () => {
             renderPage();
@@ -80,6 +89,7 @@ describe('EditProcedurePage', () => {
 
     it('navigates to procedures list on cancel', async () => {
         mockGetEquipment.mockResolvedValue(equipment);
+        mockGetProcedure.mockResolvedValue(procedure);
         await act(async () => {
             renderPage();
         });

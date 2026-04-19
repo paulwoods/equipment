@@ -11,5 +11,4 @@ export interface Procedure {
     steps: string;
     requiredTools?: string;
     intervalDays: number;
-    history?: Perform[];
 }

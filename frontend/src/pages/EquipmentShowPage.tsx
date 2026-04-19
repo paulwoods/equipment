@@ -1,18 +1,23 @@
 import {useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
-import {deleteEquipment, getEquipment} from "../api/client";
+import {deleteEquipment, fetchProcedures, getEquipment} from "../api/client";
 import type {Equipment} from "../types/equipment";
+import type {Procedure} from "../types/procedure";
 import {ArrowLeft, Calendar, Hash, ListChecks, MapPin, PenSquare, Tag, Trash2} from "lucide-react";
 
 export default function EquipmentShowPage() {
     const {id} = useParams() as { id: string };
     const navigate = useNavigate();
     const [equipment, setEquipment] = useState<Equipment | null>(null);
+    const [procedures, setProcedures] = useState<Procedure[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        getEquipment(id)
-            .then(setEquipment)
+        Promise.all([getEquipment(id), fetchProcedures(id)])
+            .then(([eq, procs]) => {
+                setEquipment(eq);
+                setProcedures(procs);
+            })
             .catch(() => setEquipment(null))
             .finally(() => setLoading(false));
     }, [id]);
@@ -142,8 +147,8 @@ export default function EquipmentShowPage() {
                                     </Link>
                                 </div>
                                 <div className="space-y-3">
-                                    {equipment.procedures && equipment.procedures.length > 0 ? (
-                                        equipment.procedures.map(proc => (
+                                    {procedures.length > 0 ? (
+                                        procedures.map(proc => (
                                             <Link
                                                 key={proc.id}
                                                 to={`/equipment/${id}/procedures/${proc.id}`}

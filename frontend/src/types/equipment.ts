@@ -1,5 +1,3 @@
-import type {Procedure} from "./procedure";
-
 export type EquipmentStatus = 'Active' | 'In Use' | 'Under Repair' | 'Decommissioned' | 'In Storage';
 
 export interface ImportResult {
@@ -18,5 +16,16 @@ export interface Equipment {
     status: EquipmentStatus;
     description?: string;
     purchaseDate: string; // ISO date string from JSON
-    procedures?: Procedure[];
+}
+
+export interface DashboardItem {
+    equipmentId: string;
+    equipmentName: string;
+    procedureId: string;
+    procedureName: string;
+    procedureDescription: string | null;
+    intervalDays: number;
+    daysTillDue: number | null;
+    dueDate: string | null;
+    status: string;
 }

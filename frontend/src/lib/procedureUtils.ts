@@ -1,15 +1,15 @@
-import type {Procedure} from "../types/procedure";
+import type {Perform} from "../types/procedure";
 
-export function calculateDueDetails(proc: Procedure) {
-    if (!proc.history || proc.history.length === 0) return null;
+export function calculateDueDetails(intervalDays: number, history: Perform[]) {
+    if (!history || history.length === 0) return null;
 
-    const latestDate = new Date(Math.max(...proc.history.map(h => new Date(h.date).getTime())));
+    const latestDate = new Date(Math.max(...history.map((h: Perform) => new Date(h.date).getTime())));
     const today = new Date();
 
     const diffTime = today.getTime() - latestDate.getTime();
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-    const daysTillDue = proc.intervalDays - diffDays;
+    const daysTillDue = intervalDays - diffDays;
     const dueDate = new Date(today);
     dueDate.setDate(today.getDate() + daysTillDue);
 

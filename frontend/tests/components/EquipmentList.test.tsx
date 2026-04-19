@@ -84,12 +84,8 @@ describe('EquipmentList', () => {
         expect(screen.getAllByText('In Use').length).toBeGreaterThan(0);
     });
 
-    it('renders procedure badge linking to procedures list when procedures exist', () => {
-        const withProcedures: Equipment[] = [{
-            ...items[0],
-            procedures: [{id: 'p1', name: 'Oil Change', steps: '', intervalDays: 30}],
-        }];
-        renderList(withProcedures);
-        expect(screen.getAllByText(/1 procedure/).length).toBeGreaterThan(0);
+    it('renders procedure badge linking to procedures page', () => {
+        renderList();
+        expect(screen.getAllByText('View').length).toBeGreaterThan(0);
     });
 });

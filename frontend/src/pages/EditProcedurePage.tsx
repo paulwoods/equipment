@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import ProcedureForm from "../components/ProcedureForm";
-import {getEquipment, updateProcedure} from "../api/client";
+import {getEquipment, getProcedure, updateProcedure} from "../api/client";
 import type {Procedure} from "../types/procedure";
 import type {Equipment} from "../types/equipment";
 
@@ -13,11 +13,10 @@ export default function EditProcedurePage() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        getEquipment(id)
-            .then((eq) => {
+        Promise.all([getEquipment(id), getProcedure(id, procedureId)])
+            .then(([eq, proc]) => {
                 setEquipment(eq);
-                const proc = eq.procedures?.find((p) => p.id === procedureId);
-                setProcedure(proc || null);
+                setProcedure(proc);
             })
             .catch(() => setEquipment(null))
             .finally(() => setLoading(false));

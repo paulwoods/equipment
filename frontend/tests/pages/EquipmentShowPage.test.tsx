@@ -4,14 +4,17 @@ import userEvent from '@testing-library/user-event';
 import {MemoryRouter, Route, Routes} from 'react-router-dom';
 import EquipmentShowPage from '../../src/pages/EquipmentShowPage';
 import type {Equipment} from '../../src/types/equipment';
+import type {Procedure} from '../../src/types/procedure';
 
-const {mockGetEquipment, mockDeleteEquipment} = vi.hoisted(() => ({
+const {mockGetEquipment, mockFetchProcedures, mockDeleteEquipment} = vi.hoisted(() => ({
     mockGetEquipment: vi.fn(),
+    mockFetchProcedures: vi.fn(),
     mockDeleteEquipment: vi.fn(),
 }));
 
 vi.mock('../../src/api/client', () => ({
     getEquipment: mockGetEquipment,
+    fetchProcedures: mockFetchProcedures,
     deleteEquipment: mockDeleteEquipment,
 }));
 
@@ -25,10 +28,11 @@ const equipment: Equipment = {
     status: 'Active',
     description: 'A test device',
     purchaseDate: '2024-01-15T00:00:00Z',
-    procedures: [
-        {id: 'p1', name: 'Oil Change', steps: '', intervalDays: 30},
-    ],
 };
+
+const procedures: Procedure[] = [
+    {id: 'p1', name: 'Oil Change', steps: '', intervalDays: 30},
+];
 
 const renderPage = () =>
     render(
@@ -46,12 +50,15 @@ describe('EquipmentShowPage', () => {
     it('shows loading initially', () => {
         mockGetEquipment.mockReturnValue(new Promise(() => {
         }));
+        mockFetchProcedures.mockReturnValue(new Promise(() => {
+        }));
         renderPage();
         expect(screen.getByText('Loading...')).toBeInTheDocument();
     });
 
     it('shows not found when equipment is missing', async () => {
         mockGetEquipment.mockRejectedValue(new Error('not found'));
+        mockFetchProcedures.mockResolvedValue([]);
         await act(async () => {
             renderPage();
         });
@@ -60,6 +67,7 @@ describe('EquipmentShowPage', () => {
 
     it('renders equipment details', async () => {
         mockGetEquipment.mockResolvedValue(equipment);
+        mockFetchProcedures.mockResolvedValue(procedures);
         await act(async () => {
             renderPage();
         });
@@ -70,6 +78,7 @@ describe('EquipmentShowPage', () => {
 
     it('renders procedures list', async () => {
         mockGetEquipment.mockResolvedValue(equipment);
+        mockFetchProcedures.mockResolvedValue(procedures);
         await act(async () => {
             renderPage();
         });
@@ -77,7 +86,8 @@ describe('EquipmentShowPage', () => {
     });
 
     it('shows no-procedures message when empty', async () => {
-        mockGetEquipment.mockResolvedValue({...equipment, procedures: []});
+        mockGetEquipment.mockResolvedValue(equipment);
+        mockFetchProcedures.mockResolvedValue([]);
         await act(async () => {
             renderPage();
         });
@@ -86,6 +96,7 @@ describe('EquipmentShowPage', () => {
 
     it('renders Edit and View Procedures links', async () => {
         mockGetEquipment.mockResolvedValue(equipment);
+        mockFetchProcedures.mockResolvedValue(procedures);
         await act(async () => {
             renderPage();
         });
@@ -95,6 +106,7 @@ describe('EquipmentShowPage', () => {
 
     it('navigates to equipment list after confirmed delete', async () => {
         mockGetEquipment.mockResolvedValue(equipment);
+        mockFetchProcedures.mockResolvedValue(procedures);
         mockDeleteEquipment.mockResolvedValue(undefined);
         vi.spyOn(window, 'confirm').mockReturnValue(true);
 

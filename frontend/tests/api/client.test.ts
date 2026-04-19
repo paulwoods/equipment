@@ -47,13 +47,13 @@ describe('client', () => {
     // ─── Auth ──────────────────────────────────────────────────────────────
 
     describe('login', () => {
-        it('POSTs to /api/auth/login with JSON credentials', async () => {
+        it('POSTs to /api/v1/auth/login with JSON credentials', async () => {
             mockFetch.mockResolvedValue(makeResponse(null));
             await login('user@example.com', 'pass');
 
             expect(mockFetch).toHaveBeenCalledOnce();
             const [url, opts] = mockFetch.mock.calls[0];
-            expect(url).toBe('/api/auth/login');
+            expect(url).toBe('/api/v1/auth/login');
             expect(opts.method).toBe('POST');
             expect(opts.headers['Content-Type']).toBe('application/json');
             expect(opts.body).toBe(JSON.stringify({email: 'user@example.com', password: 'pass'}));
@@ -61,13 +61,13 @@ describe('client', () => {
     });
 
     describe('logout', () => {
-        it('POSTs to /api/auth/logout', async () => {
+        it('POSTs to /api/v1/auth/logout', async () => {
             mockFetch.mockResolvedValue(makeResponse(null));
             await logout();
 
             expect(mockFetch).toHaveBeenCalledOnce();
             const [url, opts] = mockFetch.mock.calls[0];
-            expect(url).toBe('/api/auth/logout');
+            expect(url).toBe('/api/v1/auth/logout');
             expect(opts.method).toBe('POST');
         });
     });
@@ -99,34 +99,34 @@ describe('client', () => {
     // ─── Equipment ────────────────────────────────────────────────────────
 
     describe('fetchEquipment', () => {
-        it('GETs /api/equipment and returns array', async () => {
-            const equipment: Equipment[] = [];
-            mockFetch.mockResolvedValue(makeResponse(equipment));
+        it('GETs /api/v1/equipment and returns array', async () => {
+            const equipment: Equipment[] = [{id: '1'} as Equipment];
+            mockFetch.mockResolvedValue(makeResponse({content: equipment}));
             const result = await fetchEquipment();
-            expect(mockFetch).toHaveBeenCalledWith('/api/equipment', {credentials: 'include'});
+            expect(mockFetch).toHaveBeenCalledWith('/api/v1/equipment', {credentials: 'include'});
             expect(result).toEqual(equipment);
         });
     });
 
     describe('getEquipment', () => {
-        it('GETs /api/equipment/:id', async () => {
+        it('GETs /api/v1/equipment/:id', async () => {
             const equipment = {id: '1'} as Equipment;
             mockFetch.mockResolvedValue(makeResponse(equipment));
             const result = await getEquipment('1');
-            expect(mockFetch).toHaveBeenCalledWith('/api/equipment/1', {credentials: 'include'});
+            expect(mockFetch).toHaveBeenCalledWith('/api/v1/equipment/1', {credentials: 'include'});
             expect(result).toEqual(equipment);
         });
     });
 
     describe('addEquipment', () => {
-        it('POSTs to /api/equipment with JSON body', async () => {
+        it('POSTs to /api/v1/equipment with JSON body', async () => {
             const data = {manufacturer: 'Acme'} as Omit<Equipment, 'id'>;
             const created = {id: '1', ...data} as Equipment;
             mockFetch.mockResolvedValue(makeResponse(created));
             const result = await addEquipment(data);
 
             const [url, opts] = mockFetch.mock.calls[0];
-            expect(url).toBe('/api/equipment');
+            expect(url).toBe('/api/v1/equipment');
             expect(opts.method).toBe('POST');
             expect(JSON.parse(opts.body)).toEqual(data);
             expect(result).toEqual(created);
@@ -134,14 +134,14 @@ describe('client', () => {
     });
 
     describe('updateEquipment', () => {
-        it('PUTs to /api/equipment/:id with JSON body', async () => {
+        it('PUTs to /api/v1/equipment/:id with JSON body', async () => {
             const data = {manufacturer: 'Acme'} as Omit<Equipment, 'id'>;
             const updated = {id: '1', ...data} as Equipment;
             mockFetch.mockResolvedValue(makeResponse(updated));
             const result = await updateEquipment('1', data);
 
             const [url, opts] = mockFetch.mock.calls[0];
-            expect(url).toBe('/api/equipment/1');
+            expect(url).toBe('/api/v1/equipment/1');
             expect(opts.method).toBe('PUT');
             expect(JSON.parse(opts.body)).toEqual(data);
             expect(result).toEqual(updated);
@@ -149,12 +149,12 @@ describe('client', () => {
     });
 
     describe('deleteEquipment', () => {
-        it('DELETEs /api/equipment/:id', async () => {
+        it('DELETEs /api/v1/equipment/:id', async () => {
             mockFetch.mockResolvedValue(makeResponse(null));
             await deleteEquipment('1');
 
             const [url, opts] = mockFetch.mock.calls[0];
-            expect(url).toBe('/api/equipment/1');
+            expect(url).toBe('/api/v1/equipment/1');
             expect(opts.method).toBe('DELETE');
         });
     });
@@ -162,34 +162,34 @@ describe('client', () => {
     // ─── Procedures ───────────────────────────────────────────────────────
 
     describe('fetchProcedures', () => {
-        it('GETs /api/equipment/:id/procedures', async () => {
+        it('GETs /api/v1/equipment/:id/procedures', async () => {
             const procedures: Procedure[] = [];
             mockFetch.mockResolvedValue(makeResponse(procedures));
             const result = await fetchProcedures('eq1');
-            expect(mockFetch).toHaveBeenCalledWith('/api/equipment/eq1/procedures', {credentials: 'include'});
+            expect(mockFetch).toHaveBeenCalledWith('/api/v1/equipment/eq1/procedures', {credentials: 'include'});
             expect(result).toEqual(procedures);
         });
     });
 
     describe('getProcedure', () => {
-        it('GETs /api/equipment/:id/procedures/:procedureId', async () => {
+        it('GETs /api/v1/equipment/:id/procedures/:procedureId', async () => {
             const procedure = {id: 'p1'} as Procedure;
             mockFetch.mockResolvedValue(makeResponse(procedure));
             const result = await getProcedure('eq1', 'p1');
-            expect(mockFetch).toHaveBeenCalledWith('/api/equipment/eq1/procedures/p1', {credentials: 'include'});
+            expect(mockFetch).toHaveBeenCalledWith('/api/v1/equipment/eq1/procedures/p1', {credentials: 'include'});
             expect(result).toEqual(procedure);
         });
     });
 
     describe('addProcedure', () => {
-        it('POSTs to /api/equipment/:id/procedures with JSON body', async () => {
+        it('POSTs to /api/v1/equipment/:id/procedures with JSON body', async () => {
             const data = {name: 'Oil Change'} as Omit<Procedure, 'id'>;
             const created = {id: 'p1', ...data} as Procedure;
             mockFetch.mockResolvedValue(makeResponse(created));
             const result = await addProcedure('eq1', data);
 
             const [url, opts] = mockFetch.mock.calls[0];
-            expect(url).toBe('/api/equipment/eq1/procedures');
+            expect(url).toBe('/api/v1/equipment/eq1/procedures');
             expect(opts.method).toBe('POST');
             expect(JSON.parse(opts.body)).toEqual(data);
             expect(result).toEqual(created);
@@ -197,14 +197,14 @@ describe('client', () => {
     });
 
     describe('updateProcedure', () => {
-        it('PUTs to /api/equipment/:id/procedures/:procedureId with JSON body', async () => {
+        it('PUTs to /api/v1/equipment/:id/procedures/:procedureId with JSON body', async () => {
             const data = {name: 'Filter Change'} as Omit<Procedure, 'id'>;
             const updated = {id: 'p1', ...data} as Procedure;
             mockFetch.mockResolvedValue(makeResponse(updated));
             const result = await updateProcedure('eq1', 'p1', data);
 
             const [url, opts] = mockFetch.mock.calls[0];
-            expect(url).toBe('/api/equipment/eq1/procedures/p1');
+            expect(url).toBe('/api/v1/equipment/eq1/procedures/p1');
             expect(opts.method).toBe('PUT');
             expect(JSON.parse(opts.body)).toEqual(data);
             expect(result).toEqual(updated);
@@ -212,12 +212,12 @@ describe('client', () => {
     });
 
     describe('deleteProcedure', () => {
-        it('DELETEs /api/equipment/:id/procedures/:procedureId', async () => {
+        it('DELETEs /api/v1/equipment/:id/procedures/:procedureId', async () => {
             mockFetch.mockResolvedValue(makeResponse(null));
             await deleteProcedure('eq1', 'p1');
 
             const [url, opts] = mockFetch.mock.calls[0];
-            expect(url).toBe('/api/equipment/eq1/procedures/p1');
+            expect(url).toBe('/api/v1/equipment/eq1/procedures/p1');
             expect(opts.method).toBe('DELETE');
         });
     });
@@ -231,7 +231,7 @@ describe('client', () => {
             const result = await recordPerformance('eq1', 'p1', '2026-01-01', 'Looks good');
 
             const [url, opts] = mockFetch.mock.calls[0];
-            expect(url).toBe('/api/equipment/eq1/procedures/p1/history');
+            expect(url).toBe('/api/v1/equipment/eq1/procedures/p1/history');
             expect(opts.method).toBe('POST');
             expect(JSON.parse(opts.body)).toEqual({date: '2026-01-01', notes: 'Looks good'});
             expect(result).toEqual(response);
@@ -241,12 +241,12 @@ describe('client', () => {
     // ─── Email ────────────────────────────────────────────────────────────
 
     describe('sendDashboardEmail', () => {
-        it('POSTs to /api/email/dashboard and returns result', async () => {
+        it('POSTs to /api/v1/email/dashboard and returns result', async () => {
             mockFetch.mockResolvedValue(makeResponse({success: true}));
             const result = await sendDashboardEmail();
 
             const [url, opts] = mockFetch.mock.calls[0];
-            expect(url).toBe('/api/email/dashboard');
+            expect(url).toBe('/api/v1/email/dashboard');
             expect(opts.method).toBe('POST');
             expect(result).toEqual({success: true});
         });

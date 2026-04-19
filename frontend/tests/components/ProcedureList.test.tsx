@@ -5,32 +5,10 @@ import {MemoryRouter} from 'react-router-dom';
 import ProcedureList from '../../src/components/ProcedureList';
 import type {Procedure} from '../../src/types/procedure';
 
-const today = new Date().toISOString();
-const pastDate = new Date(Date.now() - 200 * 24 * 60 * 60 * 1000).toISOString();
-
 const procedures: Procedure[] = [
-    {
-        id: 'p1',
-        name: 'Oil Change',
-        description: 'Change the oil',
-        steps: '',
-        intervalDays: 90,
-        history: [{id: 'h1', date: today, notes: ''}],
-    },
-    {
-        id: 'p2',
-        name: 'Filter Swap',
-        description: 'Replace filter',
-        steps: '',
-        intervalDays: 30,
-        history: [{id: 'h2', date: pastDate, notes: ''}],
-    },
-    {
-        id: 'p3',
-        name: 'Inspection',
-        steps: '',
-        intervalDays: 365,
-    },
+    {id: 'p1', name: 'Oil Change', description: 'Change the oil', steps: '', intervalDays: 90},
+    {id: 'p2', name: 'Filter Swap', description: 'Replace filter', steps: '', intervalDays: 30},
+    {id: 'p3', name: 'Inspection', steps: '', intervalDays: 365},
 ];
 
 const renderList = (overrides = procedures, onDelete = vi.fn()) =>
@@ -64,11 +42,6 @@ describe('ProcedureList', () => {
         renderList();
         await userEvent.type(screen.getByPlaceholderText(/search procedures/i), 'xyznotfound');
         expect(screen.getByText(/No procedures match your search/)).toBeInTheDocument();
-    });
-
-    it('shows N/A for procedures with no history', () => {
-        renderList();
-        expect(screen.getAllByText('N/A').length).toBeGreaterThan(0);
     });
 
     it('renders Perform, History, Edit, and Delete action links', () => {

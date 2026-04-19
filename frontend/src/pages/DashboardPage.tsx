@@ -1,24 +1,17 @@
 import {useEffect, useMemo, useState} from "react";
 import {Link} from "react-router-dom";
-import type {Equipment} from "../types/equipment";
-import type {Procedure} from "../types/procedure";
-import {calculateDueDetails} from "../lib/procedureUtils";
-import {deleteProcedure, fetchEquipment, sendDashboardEmail} from "../api/client";
+import type {DashboardItem} from "../types/equipment";
+import {deleteProcedure, getDashboard, sendDashboardEmail} from "../api/client";
 import {Calendar as CalendarIcon, ChevronDown, ChevronUp, List, Mail, Search, X} from "lucide-react";
 import CalendarView from "../components/CalendarView";
 
-interface FlattenedProcedure extends Procedure {
-    equipmentId: string;
-    equipmentName: string;
-}
-
-type SortField = 'equipmentName' | 'name' | 'intervalDays' | 'daysTillDue';
+type SortField = 'equipmentName' | 'procedureName' | 'intervalDays' | 'daysTillDue';
 type SortOrder = 'asc' | 'desc';
 
 const STORAGE_KEY = 'dashboard_settings';
 
 export default function DashboardPage() {
-    const [procedures, setProcedures] = useState<FlattenedProcedure[]>([]);
+    const [items, setItems] = useState<DashboardItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState(() => {
         try {
@@ -51,22 +44,13 @@ export default function DashboardPage() {
 
     useEffect(() => {
         let cancelled = false;
-        fetchEquipment().then((allEquipment) => {
-            if (cancelled) return;
-            const flattened: FlattenedProcedure[] = [];
-            allEquipment.forEach((eq: Equipment) => {
-                if (eq.procedures) {
-                    eq.procedures.forEach((proc: Procedure) => {
-                        flattened.push({
-                            ...proc,
-                            equipmentId: eq.id,
-                            equipmentName: `${eq.manufacturer} ${eq.modelNumber}`
-                        });
-                    });
-                }
-            });
-            setProcedures(flattened);
-            setLoading(false);
+        getDashboard().then((data) => {
+            if (!cancelled) {
+                setItems(data);
+                setLoading(false);
+            }
+        }).catch(() => {
+            if (!cancelled) setLoading(false);
         });
         return () => {
             cancelled = true;
@@ -74,50 +58,43 @@ export default function DashboardPage() {
     }, [refreshCount]);
 
     const calendarEvents = useMemo(() => {
-        return procedures.map(proc => {
-            const due = calculateDueDetails(proc);
-            return {
-                date: due?.dueDate || new Date(),
-                equipmentId: proc.equipmentId,
-                equipmentName: proc.equipmentName,
-                procedureId: proc.id,
-                procedureName: proc.name,
-                isOverdue: (due?.daysTillDue || 0) <= 0 && due !== null
-            };
-        }).filter(event => event !== null);
-    }, [procedures]);
+        return items
+            .filter(item => item.dueDate !== null)
+            .map(item => ({
+                date: new Date(item.dueDate!),
+                equipmentId: item.equipmentId,
+                equipmentName: item.equipmentName,
+                procedureId: item.procedureId,
+                procedureName: item.procedureName,
+                isOverdue: item.daysTillDue !== null && item.daysTillDue <= 0,
+            }));
+    }, [items]);
 
-    const filteredAndSortedProcedures = useMemo(() => {
-        let result = [...procedures];
+    const filteredAndSortedItems = useMemo(() => {
+        let result = [...items];
 
         if (searchTerm) {
-            const lowerSearch = searchTerm.toLowerCase();
-            result = result.filter(proc =>
-                proc.equipmentName.toLowerCase().includes(lowerSearch) ||
-                proc.name.toLowerCase().includes(lowerSearch) ||
-                (proc.description && proc.description.toLowerCase().includes(lowerSearch))
+            const lower = searchTerm.toLowerCase();
+            result = result.filter(item =>
+                item.equipmentName.toLowerCase().includes(lower) ||
+                item.procedureName.toLowerCase().includes(lower) ||
+                (item.procedureDescription && item.procedureDescription.toLowerCase().includes(lower))
             );
         }
 
         result.sort((a, b) => {
-            const aDue = calculateDueDetails(a);
-            const bDue = calculateDueDetails(b);
-
-            if (aDue === null && bDue !== null) return -1;
-            if (aDue !== null && bDue === null) return 1;
-
             let aValue: string | number;
             let bValue: string | number;
 
             if (sortField === 'daysTillDue') {
-                aValue = aDue?.daysTillDue ?? 0;
-                bValue = bDue?.daysTillDue ?? 0;
-            } else if (sortField === 'equipmentName' || sortField === 'name') {
+                aValue = a.daysTillDue ?? Number.MAX_SAFE_INTEGER;
+                bValue = b.daysTillDue ?? Number.MAX_SAFE_INTEGER;
+            } else if (sortField === 'intervalDays') {
+                aValue = a.intervalDays;
+                bValue = b.intervalDays;
+            } else {
                 aValue = a[sortField].toLowerCase();
                 bValue = b[sortField].toLowerCase();
-            } else {
-                aValue = a[sortField];
-                bValue = b[sortField];
             }
 
             if (aValue < bValue) return sortOrder === 'asc' ? -1 : 1;
@@ -126,7 +103,7 @@ export default function DashboardPage() {
         });
 
         return result;
-    }, [procedures, searchTerm, sortField, sortOrder]);
+    }, [items, searchTerm, sortField, sortOrder]);
 
     const handleSort = (field: SortField) => {
         if (sortField === field) {
@@ -234,7 +211,7 @@ export default function DashboardPage() {
                                         </div>
                                     </div>
                                     <DashboardList
-                                        procedures={filteredAndSortedProcedures}
+                                        items={filteredAndSortedItems}
                                         onDelete={handleDelete}
                                         sortField={sortField}
                                         sortOrder={sortOrder}
@@ -254,40 +231,37 @@ export default function DashboardPage() {
     );
 }
 
-
-function DueStatus({details}: { details: ReturnType<typeof calculateDueDetails> }) {
-    if (!details) return <span className="text-gray-400 italic text-sm">N/A</span>;
+function DueStatus({item}: { item: DashboardItem }) {
+    if (item.daysTillDue === null || item.dueDate === null) {
+        return <span className="text-gray-400 italic text-sm">N/A</span>;
+    }
 
     return (
         <div
-            className={details.daysTillDue <= 0 ? "text-red-600 dark:text-red-400 font-bold" : "text-gray-900 dark:text-gray-100"}>
-            <div className="text-sm">
-                {details.daysTillDue} days
-            </div>
-            <div className="text-xs opacity-75">
-                ({details.dueDate.toLocaleDateString()})
-            </div>
+            className={item.daysTillDue <= 0 ? "text-red-600 dark:text-red-400 font-bold" : "text-gray-900 dark:text-gray-100"}>
+            <div className="text-sm">{item.daysTillDue} days</div>
+            <div className="text-xs opacity-75">({new Date(item.dueDate).toLocaleDateString()})</div>
         </div>
     );
 }
 
-function DashboardSortIndicator({field, sortField, sortOrder}: {
+function SortIndicator({field, sortField, sortOrder}: {
     field: SortField;
     sortField: SortField;
-    sortOrder: SortOrder
+    sortOrder: SortOrder;
 }) {
     if (sortField !== field) return <div className="w-4 h-4 ml-1 inline-block"/>;
-    return sortOrder === 'asc' ?
-        <ChevronUp className="w-4 h-4 ml-1 inline-block"/> :
-        <ChevronDown className="w-4 h-4 ml-1 inline-block"/>;
+    return sortOrder === 'asc'
+        ? <ChevronUp className="w-4 h-4 ml-1 inline-block"/>
+        : <ChevronDown className="w-4 h-4 ml-1 inline-block"/>;
 }
 
-function DashboardList({procedures, onDelete, sortField, sortOrder, onSort}: {
-    procedures: FlattenedProcedure[],
-    onDelete: (eqId: string, procId: string) => void,
-    sortField: SortField,
-    sortOrder: SortOrder,
-    onSort: (field: SortField) => void
+function DashboardList({items, onDelete, sortField, sortOrder, onSort}: {
+    items: DashboardItem[];
+    onDelete: (eqId: string, procId: string) => void;
+    sortField: SortField;
+    sortOrder: SortOrder;
+    onSort: (field: SortField) => void;
 }) {
     return (
         <div>
@@ -299,128 +273,125 @@ function DashboardList({procedures, onDelete, sortField, sortOrder, onSort}: {
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
                             onClick={() => onSort('equipmentName')}
                         >
-                            Equipment <DashboardSortIndicator field="equipmentName" sortField={sortField}
-                                                              sortOrder={sortOrder}/>
+                            Equipment <SortIndicator field="equipmentName" sortField={sortField} sortOrder={sortOrder}/>
                         </th>
                         <th
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
-                            onClick={() => onSort('name')}
+                            onClick={() => onSort('procedureName')}
                         >
-                            Procedure <DashboardSortIndicator field="name" sortField={sortField} sortOrder={sortOrder}/>
+                            Procedure <SortIndicator field="procedureName" sortField={sortField} sortOrder={sortOrder}/>
                         </th>
                         <th
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
                             onClick={() => onSort('intervalDays')}
                         >
-                            Interval <DashboardSortIndicator field="intervalDays" sortField={sortField}
-                                                             sortOrder={sortOrder}/>
+                            Interval <SortIndicator field="intervalDays" sortField={sortField} sortOrder={sortOrder}/>
                         </th>
                         <th
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
                             onClick={() => onSort('daysTillDue')}
                         >
-                            Due In <DashboardSortIndicator field="daysTillDue" sortField={sortField}
-                                                           sortOrder={sortOrder}/>
+                            Due In <SortIndicator field="daysTillDue" sortField={sortField} sortOrder={sortOrder}/>
                         </th>
                         <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
                     </tr>
                     </thead>
                     <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
-                    {procedures.map((proc) => {
-                        const dueDetails = calculateDueDetails(proc);
-
-                        return (
-                            <tr key={`${proc.equipmentId}-${proc.id}`}>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
-                                    <Link to={`/equipment/${proc.equipmentId}`}
-                                          className="hover:underline text-blue-600 dark:text-blue-400">
-                                        {proc.equipmentName}
+                    {items.map((item) => (
+                        <tr key={`${item.equipmentId}-${item.procedureId}`}>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
+                                <Link to={`/equipment/${item.equipmentId}`}
+                                      className="hover:underline text-blue-600 dark:text-blue-400">
+                                    {item.equipmentName}
+                                </Link>
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-300">
+                                <Link to={`/equipment/${item.equipmentId}/procedures/${item.procedureId}`}
+                                      className="font-medium text-blue-600 dark:text-blue-400 hover:underline transition-colors">
+                                    {item.procedureName}
+                                </Link>
+                                <div className="text-xs text-gray-500 line-clamp-1">{item.procedureDescription}</div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">{item.intervalDays} days</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
+                                <DueStatus item={item}/>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <div className="flex gap-3 justify-end">
+                                    <Link
+                                        to={`/equipment/${item.equipmentId}/procedures/${item.procedureId}/perform`}
+                                        className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium"
+                                    >
+                                        Perform
                                     </Link>
-                                </td>
-                                <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-300">
-                                    <Link to={`/equipment/${proc.equipmentId}/procedures/${proc.id}`}
-                                          className="font-medium text-blue-600 dark:text-blue-400 hover:underline transition-colors">
-                                        {proc.name}
+                                    <Link
+                                        to={`/equipment/${item.equipmentId}/procedures/${item.procedureId}/history`}
+                                        className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 text-sm font-medium"
+                                    >
+                                        History
                                     </Link>
-                                    <div className="text-xs text-gray-500 line-clamp-1">{proc.description}</div>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">{proc.intervalDays} days</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
-                                    <DueStatus details={dueDetails}/>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <ActionLinks equipmentId={proc.equipmentId} proc={proc} onDelete={onDelete}/>
-                                </td>
-                            </tr>
-                        );
-                    })}
+                                    <button
+                                        onClick={() => onDelete(item.equipmentId, item.procedureId)}
+                                        className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium cursor-pointer"
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    ))}
                     </tbody>
                 </table>
             </div>
 
             <div className="md:hidden divide-y divide-gray-200 dark:divide-gray-800">
-                {procedures.map((proc) => {
-                    const dueDetails = calculateDueDetails(proc);
-                    return (
-                        <div key={`${proc.equipmentId}-${proc.id}`} className="p-4 space-y-3">
-                            <div className="flex justify-between items-start">
-                                <div>
-                                    <Link to={`/equipment/${proc.equipmentId}`}
-                                          className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline">
-                                        {proc.equipmentName}
-                                    </Link>
-                                    <Link to={`/equipment/${proc.equipmentId}/procedures/${proc.id}`}
-                                          className="hover:underline text-blue-600 dark:text-blue-400">
-                                        <h3 className="text-sm font-bold">{proc.name}</h3>
-                                    </Link>
-                                </div>
-                                <DueStatus details={dueDetails}/>
+                {items.map((item) => (
+                    <div key={`${item.equipmentId}-${item.procedureId}`} className="p-4 space-y-3">
+                        <div className="flex justify-between items-start">
+                            <div>
+                                <Link to={`/equipment/${item.equipmentId}`}
+                                      className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline">
+                                    {item.equipmentName}
+                                </Link>
+                                <Link to={`/equipment/${item.equipmentId}/procedures/${item.procedureId}`}
+                                      className="hover:underline text-blue-600 dark:text-blue-400">
+                                    <h3 className="text-sm font-bold">{item.procedureName}</h3>
+                                </Link>
                             </div>
-                            <div className="text-xs text-gray-500 dark:text-gray-400">
-                                Interval: {proc.intervalDays} days
-                            </div>
-                            <div className="flex flex-wrap justify-end gap-3 pt-2">
-                                <ActionLinks equipmentId={proc.equipmentId} proc={proc} onDelete={onDelete}/>
-                            </div>
+                            <DueStatus item={item}/>
                         </div>
-                    );
-                })}
+                        <div className="text-xs text-gray-500 dark:text-gray-400">
+                            Interval: {item.intervalDays} days
+                        </div>
+                        <div className="flex flex-wrap justify-end gap-3 pt-2">
+                            <Link
+                                to={`/equipment/${item.equipmentId}/procedures/${item.procedureId}/perform`}
+                                className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium"
+                            >
+                                Perform
+                            </Link>
+                            <Link
+                                to={`/equipment/${item.equipmentId}/procedures/${item.procedureId}/history`}
+                                className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 text-sm font-medium"
+                            >
+                                History
+                            </Link>
+                            <button
+                                onClick={() => onDelete(item.equipmentId, item.procedureId)}
+                                className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium cursor-pointer"
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                ))}
             </div>
 
-            {procedures.length === 0 && (
+            {items.length === 0 && (
                 <div className="py-10 text-center text-sm text-gray-500 dark:text-gray-400">
                     No procedures found.
                 </div>
             )}
-        </div>
-    );
-}
-
-function ActionLinks({equipmentId, proc, onDelete}: {
-    equipmentId: string;
-    proc: Procedure;
-    onDelete: (eqId: string, procId: string) => void
-}) {
-    return (
-        <div className="flex gap-3 justify-end">
-            <Link
-                to={`/equipment/${equipmentId}/procedures/${proc.id}/perform`}
-                className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium"
-            >
-                Perform
-            </Link>
-            <Link
-                to={`/equipment/${equipmentId}/procedures/${proc.id}/history`}
-                className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 text-sm font-medium"
-            >
-                History
-            </Link>
-            <button
-                onClick={() => onDelete(equipmentId, proc.id)}
-                className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium cursor-pointer"
-            >
-                Delete
-            </button>
         </div>
     );
 }

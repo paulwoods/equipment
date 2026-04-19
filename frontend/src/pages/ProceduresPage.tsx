@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
-import {deleteProcedure, getEquipment} from "../api/client";
+import {deleteProcedure, fetchProcedures, getEquipment} from "../api/client";
 import type {Procedure} from "../types/procedure";
 import type {Equipment} from "../types/equipment";
 import ProcedureList from "../components/ProcedureList";
@@ -13,10 +13,10 @@ export default function ProceduresPage() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        getEquipment(id)
-            .then((eq) => {
+        Promise.all([getEquipment(id), fetchProcedures(id)])
+            .then(([eq, procs]) => {
                 setEquipment(eq);
-                setProcedures(eq.procedures || []);
+                setProcedures(procs);
             })
             .catch(() => setEquipment(null))
             .finally(() => setLoading(false));

@@ -1,32 +1,30 @@
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import {getEquipment} from "../api/client";
-import type {Procedure} from "../types/procedure";
+import {fetchHistory, getEquipment, getProcedure} from "../api/client";
+import type {Perform, Procedure} from "../types/procedure";
 
 export default function ProcedureHistoryPage() {
     const {id, procedureId} = useParams() as { id: string; procedureId: string };
     const [procedure, setProcedure] = useState<Procedure | null>(null);
+    const [history, setHistory] = useState<Perform[]>([]);
     const [equipmentInfo, setEquipmentInfo] = useState({manufacturer: "", modelNumber: ""});
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        getEquipment(id)
-            .then((equipment) => {
-                setEquipmentInfo({
-                    manufacturer: equipment.manufacturer,
-                    modelNumber: equipment.modelNumber,
-                });
-                const proc = equipment.procedures?.find((p) => p.id === procedureId);
-                setProcedure(proc || null);
-            })
-            .catch(() => setProcedure(null))
+        Promise.all([
+            getEquipment(id),
+            getProcedure(id, procedureId),
+            fetchHistory(id, procedureId),
+        ]).then(([equipment, proc, hist]) => {
+            setEquipmentInfo({manufacturer: equipment.manufacturer, modelNumber: equipment.modelNumber});
+            setProcedure(proc);
+            setHistory(hist);
+        }).catch(() => setProcedure(null))
             .finally(() => setLoading(false));
     }, [id, procedureId]);
 
     if (loading) return <div className="p-8 text-center text-black dark:text-white">Loading...</div>;
     if (!procedure) return <div className="p-8 text-center text-black dark:text-white">Procedure not found.</div>;
-
-    const history = procedure.history || [];
 
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-8 px-4 sm:px-6 lg:px-8">
@@ -60,7 +58,7 @@ export default function ProcedureHistoryPage() {
                             </thead>
                             <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
                             {history.length > 0 ? (
-                                history
+                                [...history]
                                     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                                     .map((record) => (
                                         <tr key={record.id}>
@@ -85,7 +83,7 @@ export default function ProcedureHistoryPage() {
 
                         <div className="md:hidden divide-y divide-gray-200 dark:divide-gray-800">
                             {history.length > 0 ? (
-                                history
+                                [...history]
                                     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                                     .map((record) => (
                                         <div key={record.id} className="py-4 space-y-2">

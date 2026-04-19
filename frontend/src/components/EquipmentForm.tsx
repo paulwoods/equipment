@@ -20,7 +20,6 @@ export default function EquipmentForm({equipment, onSubmit, onCancel}: Equipment
         purchaseDate: equipment?.purchaseDate
             ? equipment.purchaseDate.split("T")[0]
             : new Date().toISOString().split("T")[0],
-        procedures: equipment?.procedures || [],
     });
 
     const handleSubmit = (e: FormEvent) => {
