@@ -1,40 +1,39 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from "react";
 import {BrowserRouter, Navigate, Route, Routes, useLocation} from 'react-router-dom';
-import {ThemeProvider} from './components/ThemeProvider';
-import {AuthContext} from './hooks/useAuth';
+import {Breadcrumbs, Footer, Header, ThemeProvider} from './components';
+import {AuthContext} from './hooks';
 import {getMe, getSetupStatus} from './api/client';
-import Header from './components/Header';
-import Breadcrumbs from './components/Breadcrumbs';
-import Footer from './components/Footer';
 
-import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
-import SetupPage from './pages/SetupPage';
-import DashboardPage from './pages/DashboardPage';
-import EquipmentPage from './pages/EquipmentPage';
-import NewEquipmentPage from './pages/NewEquipmentPage';
-import EquipmentShowPage from './pages/EquipmentShowPage';
-import EditEquipmentPage from './pages/EditEquipmentPage';
-import ProceduresPage from './pages/ProceduresPage';
-import NewProcedurePage from './pages/NewProcedurePage';
-import ProcedureShowPage from './pages/ProcedureShowPage';
-import EditProcedurePage from './pages/EditProcedurePage';
-import PerformProcedurePage from './pages/PerformProcedurePage';
-import ProcedureHistoryPage from './pages/ProcedureHistoryPage';
-import ImportEquipmentPage from './pages/ImportEquipmentPage';
-import AboutPage from './pages/AboutPage';
-import ContactPage from './pages/ContactPage';
+import {
+    AboutPage,
+    ContactPage,
+    DashboardPage,
+    EditEquipmentPage,
+    EditProcedurePage,
+    EquipmentPage,
+    EquipmentShowPage,
+    HomePage,
+    ImportEquipmentPage,
+    LoginPage,
+    NewEquipmentPage,
+    NewProcedurePage,
+    PerformProcedurePage,
+    ProcedureHistoryPage,
+    ProcedureShowPage,
+    ProceduresPage,
+    SetupPage
+} from './pages';
 
-function ProtectedRoute({email, children}: { email: string | null; children: React.ReactNode }) {
+const ProtectedRoute = ({email, children}: { email: string | null; children: React.ReactNode }): React.JSX.Element => {
     const location = useLocation();
     if (!email) {
         const returnTo = encodeURIComponent(location.pathname + location.search);
         return <Navigate to={`/login?returnTo=${returnTo}`} replace/>;
     }
     return <>{children}</>;
-}
+};
 
-function Layout({children}: { children: React.ReactNode }) {
+const Layout = ({children}: { children: React.ReactNode }): React.JSX.Element => {
     return (
         <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-gray-950">
             <Header/>
@@ -47,9 +46,9 @@ function Layout({children}: { children: React.ReactNode }) {
             <Footer/>
         </div>
     );
-}
+};
 
-export default function App() {
+const App = (): React.JSX.Element => {
     const [email, setEmail] = useState<string | null>(null);
     const [authChecked, setAuthChecked] = useState(false);
     const [setupRequired, setSetupRequired] = useState(false);
@@ -62,7 +61,7 @@ export default function App() {
         ]).finally(() => setAuthChecked(true));
     }, []);
 
-    const setAuthenticated = async (authenticated: boolean) => {
+    const setAuthenticated = async (authenticated: boolean): Promise<void> => {
         if (!authenticated) {
             setEmail(null);
         } else {
@@ -72,7 +71,7 @@ export default function App() {
     };
 
     if (!authChecked) {
-        return null;
+        return <></>;
     }
 
     return (
@@ -90,9 +89,9 @@ export default function App() {
                                 ? <Navigate to="/login" replace/>
                                 : email
                                     ? <Navigate to="/dashboard" replace/>
-                                    : <SetupPage onSetupComplete={(email) => {
+                                    : <SetupPage onSetupComplete={(e) => {
                                         setSetupRequired(false);
-                                        setEmail(email);
+                                        setEmail(e);
                                     }}/>
                         }/>
                         <Route path="/" element={
@@ -143,4 +142,6 @@ export default function App() {
             </AuthContext.Provider>
         </ThemeProvider>
     );
-}
+};
+
+export {App};

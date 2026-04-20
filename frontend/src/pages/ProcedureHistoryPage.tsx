@@ -1,9 +1,9 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {fetchHistory, getEquipment, getProcedure} from "../api/client";
 import type {Perform, Procedure} from "../types/procedure";
 
-export default function ProcedureHistoryPage() {
+const ProcedureHistoryPage = (): React.JSX.Element => {
     const {id, procedureId} = useParams() as { id: string; procedureId: string };
     const [procedure, setProcedure] = useState<Procedure | null>(null);
     const [history, setHistory] = useState<Perform[]>([]);
@@ -107,3 +107,5 @@ export default function ProcedureHistoryPage() {
         </div>
     );
 }
+
+export {ProcedureHistoryPage};

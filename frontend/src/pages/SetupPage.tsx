@@ -1,4 +1,4 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import {setupAdmin} from "../api/client";
 import {Lock, Mail} from "lucide-react";
 import {useNavigate} from "react-router-dom";
@@ -7,12 +7,12 @@ interface SetupPageProps {
     onSetupComplete: (email: string) => void;
 }
 
-export default function SetupPage({onSetupComplete}: SetupPageProps) {
+const SetupPage = ({onSetupComplete}: SetupPageProps): React.JSX.Element => {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
         event.preventDefault();
         setLoading(true);
         setError(null);
@@ -38,7 +38,7 @@ export default function SetupPage({onSetupComplete}: SetupPageProps) {
             setError("Setup failed. Please try again.");
             setLoading(false);
         }
-    }
+    };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
@@ -112,4 +112,6 @@ export default function SetupPage({onSetupComplete}: SetupPageProps) {
             </div>
         </div>
     );
-}
+};
+
+export {SetupPage};

@@ -1,30 +1,34 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import type {Equipment} from "../types/equipment";
-import EquipmentList from "../components/EquipmentList";
+import {EquipmentList} from "../components";
 import {deleteEquipment, exportEquipment, fetchEquipment} from "../api/client";
 
-export default function EquipmentPage() {
+const EquipmentPage = (): React.JSX.Element => {
     const [equipmentList, setEquipmentList] = useState<Equipment[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const loadEquipment = async () => {
-            const data = await fetchEquipment();
-            setEquipmentList(data);
-        };
-        loadEquipment();
+        fetchEquipment()
+            .then(setEquipmentList)
+            .catch(() => setError("Failed to load equipment."))
+            .finally(() => setLoading(false));
     }, []);
 
-    const handleExport = async () => {
+    const handleExport = async (): Promise<void> => {
         await exportEquipment();
     };
 
-    const handleDelete = async (id: string) => {
+    const handleDelete = async (id: string): Promise<void> => {
         if (confirm("Are you sure you want to delete this equipment?")) {
             await deleteEquipment(id);
             setEquipmentList(equipmentList.filter((item) => item.id !== id));
         }
     };
+
+    if (loading) return <div className="p-8 text-center text-gray-500">Loading...</div>;
+    if (error) return <div className="p-8 text-center text-red-600 dark:text-red-400">{error}</div>;
 
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-8 px-4 sm:px-6 lg:px-8">
@@ -56,4 +60,6 @@ export default function EquipmentPage() {
             </div>
         </div>
     );
-}
+};
+
+export {EquipmentPage};

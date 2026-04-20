@@ -11,6 +11,6 @@ export const AuthContext = createContext<AuthContextValue>({
     },
 });
 
-export function useAuth() {
+export const useAuth = (): AuthContextValue => {
     return useContext(AuthContext);
-}
+};

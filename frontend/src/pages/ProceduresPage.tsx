@@ -1,12 +1,12 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
 import {deleteProcedure, fetchProcedures, getEquipment} from "../api/client";
 import type {Procedure} from "../types/procedure";
 import type {Equipment} from "../types/equipment";
-import ProcedureList from "../components/ProcedureList";
+import {ProcedureList} from "../components";
 import {Hash, MapPin, Tag} from "lucide-react";
 
-export default function ProceduresPage() {
+const ProceduresPage = (): React.JSX.Element => {
     const {id} = useParams() as { id: string };
     const [procedures, setProcedures] = useState<Procedure[]>([]);
     const [equipment, setEquipment] = useState<Equipment | null>(null);
@@ -89,7 +89,7 @@ export default function ProceduresPage() {
     );
 }
 
-function StatusBadge({status}: { status: Equipment['status'] }) {
+const StatusBadge = ({status}: { status: Equipment['status'] }): React.JSX.Element => {
     const colors = {
         'Active': 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
         'In Use': 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
@@ -104,4 +104,6 @@ function StatusBadge({status}: { status: Equipment['status'] }) {
       {status}
     </span>
     );
-}
+};
+
+export {ProceduresPage};

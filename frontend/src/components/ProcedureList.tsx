@@ -1,6 +1,6 @@
+import React, {useMemo, useState} from "react";
 import type {Procedure} from "../types/procedure";
 import {Link} from "react-router-dom";
-import {useMemo, useState} from "react";
 import {ChevronDown, ChevronUp, Search, X} from "lucide-react";
 
 interface ProcedureListProps {
@@ -12,18 +12,53 @@ interface ProcedureListProps {
 type SortField = 'name' | 'description' | 'intervalDays';
 type SortOrder = 'asc' | 'desc';
 
-function SortIndicator({field, sortField, sortOrder}: {
+const SortIndicator = ({field, sortField, sortOrder}: {
     field: SortField;
     sortField: SortField;
-    sortOrder: SortOrder
-}) {
+    sortOrder: SortOrder;
+}): React.JSX.Element => {
     if (sortField !== field) return <div className="w-4 h-4 ml-1 inline-block"/>;
-    return sortOrder === 'asc' ?
-        <ChevronUp className="w-4 h-4 ml-1 inline-block"/> :
-        <ChevronDown className="w-4 h-4 ml-1 inline-block"/>;
-}
+    return sortOrder === 'asc'
+        ? <ChevronUp className="w-4 h-4 ml-1 inline-block"/>
+        : <ChevronDown className="w-4 h-4 ml-1 inline-block"/>;
+};
 
-export default function ProcedureList({equipmentId, procedures, onDelete}: ProcedureListProps) {
+const ActionLinks = ({equipmentId, proc, onDelete}: {
+    equipmentId: string;
+    proc: Procedure;
+    onDelete: (id: string) => void;
+}): React.JSX.Element => {
+    return (
+        <>
+            <Link
+                to={`/equipment/${equipmentId}/procedures/${proc.id}/perform`}
+                className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium mr-4 md:mr-4 last:mr-0"
+            >
+                Perform
+            </Link>
+            <Link
+                to={`/equipment/${equipmentId}/procedures/${proc.id}/history`}
+                className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 text-sm font-medium mr-4 md:mr-4 last:mr-0"
+            >
+                History
+            </Link>
+            <Link
+                to={`/equipment/${equipmentId}/procedures/${proc.id}/edit`}
+                className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium mr-4 md:mr-4 last:mr-0"
+            >
+                Edit
+            </Link>
+            <button
+                onClick={() => onDelete(proc.id)}
+                className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium cursor-pointer"
+            >
+                Delete
+            </button>
+        </>
+    );
+};
+
+export const ProcedureList = ({equipmentId, procedures, onDelete}: ProcedureListProps): React.JSX.Element => {
     const [searchTerm, setSearchTerm] = useState("");
     const [sortField, setSortField] = useState<SortField>('name');
     const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
@@ -44,8 +79,8 @@ export default function ProcedureList({equipmentId, procedures, onDelete}: Proce
             let bValue: string | number;
 
             if (sortField === 'name' || sortField === 'description') {
-                aValue = (a[sortField] || "").toLowerCase();
-                bValue = (b[sortField] || "").toLowerCase();
+                aValue = (a[sortField] ?? "").toLowerCase();
+                bValue = (b[sortField] ?? "").toLowerCase();
             } else {
                 aValue = a[sortField];
                 bValue = b[sortField];
@@ -59,7 +94,7 @@ export default function ProcedureList({equipmentId, procedures, onDelete}: Proce
         return result;
     }, [procedures, searchTerm, sortField, sortOrder]);
 
-    const handleSort = (field: SortField) => {
+    const handleSort = (field: SortField): void => {
         if (sortField === field) {
             setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
         } else {
@@ -67,7 +102,6 @@ export default function ProcedureList({equipmentId, procedures, onDelete}: Proce
             setSortOrder('asc');
         }
     };
-
 
     return (
         <div className="space-y-4">
@@ -168,40 +202,4 @@ export default function ProcedureList({equipmentId, procedures, onDelete}: Proce
             )}
         </div>
     );
-}
-
-
-function ActionLinks({equipmentId, proc, onDelete}: {
-    equipmentId: string;
-    proc: Procedure;
-    onDelete: (id: string) => void
-}) {
-    return (
-        <>
-            <Link
-                to={`/equipment/${equipmentId}/procedures/${proc.id}/perform`}
-                className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium mr-4 md:mr-4 last:mr-0"
-            >
-                Perform
-            </Link>
-            <Link
-                to={`/equipment/${equipmentId}/procedures/${proc.id}/history`}
-                className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 text-sm font-medium mr-4 md:mr-4 last:mr-0"
-            >
-                History
-            </Link>
-            <Link
-                to={`/equipment/${equipmentId}/procedures/${proc.id}/edit`}
-                className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium mr-4 md:mr-4 last:mr-0"
-            >
-                Edit
-            </Link>
-            <button
-                onClick={() => onDelete(proc.id)}
-                className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium cursor-pointer"
-            >
-                Delete
-            </button>
-        </>
-    );
-}
+};

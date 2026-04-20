@@ -1,5 +1,5 @@
 import type {ChangeEvent, FormEvent} from "react";
-import {useState} from "react";
+import React, {useState} from "react";
 import type {Equipment} from "../types/equipment";
 
 interface EquipmentFormProps {
@@ -8,21 +8,21 @@ interface EquipmentFormProps {
     onCancel: () => void;
 }
 
-export default function EquipmentForm({equipment, onSubmit, onCancel}: EquipmentFormProps) {
+export const EquipmentForm = ({equipment, onSubmit, onCancel}: EquipmentFormProps): React.JSX.Element => {
     const [formData, setFormData] = useState({
-        manufacturer: equipment?.manufacturer || "",
-        modelNumber: equipment?.modelNumber || "",
-        serialNumber: equipment?.serialNumber || "",
-        assetTag: equipment?.assetTag || "",
-        location: equipment?.location || "",
-        status: equipment?.status || "Active" as Equipment["status"],
-        description: equipment?.description || "",
+        manufacturer: equipment?.manufacturer ?? "",
+        modelNumber: equipment?.modelNumber ?? "",
+        serialNumber: equipment?.serialNumber ?? "",
+        assetTag: equipment?.assetTag ?? "",
+        location: equipment?.location ?? "",
+        status: equipment?.status ?? "Active" as Equipment["status"],
+        description: equipment?.description ?? "",
         purchaseDate: equipment?.purchaseDate
             ? equipment.purchaseDate.split("T")[0]
             : new Date().toISOString().split("T")[0],
     });
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = (e: FormEvent): void => {
         e.preventDefault();
         if (equipment) {
             onSubmit({...formData, id: equipment.id} as Equipment);
@@ -31,7 +31,7 @@ export default function EquipmentForm({equipment, onSubmit, onCancel}: Equipment
         }
     };
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>): void => {
         const {name, value} = e.target;
         setFormData((prev) => ({...prev, [name]: value}));
     };
@@ -157,4 +157,4 @@ export default function EquipmentForm({equipment, onSubmit, onCancel}: Equipment
             </div>
         </form>
     );
-}
+};

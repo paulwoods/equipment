@@ -1,12 +1,12 @@
 import type {FormEvent} from "react";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {getEquipment, getProcedure, recordPerformance} from "../api/client";
 import ReactMarkdown from "react-markdown";
 import type {Equipment} from "../types/equipment";
 import {Hash, MapPin, Tag, Wrench} from "lucide-react";
 
-export default function PerformProcedurePage() {
+const PerformProcedurePage = (): React.JSX.Element => {
     const {id, procedureId} = useParams() as { id: string; procedureId: string };
     const navigate = useNavigate();
     const [performDate, setPerformDate] = useState(new Date().toISOString().split("T")[0]);
@@ -146,7 +146,7 @@ export default function PerformProcedurePage() {
     );
 }
 
-function StatusBadge({status}: { status: Equipment['status'] }) {
+const StatusBadge = ({status}: { status: Equipment['status'] }): React.JSX.Element => {
     const colors = {
         'Active': 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
         'In Use': 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
@@ -161,4 +161,6 @@ function StatusBadge({status}: { status: Equipment['status'] }) {
       {status}
     </span>
     );
-}
+};
+
+export {PerformProcedurePage};

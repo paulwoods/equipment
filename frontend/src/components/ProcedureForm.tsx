@@ -1,5 +1,5 @@
 import type {ChangeEvent, FormEvent} from "react";
-import {useMemo, useState} from "react";
+import React, {useMemo, useState} from "react";
 import type {Procedure} from "../types/procedure";
 import type {Equipment} from "../types/equipment";
 import SimpleMDE from "react-simplemde-editor";
@@ -11,13 +11,13 @@ interface ProcedureFormProps {
     onCancel: () => void;
 }
 
-export default function ProcedureForm({equipment, procedure, onSubmit, onCancel}: ProcedureFormProps) {
+export const ProcedureForm = ({equipment, procedure, onSubmit, onCancel}: ProcedureFormProps): React.JSX.Element => {
     const [formData, setFormData] = useState<Omit<Procedure, "id">>({
-        name: procedure?.name || "",
-        description: procedure?.description || "",
-        steps: procedure?.steps || "",
-        requiredTools: procedure?.requiredTools || "",
-        intervalDays: procedure?.intervalDays || 0,
+        name: procedure?.name ?? "",
+        description: procedure?.description ?? "",
+        steps: procedure?.steps ?? "",
+        requiredTools: procedure?.requiredTools ?? "",
+        intervalDays: procedure?.intervalDays ?? 0,
     });
 
     const mdeOptions = useMemo(() => {
@@ -28,7 +28,7 @@ export default function ProcedureForm({equipment, procedure, onSubmit, onCancel}
         };
     }, []);
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = (e: FormEvent): void => {
         e.preventDefault();
         if (procedure) {
             onSubmit({...formData, id: procedure.id} as Procedure);
@@ -37,7 +37,7 @@ export default function ProcedureForm({equipment, procedure, onSubmit, onCancel}
         }
     };
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
         const {name, value} = e.target;
         if (name === "intervalDays") {
             setFormData((prev) => ({...prev, [name]: parseInt(value) || 0}));
@@ -46,11 +46,11 @@ export default function ProcedureForm({equipment, procedure, onSubmit, onCancel}
         }
     };
 
-    const handleStepsChange = (value: string) => {
+    const handleStepsChange = (value: string): void => {
         setFormData((prev) => ({...prev, steps: value}));
     };
 
-    const handleRequiredToolsChange = (value: string) => {
+    const handleRequiredToolsChange = (value: string): void => {
         setFormData((prev) => ({...prev, requiredTools: value}));
     };
 
@@ -154,4 +154,4 @@ export default function ProcedureForm({equipment, procedure, onSubmit, onCancel}
             </div>
         </form>
     );
-}
+};

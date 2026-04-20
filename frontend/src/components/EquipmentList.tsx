@@ -1,6 +1,6 @@
+import React, {useMemo, useState} from "react";
 import type {Equipment, EquipmentStatus} from "../types/equipment";
 import {Link} from "react-router-dom";
-import {useMemo, useState} from "react";
 import {ChevronDown, ChevronUp, Search, X} from "lucide-react";
 
 interface EquipmentListProps {
@@ -11,7 +11,46 @@ interface EquipmentListProps {
 type SortField = 'manufacturer' | 'modelNumber' | 'location' | 'status';
 type SortOrder = 'asc' | 'desc';
 
-export default function EquipmentList({items, onDelete}: EquipmentListProps) {
+const SortIndicator = ({field, sortField, sortOrder}: {
+    field: SortField;
+    sortField: SortField;
+    sortOrder: SortOrder;
+}): React.JSX.Element => {
+    if (sortField !== field) return <div className="w-4 h-4 ml-1 inline-block"/>;
+    return sortOrder === 'asc'
+        ? <ChevronUp className="w-4 h-4 ml-1 inline-block"/>
+        : <ChevronDown className="w-4 h-4 ml-1 inline-block"/>;
+};
+
+const StatusBadge = ({status}: { status: EquipmentStatus }): React.JSX.Element => {
+    const colors = {
+        'Active': 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
+        'In Use': 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
+        'Under Repair': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300',
+        'Decommissioned': 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
+        'In Storage': 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-300'
+    };
+
+    return (
+        <span
+            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${colors[status] ?? colors.Active}`}>
+      {status}
+    </span>
+    );
+};
+
+const ProcedureBadge = ({item}: { item: Equipment }): React.JSX.Element => {
+    return (
+        <Link
+            to={`/equipment/${item.id}/procedures`}
+            className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
+        >
+            View
+        </Link>
+    );
+};
+
+export const EquipmentList = ({items, onDelete}: EquipmentListProps): React.JSX.Element => {
     const [searchTerm, setSearchTerm] = useState("");
     const [sortField, setSortField] = useState<SortField>('manufacturer');
     const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
@@ -31,8 +70,8 @@ export default function EquipmentList({items, onDelete}: EquipmentListProps) {
         }
 
         result.sort((a, b) => {
-            const aValue: string = a[sortField]?.toLowerCase() || "";
-            const bValue: string = b[sortField]?.toLowerCase() || "";
+            const aValue: string = a[sortField]?.toLowerCase() ?? "";
+            const bValue: string = b[sortField]?.toLowerCase() ?? "";
 
             if (aValue < bValue) return sortOrder === 'asc' ? -1 : 1;
             if (aValue > bValue) return sortOrder === 'asc' ? 1 : -1;
@@ -42,7 +81,7 @@ export default function EquipmentList({items, onDelete}: EquipmentListProps) {
         return result;
     }, [items, searchTerm, sortField, sortOrder]);
 
-    const handleSort = (field: SortField) => {
+    const handleSort = (field: SortField): void => {
         if (sortField === field) {
             setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
         } else {
@@ -134,7 +173,7 @@ export default function EquipmentList({items, onDelete}: EquipmentListProps) {
                                 </Link>
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{item.manufacturer}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{item.location || "-"}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{item.location ?? "-"}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
                                 <StatusBadge status={item.status}/>
                             </td>
@@ -207,43 +246,4 @@ export default function EquipmentList({items, onDelete}: EquipmentListProps) {
             )}
         </div>
     );
-}
-
-function SortIndicator({field, sortField, sortOrder}: {
-    field: SortField;
-    sortField: SortField;
-    sortOrder: SortOrder;
-}) {
-    if (sortField !== field) return <div className="w-4 h-4 ml-1 inline-block"/>;
-    return sortOrder === 'asc'
-        ? <ChevronUp className="w-4 h-4 ml-1 inline-block"/>
-        : <ChevronDown className="w-4 h-4 ml-1 inline-block"/>;
-}
-
-function StatusBadge({status}: { status: EquipmentStatus }) {
-    const colors = {
-        'Active': 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
-        'In Use': 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
-        'Under Repair': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300',
-        'Decommissioned': 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
-        'In Storage': 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-300'
-    };
-
-    return (
-        <span
-            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${colors[status] || colors.Active}`}>
-      {status}
-    </span>
-    );
-}
-
-function ProcedureBadge({item}: { item: Equipment }) {
-    return (
-        <Link
-            to={`/equipment/${item.id}/procedures`}
-            className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
-        >
-            View
-        </Link>
-    );
-}
+};

@@ -1,7 +1,8 @@
+import React from "react";
 import {Link} from "react-router-dom";
 import {Mail, MapPin, Phone, Send} from "lucide-react";
 
-export default function ContactPage() {
+const ContactPage = (): React.JSX.Element => {
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
@@ -119,3 +120,5 @@ export default function ContactPage() {
         </div>
     );
 }
+
+export {ContactPage};

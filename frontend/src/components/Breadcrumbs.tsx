@@ -1,6 +1,6 @@
+import React, {useEffect, useState} from "react";
 import {Link, useLocation, useParams} from "react-router-dom";
 import {ChevronRight, Home} from "lucide-react";
-import {useEffect, useState} from "react";
 import {fetchEquipment, getProcedure} from "../api/client";
 import type {Equipment} from "../types/equipment";
 import type {Procedure} from "../types/procedure";
@@ -10,7 +10,7 @@ interface BreadcrumbItem {
     href: string;
 }
 
-export default function Breadcrumbs() {
+export const Breadcrumbs = (): React.JSX.Element | null => {
     const location = useLocation();
     const params = useParams();
     const pathname = location.pathname;
@@ -102,4 +102,4 @@ export default function Breadcrumbs() {
             </ol>
         </nav>
     );
-}
+};

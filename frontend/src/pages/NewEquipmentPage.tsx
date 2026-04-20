@@ -1,9 +1,10 @@
+import React from "react";
 import {Link, useNavigate} from "react-router-dom";
 import type {Equipment} from "../types/equipment";
-import EquipmentForm from "../components/EquipmentForm";
+import {EquipmentForm} from "../components";
 import {addEquipment} from "../api/client";
 
-export default function NewEquipmentPage() {
+const NewEquipmentPage = (): React.JSX.Element => {
     const navigate = useNavigate();
 
     const handleSubmit = async (data: Omit<Equipment, "id"> | Equipment) => {
@@ -33,3 +34,5 @@ export default function NewEquipmentPage() {
         </div>
     );
 }
+
+export {NewEquipmentPage};

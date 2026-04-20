@@ -1,13 +1,14 @@
+import React from "react";
 import {Link} from "react-router-dom";
 import {ThemeToggle} from "./ThemeToggle";
 import {logout} from "../api/client";
 import {LogOut} from "lucide-react";
-import {useAuth} from "../hooks/useAuth";
+import {useAuth} from "../hooks";
 
-export default function Header() {
+export const Header = (): React.JSX.Element => {
     const {username, setAuthenticated} = useAuth();
 
-    const handleLogout = async () => {
+    const handleLogout = async (): Promise<void> => {
         await logout();
         setAuthenticated(false);
         window.location.href = '/';
@@ -41,4 +42,4 @@ export default function Header() {
             </div>
         </header>
     );
-}
+};

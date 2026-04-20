@@ -1,10 +1,10 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import type {Equipment} from "../types/equipment";
-import EquipmentForm from "../components/EquipmentForm";
+import {EquipmentForm} from "../components";
 import {getEquipment, updateEquipment} from "../api/client";
 
-export default function EditEquipmentPage() {
+const EditEquipmentPage = (): React.JSX.Element => {
     const {id} = useParams() as { id: string };
     const navigate = useNavigate();
     const [equipment, setEquipment] = useState<Equipment | null>(null);
@@ -67,3 +67,5 @@ export default function EditEquipmentPage() {
         </div>
     );
 }
+
+export {EditEquipmentPage};

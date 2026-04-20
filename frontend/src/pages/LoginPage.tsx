@@ -1,17 +1,17 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import {login} from "../api/client";
 import {Lock, User} from "lucide-react";
-import {useAuth} from "../hooks/useAuth";
+import {useAuth} from "../hooks";
 import {useNavigate, useSearchParams} from "react-router-dom";
 
-export default function LoginPage() {
+const LoginPage = (): React.JSX.Element => {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const {setAuthenticated} = useAuth();
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
 
-    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
         event.preventDefault();
         setLoading(true);
         setError(null);
@@ -34,7 +34,7 @@ export default function LoginPage() {
             setError("Login failed. Please try again.");
             setLoading(false);
         }
-    }
+    };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
@@ -107,4 +107,6 @@ export default function LoginPage() {
             </div>
         </div>
     );
-}
+};
+
+export {LoginPage};

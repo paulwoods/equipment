@@ -1,7 +1,7 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {getVersion} from "../api/client";
 
-export default function Footer() {
+export const Footer = (): React.JSX.Element => {
     const [serverVersion, setServerVersion] = useState<string | null>(null);
 
     useEffect(() => {
@@ -24,4 +24,4 @@ export default function Footer() {
             </div>
         </footer>
     );
-}
+};

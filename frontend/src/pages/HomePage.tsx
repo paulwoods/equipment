@@ -1,7 +1,8 @@
+import React from "react";
 import {Link} from "react-router-dom";
 import {ArrowRight, LayoutDashboard, Package} from "lucide-react";
 
-export default function HomePage() {
+const HomePage = (): React.JSX.Element => {
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-950 flex items-center justify-center p-4">
             <div className="max-w-4xl w-full">
@@ -62,4 +63,6 @@ export default function HomePage() {
             </div>
         </div>
     );
-}
+};
+
+export {HomePage};

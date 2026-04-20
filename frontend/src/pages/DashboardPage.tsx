@@ -1,16 +1,16 @@
-import {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {Link} from "react-router-dom";
 import type {DashboardItem} from "../types/equipment";
 import {deleteProcedure, getDashboard, sendDashboardEmail} from "../api/client";
 import {Calendar as CalendarIcon, ChevronDown, ChevronUp, List, Mail, Search, X} from "lucide-react";
-import CalendarView from "../components/CalendarView";
+import {CalendarView} from "../components";
 
 type SortField = 'equipmentName' | 'procedureName' | 'intervalDays' | 'daysTillDue';
 type SortOrder = 'asc' | 'desc';
 
 const STORAGE_KEY = 'dashboard_settings';
 
-export default function DashboardPage() {
+const DashboardPage = (): React.JSX.Element => {
     const [items, setItems] = useState<DashboardItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState(() => {
@@ -229,9 +229,11 @@ export default function DashboardPage() {
             </div>
         </div>
     );
-}
+};
 
-function DueStatus({item}: { item: DashboardItem }) {
+export {DashboardPage};
+
+const DueStatus = ({item}: { item: DashboardItem }): React.JSX.Element => {
     if (item.daysTillDue === null || item.dueDate === null) {
         return <span className="text-gray-400 italic text-sm">N/A</span>;
     }
@@ -243,26 +245,26 @@ function DueStatus({item}: { item: DashboardItem }) {
             <div className="text-xs opacity-75">({new Date(item.dueDate).toLocaleDateString()})</div>
         </div>
     );
-}
+};
 
-function SortIndicator({field, sortField, sortOrder}: {
+const SortIndicator = ({field, sortField, sortOrder}: {
     field: SortField;
     sortField: SortField;
     sortOrder: SortOrder;
-}) {
+}): React.JSX.Element => {
     if (sortField !== field) return <div className="w-4 h-4 ml-1 inline-block"/>;
     return sortOrder === 'asc'
         ? <ChevronUp className="w-4 h-4 ml-1 inline-block"/>
         : <ChevronDown className="w-4 h-4 ml-1 inline-block"/>;
-}
+};
 
-function DashboardList({items, onDelete, sortField, sortOrder, onSort}: {
+const DashboardList = ({items, onDelete, sortField, sortOrder, onSort}: {
     items: DashboardItem[];
     onDelete: (eqId: string, procId: string) => void;
     sortField: SortField;
     sortOrder: SortOrder;
     onSort: (field: SortField) => void;
-}) {
+}): React.JSX.Element => {
     return (
         <div>
             <div className="hidden md:block overflow-x-auto">
@@ -394,4 +396,4 @@ function DashboardList({items, onDelete, sortField, sortOrder, onSort}: {
             )}
         </div>
     );
-}
+};

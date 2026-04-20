@@ -1,9 +1,9 @@
-import {type ChangeEvent, type FormEvent, useState} from "react";
+import React, {type ChangeEvent, type FormEvent, useState} from "react";
 import {Link} from "react-router-dom";
 import {importEquipment} from "../api/client";
 import type {ImportResult} from "../types/equipment";
 
-export default function ImportEquipmentPage() {
+const ImportEquipmentPage = (): React.JSX.Element => {
     const [file, setFile] = useState<File | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -150,3 +150,5 @@ export default function ImportEquipmentPage() {
         </div>
     );
 }
+
+export {ImportEquipmentPage};

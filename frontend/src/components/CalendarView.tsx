@@ -1,4 +1,4 @@
-import {useMemo, useState} from "react";
+import React, {useMemo, useState} from "react";
 import {ChevronLeft, ChevronRight, Info} from "lucide-react";
 import {Link} from "react-router-dom";
 
@@ -15,18 +15,18 @@ interface CalendarViewProps {
     events: CalendarEvent[];
 }
 
-export default function CalendarView({events}: CalendarViewProps) {
+export const CalendarView = ({events}: CalendarViewProps): React.JSX.Element => {
     const [currentDate, setCurrentDate] = useState(new Date());
 
-    const daysInMonth = (year: number, month: number) => new Date(year, month + 1, 0).getDate();
-    const firstDayOfMonth = (year: number, month: number) => new Date(year, month, 1).getDay();
+    const daysInMonth = (year: number, month: number): number => new Date(year, month + 1, 0).getDate();
+    const firstDayOfMonth = (year: number, month: number): number => new Date(year, month, 1).getDay();
 
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
 
-    const prevMonth = () => setCurrentDate(new Date(year, month - 1, 1));
-    const nextMonth = () => setCurrentDate(new Date(year, month + 1, 1));
-    const goToToday = () => setCurrentDate(new Date());
+    const prevMonth = (): void => setCurrentDate(new Date(year, month - 1, 1));
+    const nextMonth = (): void => setCurrentDate(new Date(year, month + 1, 1));
+    const goToToday = (): void => setCurrentDate(new Date());
 
     const monthName = currentDate.toLocaleString('default', {month: 'long'});
 
@@ -46,7 +46,7 @@ export default function CalendarView({events}: CalendarViewProps) {
         return days;
     }, [year, month]);
 
-    const getEventsForDate = (day: number | null, m: number, y: number) => {
+    const getEventsForDate = (day: number | null, m: number, y: number): CalendarEvent[] => {
         if (day === null) return [];
         return events.filter(event => {
             const eventDate = new Date(event.date);
@@ -56,7 +56,7 @@ export default function CalendarView({events}: CalendarViewProps) {
         });
     };
 
-    const isToday = (day: number | null, m: number, y: number) => {
+    const isToday = (day: number | null, m: number, y: number): boolean => {
         const today = new Date();
         return day === today.getDate() &&
             m === today.getMonth() &&
@@ -168,4 +168,4 @@ export default function CalendarView({events}: CalendarViewProps) {
             </div>
         </div>
     );
-}
+};

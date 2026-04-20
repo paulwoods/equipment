@@ -1,11 +1,11 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import ProcedureForm from "../components/ProcedureForm";
+import {ProcedureForm} from "../components";
 import {addProcedure, getEquipment} from "../api/client";
 import type {Procedure} from "../types/procedure";
 import type {Equipment} from "../types/equipment";
 
-export default function NewProcedurePage() {
+const NewProcedurePage = (): React.JSX.Element => {
     const navigate = useNavigate();
     const {id} = useParams() as { id: string };
     const [equipment, setEquipment] = useState<Equipment | null>(null);
@@ -42,3 +42,5 @@ export default function NewProcedurePage() {
         </div>
     );
 }
+
+export {NewProcedurePage};
