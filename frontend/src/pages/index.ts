@@ -13,5 +13,8 @@ export {EditProcedurePage} from './EditProcedurePage';
 export {PerformProcedurePage} from './PerformProcedurePage';
 export {ProcedureHistoryPage} from './ProcedureHistoryPage';
 export {ImportEquipmentPage} from './ImportEquipmentPage';
+export {UsersPage} from './UsersPage';
+export {NewUserPage} from './NewUserPage';
+export {EditUserPage} from './EditUserPage';
 export {AboutPage} from './AboutPage';
 export {ContactPage} from './ContactPage';

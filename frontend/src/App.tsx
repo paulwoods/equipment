@@ -3,6 +3,7 @@ import {BrowserRouter, Navigate, Route, Routes, useLocation} from 'react-router-
 import {Breadcrumbs, Footer, Header, ThemeProvider} from './components';
 import {AuthContext} from './hooks';
 import {getMe, getSetupStatus} from './api/client';
+import type {UserRole} from './types/user';
 
 import {
     AboutPage,
@@ -10,6 +11,7 @@ import {
     DashboardPage,
     EditEquipmentPage,
     EditProcedurePage,
+    EditUserPage,
     EquipmentPage,
     EquipmentShowPage,
     HomePage,
@@ -17,11 +19,13 @@ import {
     LoginPage,
     NewEquipmentPage,
     NewProcedurePage,
+    NewUserPage,
     PerformProcedurePage,
     ProcedureHistoryPage,
     ProcedureShowPage,
     ProceduresPage,
-    SetupPage
+    SetupPage,
+    UsersPage
 } from './pages';
 
 const ProtectedRoute = ({email, children}: { email: string | null; children: React.ReactNode }): React.JSX.Element => {
@@ -50,12 +54,23 @@ const Layout = ({children}: { children: React.ReactNode }): React.JSX.Element =>
 
 const App = (): React.JSX.Element => {
     const [email, setEmail] = useState<string | null>(null);
+    const [role, setRole] = useState<UserRole | null>(null);
     const [authChecked, setAuthChecked] = useState(false);
     const [setupRequired, setSetupRequired] = useState(false);
 
     useEffect(() => {
         Promise.all([
-            getMe().then((data) => setEmail(data?.email ?? null)).catch(() => setEmail(null)),
+            getMe().then((data) => {
+                setEmail(data?.email ?? null);
+                if (data?.role) {
+                    setRole(data.role.replace(/^ROLE_/, '') as UserRole);
+                } else {
+                    setRole(null);
+                }
+            }).catch(() => {
+                setEmail(null);
+                setRole(null);
+            }),
             getSetupStatus().then((data) => setSetupRequired(data.setupRequired)).catch(() => {
             }),
         ]).finally(() => setAuthChecked(true));
@@ -64,9 +79,15 @@ const App = (): React.JSX.Element => {
     const setAuthenticated = async (authenticated: boolean): Promise<void> => {
         if (!authenticated) {
             setEmail(null);
+            setRole(null);
         } else {
             const data = await getMe().catch(() => null);
             setEmail(data?.email ?? null);
+            if (data?.role) {
+                setRole(data.role.replace(/^ROLE_/, '') as UserRole);
+            } else {
+                setRole(null);
+            }
         }
     };
 
@@ -76,7 +97,7 @@ const App = (): React.JSX.Element => {
 
     return (
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <AuthContext.Provider value={{username: email, setAuthenticated}}>
+            <AuthContext.Provider value={{username: email, role, setAuthenticated}}>
                 <BrowserRouter>
                     <Routes>
                         <Route path="/login" element={
@@ -92,6 +113,7 @@ const App = (): React.JSX.Element => {
                                     : <SetupPage onSetupComplete={(e) => {
                                         setSetupRequired(false);
                                         setEmail(e);
+                                        setRole('ADMIN');
                                     }}/>
                         }/>
                         <Route path="/" element={
@@ -134,6 +156,15 @@ const App = (): React.JSX.Element => {
                         }/>
                         <Route path="/equipment/:id/procedures/:procedureId/history" element={
                             <ProtectedRoute email={email}><Layout><ProcedureHistoryPage/></Layout></ProtectedRoute>
+                        }/>
+                        <Route path="/users" element={
+                            <ProtectedRoute email={email}><Layout><UsersPage/></Layout></ProtectedRoute>
+                        }/>
+                        <Route path="/users/new" element={
+                            <ProtectedRoute email={email}><Layout><NewUserPage/></Layout></ProtectedRoute>
+                        }/>
+                        <Route path="/users/:id/edit" element={
+                            <ProtectedRoute email={email}><Layout><EditUserPage/></Layout></ProtectedRoute>
                         }/>
                         <Route path="/about" element={<Layout><AboutPage/></Layout>}/>
                         <Route path="/contact" element={<Layout><ContactPage/></Layout>}/>

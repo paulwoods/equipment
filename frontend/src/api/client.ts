@@ -2,6 +2,7 @@ import axios from 'axios';
 import {apiClient} from '../lib/apiClient';
 import type {DashboardItem, Equipment, ImportResult} from '../types/equipment';
 import type {Perform, Procedure} from '../types/procedure';
+import type {User, UserCreatePayload, UserUpdatePayload} from '../types/user';
 
 // Version
 export const getVersion = async (): Promise<{ version: string }> => {
@@ -26,8 +27,8 @@ export const logout = async (): Promise<void> => {
     await apiClient.post('/api/v1/auth/logout');
 };
 
-export const getMe = async (): Promise<{ email: string } | null> => {
-    const {data} = await apiClient.get<{ email: string } | null>('/api/v1/auth/me');
+export const getMe = async (): Promise<{ email: string; role: string } | null> => {
+    const {data} = await apiClient.get<{ email: string; role: string } | null>('/api/v1/auth/me');
     return data;
 };
 
@@ -155,4 +156,29 @@ export const getDashboard = async (): Promise<DashboardItem[]> => {
 export const sendDashboardEmail = async (): Promise<{ success?: boolean; error?: string }> => {
     const {data} = await apiClient.post<{ success?: boolean; error?: string }>('/api/v1/email/dashboard');
     return data;
+};
+
+// Users
+export const fetchUsers = async (): Promise<User[]> => {
+    const {data} = await apiClient.get<{ content: User[] }>('/api/v1/users');
+    return data.content;
+};
+
+export const getUser = async (id: string): Promise<User> => {
+    const {data} = await apiClient.get<User>(`/api/v1/users/${id}`);
+    return data;
+};
+
+export const createUser = async (payload: UserCreatePayload): Promise<User> => {
+    const {data} = await apiClient.post<User>('/api/v1/users', payload);
+    return data;
+};
+
+export const updateUser = async (id: string, payload: UserUpdatePayload): Promise<User> => {
+    const {data} = await apiClient.put<User>(`/api/v1/users/${id}`, payload);
+    return data;
+};
+
+export const deleteUser = async (id: string): Promise<void> => {
+    await apiClient.delete(`/api/v1/users/${id}`);
 };
