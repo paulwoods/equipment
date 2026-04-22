@@ -1,4 +1,4 @@
-import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
+import {afterEach, describe, expect, it, vi} from 'vitest';
 import type {Equipment} from '../../src/types/equipment';
 import type {Procedure} from '../../src/types/procedure';
 import {
@@ -19,91 +19,79 @@ import {
     updateProcedure,
 } from '../../src/api/client';
 
-// Must mock fetch before importing the module under test
-const mockFetch = vi.fn();
-vi.stubGlobal('fetch', mockFetch);
+const {mockGet, mockPost, mockPut, mockDelete} = vi.hoisted(() => ({
+    mockGet: vi.fn(),
+    mockPost: vi.fn(),
+    mockPut: vi.fn(),
+    mockDelete: vi.fn(),
+}));
 
-// Mock window.location
-const mockLocation = {href: ''};
-vi.stubGlobal('location', mockLocation);
+vi.mock('../../src/lib/apiClient', () => ({
+    apiClient: {
+        get: mockGet,
+        post: mockPost,
+        put: mockPut,
+        delete: mockDelete,
+    },
+}));
 
-const makeResponse = (body: unknown, status = 200, ok = true) =>
-    ({
-        ok,
-        status,
-        json: () => Promise.resolve(body),
-        text: () => Promise.resolve(typeof body === 'string' ? body : JSON.stringify(body)),
-    }) as unknown as Response;
+afterEach(() => vi.clearAllMocks());
 
 describe('client', () => {
-    beforeEach(() => {
-        mockLocation.href = '';
-    });
-
-    afterEach(() => {
-        vi.clearAllMocks();
-    });
-
-    // ─── Auth ──────────────────────────────────────────────────────────────
-
     describe('login', () => {
-        it('POSTs to /api/v1/auth/login with JSON credentials', async () => {
-            mockFetch.mockResolvedValue(makeResponse(null));
-            await login('user@example.com', 'pass');
+        it('POSTs to /api/v1/auth/login and returns ok:true on success', async () => {
+            mockPost.mockResolvedValue({data: null});
+            const result = await login('user@example.com', 'pass');
+            expect(mockPost).toHaveBeenCalledWith('/api/v1/auth/login', {email: 'user@example.com', password: 'pass'});
+            expect(result).toEqual({ok: true, status: 200});
+        });
 
-            expect(mockFetch).toHaveBeenCalledOnce();
-            const [url, opts] = mockFetch.mock.calls[0];
-            expect(url).toBe('/api/v1/auth/login');
-            expect(opts.method).toBe('POST');
-            expect(opts.headers['Content-Type']).toBe('application/json');
-            expect(opts.body).toBe(JSON.stringify({email: 'user@example.com', password: 'pass'}));
+        it('returns ok:false with status on axios error', async () => {
+            const err = Object.assign(new Error('Unauthorized'), {
+                isAxiosError: true,
+                response: {status: 401},
+            });
+            mockPost.mockRejectedValue(err);
+            const result = await login('bad@example.com', 'wrong');
+            expect(result).toEqual({ok: false, status: 401});
+        });
+
+        it('returns ok:false with status 500 on non-axios error', async () => {
+            mockPost.mockRejectedValue(new Error('Network failure'));
+            const result = await login('a@b.com', 'x');
+            expect(result).toEqual({ok: false, status: 500});
         });
     });
 
     describe('logout', () => {
         it('POSTs to /api/v1/auth/logout', async () => {
-            mockFetch.mockResolvedValue(makeResponse(null));
+            mockPost.mockResolvedValue({data: null});
             await logout();
-
-            expect(mockFetch).toHaveBeenCalledOnce();
-            const [url, opts] = mockFetch.mock.calls[0];
-            expect(url).toBe('/api/v1/auth/logout');
-            expect(opts.method).toBe('POST');
+            expect(mockPost).toHaveBeenCalledWith('/api/v1/auth/logout');
         });
     });
 
     describe('getMe', () => {
-        it('returns JSON on success', async () => {
-            const user = {username: 'alice'};
-            mockFetch.mockResolvedValue(makeResponse(user));
+        it('returns email from response data', async () => {
+            mockGet.mockResolvedValue({data: {email: 'alice@example.com'}});
             const result = await getMe();
-            expect(result).toEqual(user);
+            expect(result).toEqual({email: 'alice@example.com'});
+            expect(mockGet).toHaveBeenCalledWith('/api/v1/auth/me');
         });
 
-        it('throws when response is not ok', async () => {
-            mockFetch.mockResolvedValue(makeResponse(null, 401, false));
-            await expect(getMe()).rejects.toThrow('Unauthorized');
-        });
-    });
-
-    // ─── 401 redirect ─────────────────────────────────────────────────────
-
-    describe('401 handling', () => {
-        it('does not redirect on 401', async () => {
-            mockFetch.mockResolvedValue(makeResponse(null, 401, false));
-            await expect(fetchEquipment()).rejects.toThrow();
-            expect(mockLocation.href).not.toBe('/login');
+        it('returns null when data is null', async () => {
+            mockGet.mockResolvedValue({data: null});
+            const result = await getMe();
+            expect(result).toBeNull();
         });
     });
-
-    // ─── Equipment ────────────────────────────────────────────────────────
 
     describe('fetchEquipment', () => {
-        it('GETs /api/v1/equipment and returns array', async () => {
+        it('GETs /api/v1/equipment and returns content array', async () => {
             const equipment: Equipment[] = [{id: '1'} as Equipment];
-            mockFetch.mockResolvedValue(makeResponse({content: equipment}));
+            mockGet.mockResolvedValue({data: {content: equipment}});
             const result = await fetchEquipment();
-            expect(mockFetch).toHaveBeenCalledWith('/api/v1/equipment', {credentials: 'include'});
+            expect(mockGet).toHaveBeenCalledWith('/api/v1/equipment');
             expect(result).toEqual(equipment);
         });
     });
@@ -111,62 +99,49 @@ describe('client', () => {
     describe('getEquipment', () => {
         it('GETs /api/v1/equipment/:id', async () => {
             const equipment = {id: '1'} as Equipment;
-            mockFetch.mockResolvedValue(makeResponse(equipment));
+            mockGet.mockResolvedValue({data: equipment});
             const result = await getEquipment('1');
-            expect(mockFetch).toHaveBeenCalledWith('/api/v1/equipment/1', {credentials: 'include'});
+            expect(mockGet).toHaveBeenCalledWith('/api/v1/equipment/1');
             expect(result).toEqual(equipment);
         });
     });
 
     describe('addEquipment', () => {
-        it('POSTs to /api/v1/equipment with JSON body', async () => {
-            const data = {manufacturer: 'Acme'} as Omit<Equipment, 'id'>;
-            const created = {id: '1', ...data} as Equipment;
-            mockFetch.mockResolvedValue(makeResponse(created));
-            const result = await addEquipment(data);
-
-            const [url, opts] = mockFetch.mock.calls[0];
-            expect(url).toBe('/api/v1/equipment');
-            expect(opts.method).toBe('POST');
-            expect(JSON.parse(opts.body)).toEqual(data);
+        it('POSTs to /api/v1/equipment with payload', async () => {
+            const payload = {manufacturer: 'Acme'} as Omit<Equipment, 'id'>;
+            const created = {id: '1', ...payload} as Equipment;
+            mockPost.mockResolvedValue({data: created});
+            const result = await addEquipment(payload);
+            expect(mockPost).toHaveBeenCalledWith('/api/v1/equipment', payload);
             expect(result).toEqual(created);
         });
     });
 
     describe('updateEquipment', () => {
-        it('PUTs to /api/v1/equipment/:id with JSON body', async () => {
-            const data = {manufacturer: 'Acme'} as Omit<Equipment, 'id'>;
-            const updated = {id: '1', ...data} as Equipment;
-            mockFetch.mockResolvedValue(makeResponse(updated));
-            const result = await updateEquipment('1', data);
-
-            const [url, opts] = mockFetch.mock.calls[0];
-            expect(url).toBe('/api/v1/equipment/1');
-            expect(opts.method).toBe('PUT');
-            expect(JSON.parse(opts.body)).toEqual(data);
+        it('PUTs to /api/v1/equipment/:id with payload', async () => {
+            const payload = {manufacturer: 'Acme'} as Omit<Equipment, 'id'>;
+            const updated = {id: '1', ...payload} as Equipment;
+            mockPut.mockResolvedValue({data: updated});
+            const result = await updateEquipment('1', payload);
+            expect(mockPut).toHaveBeenCalledWith('/api/v1/equipment/1', payload);
             expect(result).toEqual(updated);
         });
     });
 
     describe('deleteEquipment', () => {
         it('DELETEs /api/v1/equipment/:id', async () => {
-            mockFetch.mockResolvedValue(makeResponse(null));
+            mockDelete.mockResolvedValue({});
             await deleteEquipment('1');
-
-            const [url, opts] = mockFetch.mock.calls[0];
-            expect(url).toBe('/api/v1/equipment/1');
-            expect(opts.method).toBe('DELETE');
+            expect(mockDelete).toHaveBeenCalledWith('/api/v1/equipment/1');
         });
     });
-
-    // ─── Procedures ───────────────────────────────────────────────────────
 
     describe('fetchProcedures', () => {
         it('GETs /api/v1/equipment/:id/procedures', async () => {
             const procedures: Procedure[] = [];
-            mockFetch.mockResolvedValue(makeResponse(procedures));
+            mockGet.mockResolvedValue({data: procedures});
             const result = await fetchProcedures('eq1');
-            expect(mockFetch).toHaveBeenCalledWith('/api/v1/equipment/eq1/procedures', {credentials: 'include'});
+            expect(mockGet).toHaveBeenCalledWith('/api/v1/equipment/eq1/procedures');
             expect(result).toEqual(procedures);
         });
     });
@@ -174,105 +149,60 @@ describe('client', () => {
     describe('getProcedure', () => {
         it('GETs /api/v1/equipment/:id/procedures/:procedureId', async () => {
             const procedure = {id: 'p1'} as Procedure;
-            mockFetch.mockResolvedValue(makeResponse(procedure));
+            mockGet.mockResolvedValue({data: procedure});
             const result = await getProcedure('eq1', 'p1');
-            expect(mockFetch).toHaveBeenCalledWith('/api/v1/equipment/eq1/procedures/p1', {credentials: 'include'});
+            expect(mockGet).toHaveBeenCalledWith('/api/v1/equipment/eq1/procedures/p1');
             expect(result).toEqual(procedure);
         });
     });
 
     describe('addProcedure', () => {
-        it('POSTs to /api/v1/equipment/:id/procedures with JSON body', async () => {
-            const data = {name: 'Oil Change'} as Omit<Procedure, 'id'>;
-            const created = {id: 'p1', ...data} as Procedure;
-            mockFetch.mockResolvedValue(makeResponse(created));
-            const result = await addProcedure('eq1', data);
-
-            const [url, opts] = mockFetch.mock.calls[0];
-            expect(url).toBe('/api/v1/equipment/eq1/procedures');
-            expect(opts.method).toBe('POST');
-            expect(JSON.parse(opts.body)).toEqual(data);
+        it('POSTs to /api/v1/equipment/:id/procedures with payload', async () => {
+            const payload = {name: 'Oil Change'} as Omit<Procedure, 'id'>;
+            const created = {id: 'p1', ...payload} as Procedure;
+            mockPost.mockResolvedValue({data: created});
+            const result = await addProcedure('eq1', payload);
+            expect(mockPost).toHaveBeenCalledWith('/api/v1/equipment/eq1/procedures', payload);
             expect(result).toEqual(created);
         });
     });
 
     describe('updateProcedure', () => {
-        it('PUTs to /api/v1/equipment/:id/procedures/:procedureId with JSON body', async () => {
-            const data = {name: 'Filter Change'} as Omit<Procedure, 'id'>;
-            const updated = {id: 'p1', ...data} as Procedure;
-            mockFetch.mockResolvedValue(makeResponse(updated));
-            const result = await updateProcedure('eq1', 'p1', data);
-
-            const [url, opts] = mockFetch.mock.calls[0];
-            expect(url).toBe('/api/v1/equipment/eq1/procedures/p1');
-            expect(opts.method).toBe('PUT');
-            expect(JSON.parse(opts.body)).toEqual(data);
+        it('PUTs to /api/v1/equipment/:id/procedures/:procedureId with payload', async () => {
+            const payload = {name: 'Filter Change'} as Omit<Procedure, 'id'>;
+            const updated = {id: 'p1', ...payload} as Procedure;
+            mockPut.mockResolvedValue({data: updated});
+            const result = await updateProcedure('eq1', 'p1', payload);
+            expect(mockPut).toHaveBeenCalledWith('/api/v1/equipment/eq1/procedures/p1', payload);
             expect(result).toEqual(updated);
         });
     });
 
     describe('deleteProcedure', () => {
         it('DELETEs /api/v1/equipment/:id/procedures/:procedureId', async () => {
-            mockFetch.mockResolvedValue(makeResponse(null));
+            mockDelete.mockResolvedValue({});
             await deleteProcedure('eq1', 'p1');
-
-            const [url, opts] = mockFetch.mock.calls[0];
-            expect(url).toBe('/api/v1/equipment/eq1/procedures/p1');
-            expect(opts.method).toBe('DELETE');
+            expect(mockDelete).toHaveBeenCalledWith('/api/v1/equipment/eq1/procedures/p1');
         });
     });
-
-    // ─── Performance History ──────────────────────────────────────────────
 
     describe('recordPerformance', () => {
         it('POSTs to history endpoint with date and notes', async () => {
-            const response = {id: 'h1'};
-            mockFetch.mockResolvedValue(makeResponse(response));
-            const result = await recordPerformance('eq1', 'p1', '2026-01-01', 'Looks good');
-
-            const [url, opts] = mockFetch.mock.calls[0];
-            expect(url).toBe('/api/v1/equipment/eq1/procedures/p1/history');
-            expect(opts.method).toBe('POST');
-            expect(JSON.parse(opts.body)).toEqual({date: '2026-01-01', notes: 'Looks good'});
-            expect(result).toEqual(response);
+            mockPost.mockResolvedValue({data: {id: 'h1'}});
+            await recordPerformance('eq1', 'p1', '2026-01-01', 'Looks good');
+            expect(mockPost).toHaveBeenCalledWith(
+                '/api/v1/equipment/eq1/procedures/p1/history',
+                {date: '2026-01-01', notes: 'Looks good'},
+            );
         });
     });
-
-    // ─── Email ────────────────────────────────────────────────────────────
 
     describe('sendDashboardEmail', () => {
         it('POSTs to /api/v1/email/dashboard and returns result', async () => {
-            mockFetch.mockResolvedValue(makeResponse({success: true}));
+            mockPost.mockResolvedValue({data: {success: true}});
             const result = await sendDashboardEmail();
-
-            const [url, opts] = mockFetch.mock.calls[0];
-            expect(url).toBe('/api/v1/email/dashboard');
-            expect(opts.method).toBe('POST');
+            expect(mockPost).toHaveBeenCalledWith('/api/v1/email/dashboard');
             expect(result).toEqual({success: true});
-        });
-    });
-
-    // ─── Error handling ───────────────────────────────────────────────────
-
-    describe('error handling', () => {
-        it('throws error with response text when request fails', async () => {
-            mockFetch.mockResolvedValue({
-                ok: false,
-                status: 500,
-                json: () => Promise.resolve(null),
-                text: () => Promise.resolve('Internal Server Error'),
-            } as unknown as Response);
-            await expect(fetchEquipment()).rejects.toThrow('Internal Server Error');
-        });
-
-        it('throws generic error when response text is empty', async () => {
-            mockFetch.mockResolvedValue({
-                ok: false,
-                status: 503,
-                json: () => Promise.resolve(null),
-                text: () => Promise.resolve(''),
-            } as unknown as Response);
-            await expect(fetchEquipment()).rejects.toThrow('Request failed: 503');
         });
     });
 });

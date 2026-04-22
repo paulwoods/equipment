@@ -3,7 +3,7 @@ import {act, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {MemoryRouter} from 'react-router-dom';
 import {AuthContext} from '../../src/hooks/useAuth';
-import LoginPage from "../../src/pages/LoginPage";
+import {LoginPage} from "../../src/pages/LoginPage";
 
 const {mockLogin} = vi.hoisted(() => ({
     mockLogin: vi.fn(),

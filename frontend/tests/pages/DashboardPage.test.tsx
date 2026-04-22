@@ -2,7 +2,7 @@ import {afterEach, describe, expect, it, vi} from 'vitest';
 import {act, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {MemoryRouter} from 'react-router-dom';
-import DashboardPage from '../../src/pages/DashboardPage';
+import {DashboardPage} from '../../src/pages/DashboardPage';
 import type {DashboardItem} from '../../src/types/equipment';
 
 const {mockGetDashboard, mockDeleteProcedure, mockSendDashboardEmail} = vi.hoisted(() => ({
@@ -19,7 +19,7 @@ vi.mock('../../src/api/client', () => ({
 
 // CalendarView uses complex DOM — mock it
 vi.mock('../../src/components/CalendarView', () => ({
-    default: () => <div>Calendar View</div>,
+    CalendarView: () => <div>Calendar View</div>,
 }));
 
 const items: DashboardItem[] = [

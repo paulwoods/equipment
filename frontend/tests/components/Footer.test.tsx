@@ -1,6 +1,6 @@
 import {beforeEach, describe, expect, it, vi} from 'vitest';
 import {render, screen, waitFor} from '@testing-library/react';
-import Footer from '../../src/components/Footer';
+import {Footer} from '../../src/components/Footer';
 
 vi.mock('../../src/api/client', () => ({
     getVersion: vi.fn(),

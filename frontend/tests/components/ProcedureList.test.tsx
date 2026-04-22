@@ -2,7 +2,7 @@ import {describe, expect, it, vi} from 'vitest';
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {MemoryRouter} from 'react-router-dom';
-import ProcedureList from '../../src/components/ProcedureList';
+import {ProcedureList} from '../../src/components/ProcedureList';
 import type {Procedure} from '../../src/types/procedure';
 
 const procedures: Procedure[] = [

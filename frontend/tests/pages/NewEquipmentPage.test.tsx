@@ -1,7 +1,7 @@
 import {afterEach, describe, expect, it, vi} from 'vitest';
 import {act, render, screen} from '@testing-library/react';
 import {MemoryRouter, Route, Routes} from 'react-router-dom';
-import NewEquipmentPage from '../../src/pages/NewEquipmentPage';
+import {NewEquipmentPage} from '../../src/pages/NewEquipmentPage';
 
 const {mockAddEquipment} = vi.hoisted(() => ({
     mockAddEquipment: vi.fn(),

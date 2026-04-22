@@ -1,7 +1,7 @@
 import {afterEach, describe, expect, it, vi} from 'vitest';
 import {act, render, screen} from '@testing-library/react';
 import {MemoryRouter, Route, Routes} from 'react-router-dom';
-import ProcedureShowPage from '../../src/pages/ProcedureShowPage';
+import {ProcedureShowPage} from '../../src/pages/ProcedureShowPage';
 import type {Equipment} from '../../src/types/equipment';
 import type {Perform, Procedure} from '../../src/types/procedure';
 

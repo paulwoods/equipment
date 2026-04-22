@@ -1,7 +1,7 @@
 import {describe, expect, it} from 'vitest';
 import {render, screen} from '@testing-library/react';
 import {MemoryRouter} from 'react-router-dom';
-import ContactPage from '../../src/pages/ContactPage';
+import {ContactPage} from '../../src/pages/ContactPage';
 
 const renderPage = () => render(<MemoryRouter><ContactPage/></MemoryRouter>);
 

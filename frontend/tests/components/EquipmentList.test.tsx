@@ -2,7 +2,7 @@ import {describe, expect, it, vi} from 'vitest';
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {MemoryRouter} from 'react-router-dom';
-import EquipmentList from '../../src/components/EquipmentList';
+import {EquipmentList} from '../../src/components/EquipmentList';
 import type {Equipment} from '../../src/types/equipment';
 
 const items: Equipment[] = [

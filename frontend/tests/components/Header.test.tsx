@@ -3,7 +3,7 @@ import {act, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {MemoryRouter} from 'react-router-dom';
 import {AuthContext} from '../../src/hooks/useAuth';
-import Header from '../../src/components/Header';
+import {Header} from '../../src/components/Header';
 
 vi.mock('../../src/api/client', () => ({
     logout: vi.fn().mockResolvedValue(undefined),

@@ -1,7 +1,7 @@
 import {describe, expect, it, vi} from 'vitest';
 import {act, render, screen} from '@testing-library/react';
 import {MemoryRouter, Route, Routes} from 'react-router-dom';
-import Breadcrumbs from '../../src/components/Breadcrumbs';
+import {Breadcrumbs} from '../../src/components/Breadcrumbs';
 
 vi.mock('../../src/api/client', () => ({
     fetchEquipment: vi.fn().mockResolvedValue([]),

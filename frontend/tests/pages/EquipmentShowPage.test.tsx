@@ -2,7 +2,7 @@ import {afterEach, describe, expect, it, vi} from 'vitest';
 import {act, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {MemoryRouter, Route, Routes} from 'react-router-dom';
-import EquipmentShowPage from '../../src/pages/EquipmentShowPage';
+import {EquipmentShowPage} from '../../src/pages/EquipmentShowPage';
 import type {Equipment} from '../../src/types/equipment';
 import type {Procedure} from '../../src/types/procedure';
 
