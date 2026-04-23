@@ -68,14 +68,14 @@ describe('EquipmentForm', () => {
         expect(onSubmit.mock.calls[0][0]).toMatchObject({id: 'eq1'});
     });
 
-    it('renders all status options', () => {
+    it('renders all status options', async () => {
         render(<EquipmentForm onSubmit={vi.fn()} onCancel={vi.fn()}/>);
-        const select = screen.getByRole('combobox') as HTMLSelectElement;
-        const options = Array.from(select.options).map(o => o.value);
-        expect(options).toContain('Active');
-        expect(options).toContain('In Use');
-        expect(options).toContain('Under Repair');
-        expect(options).toContain('Decommissioned');
-        expect(options).toContain('In Storage');
+        // Open the Radix Select to reveal its options in the DOM
+        await userEvent.click(screen.getByRole('combobox'));
+        expect(screen.getByRole('option', {name: 'Active'})).toBeInTheDocument();
+        expect(screen.getByRole('option', {name: 'In Use'})).toBeInTheDocument();
+        expect(screen.getByRole('option', {name: 'Under Repair'})).toBeInTheDocument();
+        expect(screen.getByRole('option', {name: 'Decommissioned'})).toBeInTheDocument();
+        expect(screen.getByRole('option', {name: 'In Storage'})).toBeInTheDocument();
     });
 });
