@@ -77,24 +77,20 @@ describe('App', () => {
         expect(mockGetMe).toHaveBeenCalledTimes(1);
     });
 
-    it('re-fetches user via getMe when setAuthenticated(true) is called', async () => {
+    it('does not call getMe again after logout', async () => {
         const user = userEvent.setup();
-        // First call: auth check succeeds, second call: after setAuthenticated(true)
-        mockGetMe
-            .mockResolvedValueOnce({email: 'alice'})
-            .mockResolvedValueOnce({email: 'bob'});
+        mockGetMe.mockResolvedValue({email: 'alice'});
 
         await act(async () => {
             render(<App/>);
         });
-        expect(screen.getByText('alice')).toBeInTheDocument();
+        expect(mockGetMe).toHaveBeenCalledTimes(1);
 
-        // Trigger setAuthenticated(false) via Sidebar logout dropdown.
         const triggerButton = screen.getByText('alice').closest('button')!;
         await user.click(triggerButton);
         const logoutItem = screen.getByText('Log out');
         await user.click(logoutItem);
-        // After logout, username is cleared — setAuthenticated(true) would call getMe again
-        expect(mockGetMe).toHaveBeenCalledTimes(1); // only the mount call so far
+
+        expect(mockGetMe).toHaveBeenCalledTimes(1);
     });
 });
