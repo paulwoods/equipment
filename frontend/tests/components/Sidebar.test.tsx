@@ -25,8 +25,7 @@ const renderSidebar = (username = 'alice@example.com', initialPath = '/dashboard
 describe('Sidebar', () => {
   it('renders the app brand name', () => {
     renderSidebar();
-    // "Equipment" appears as both the brand label and the nav link — assert at least one match
-    expect(screen.getAllByText('Equipment').length).toBeGreaterThan(0);
+    expect(screen.getByTestId('brand-name')).toBeInTheDocument();
   });
 
   it('renders main nav links', () => {

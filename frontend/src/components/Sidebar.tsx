@@ -60,9 +60,12 @@ export const Sidebar = (): React.JSX.Element => {
   const {username, setAuthenticated} = useAuth();
 
   const handleLogout = async (): Promise<void> => {
-    await logout();
-    setAuthenticated(false);
-    window.location.href = '/';
+    try {
+      await logout();
+    } finally {
+      setAuthenticated(false);
+      window.location.href = '/';
+    }
   };
 
   const initials = username
@@ -86,7 +89,7 @@ export const Sidebar = (): React.JSX.Element => {
           <Monitor className="w-4 h-4 text-white" />
         </div>
         <div>
-          <div className="text-sm font-bold" style={{color: 'var(--foreground)'}}>Equipment</div>
+          <div data-testid="brand-name" className="text-sm font-bold" style={{color: 'var(--foreground)'}}>Equipment</div>
           <div className="text-xs" style={{color: 'var(--muted-foreground)'}}>Manager</div>
         </div>
       </div>
