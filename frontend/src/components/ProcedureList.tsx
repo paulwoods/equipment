@@ -80,7 +80,7 @@ export const ProcedureList = ({equipmentId, procedures, onDelete, loading = fals
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         {searchTerm && (
-          <button className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer" onClick={() => setSearchTerm('')}>
+          <button aria-label="Clear search" className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer" onClick={() => setSearchTerm('')}>
             <X className="h-4 w-4 text-[var(--muted-foreground)]"/>
           </button>
         )}

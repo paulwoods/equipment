@@ -66,7 +66,7 @@ describe('EquipmentList', () => {
     it('clears search when X button is clicked', async () => {
         renderList();
         await userEvent.type(screen.getByPlaceholderText(/search equipment/i), 'Acme');
-        await userEvent.click(screen.getByRole('button', {hidden: true, name: ''}));
+        await userEvent.click(screen.getByRole('button', {name: /clear search/i}));
         expect(screen.getAllByText('Z-100').length).toBeGreaterThan(0);
     });
 
