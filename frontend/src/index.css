@@ -5,66 +5,103 @@
 @variant dark (&:where(.dark, .dark *));
 
 :root {
-    --background: #ffffff;
-    --foreground: #171717;
+  --background: #ffffff;
+  --foreground: #0f172a;
+  --primary: #d946ef;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
+  --muted: #f8fafc;
+  --muted-foreground: #64748b;
+  --accent: #fdf4ff;
+  --accent-foreground: #d946ef;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #d946ef;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --sidebar-background: #f8fafc;
+  --sidebar-active: #fdf4ff;
+  --sidebar-active-border: #d946ef;
+  --radius: 0.5rem;
 }
 
 .dark {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-}
-
-/* SimpleMDE Dark Mode Overrides */
-.dark .editor-toolbar {
-    background: #1f2937 !important;
-    border-color: #374151 !important;
-}
-
-.dark .editor-toolbar button {
-    color: #e5e7eb !important;
-}
-
-.dark .editor-toolbar button:hover,
-.dark .editor-toolbar button.active {
-    background: #374151 !important;
-    border-color: #4b5563 !important;
-    color: white !important;
-}
-
-.dark .CodeMirror {
-    background: #111827 !important;
-    color: #f3f4f6 !important;
-    border-color: #374151 !important;
-}
-
-.dark .editor-preview {
-    background: #111827 !important;
-    color: #f3f4f6 !important;
-}
-
-.dark .editor-statusbar {
-    color: #9ca3af !important;
-}
-
-.dark .CodeMirror-cursor {
-    border-left: 1px solid white !important;
+  --background: #0f172a;
+  --foreground: #f1f5f9;
+  --primary: #d946ef;
+  --primary-foreground: #ffffff;
+  --secondary: #1e293b;
+  --secondary-foreground: #f1f5f9;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --accent: #2d1a3d;
+  --accent-foreground: #e879f9;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #1e293b;
+  --input: #1e293b;
+  --ring: #d946ef;
+  --card: #1e293b;
+  --card-foreground: #f1f5f9;
+  --sidebar-background: #0a0f1e;
+  --sidebar-active: #2d1a3d;
+  --sidebar-active-border: #d946ef;
 }
 
 body {
-    margin: 0;
-    background-color: var(--background);
-    color: var(--foreground);
-    font-family: Arial, Helvetica, sans-serif, ui-sans-serif, system-ui, sans-serif;
+  margin: 0;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
 }
 
-/* EasyMDE Button Color Override */
+/* SimpleMDE Dark Mode Overrides */
+.dark .EasyMDEContainer .CodeMirror {
+  background: #1e293b !important;
+  color: #f1f5f9 !important;
+  border-color: #334155 !important;
+}
+
+.dark .EasyMDEContainer .editor-toolbar {
+  background: #0f172a !important;
+  border-color: #1e293b !important;
+}
+
+.dark .EasyMDEContainer .editor-toolbar button {
+  color: #94a3b8 !important;
+}
+
+.dark .EasyMDEContainer .editor-toolbar button:hover,
+.dark .EasyMDEContainer .editor-toolbar button.active {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+.dark .EasyMDEContainer .editor-preview {
+  background: #1e293b !important;
+  color: #f1f5f9 !important;
+}
+
+.dark .EasyMDEContainer .editor-statusbar {
+  color: #94a3b8 !important;
+}
+
+.dark .EasyMDEContainer .CodeMirror-cursor {
+  border-left: 1px solid #f1f5f9 !important;
+}
+
+/* EasyMDE light mode button fix */
 .editor-toolbar button {
-    color: black !important;
+  color: black !important;
 }
 
 .editor-toolbar button.active,
 .editor-toolbar button:hover {
-    background: #f0f0f0 !important;
-    border-color: #ccc !important;
-    color: black !important;
+  background: #f0f0f0 !important;
+  border-color: #ccc !important;
+  color: black !important;
 }
