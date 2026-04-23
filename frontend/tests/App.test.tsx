@@ -1,5 +1,6 @@
 import {afterEach, describe, expect, it, vi} from 'vitest';
 import {act, render, screen} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import {App} from '../src/App';
 
 const {mockGetMe} = vi.hoisted(() => ({mockGetMe: vi.fn()}));
@@ -44,7 +45,7 @@ describe('App', () => {
         expect(screen.getByText(/Equipment Management System/i)).toBeInTheDocument();
     });
 
-    it('provides the username to AuthContext so Header shows it', async () => {
+    it('provides the username to AuthContext so Sidebar shows it', async () => {
         mockGetMe.mockResolvedValue({email: 'alice'});
         await act(async () => {
             render(<App/>);
@@ -53,19 +54,18 @@ describe('App', () => {
     });
 
     it('clears username when logout is triggered', async () => {
+        const user = userEvent.setup();
         mockGetMe.mockResolvedValue({email: 'alice'});
         await act(async () => {
             render(<App/>);
         });
         expect(screen.getByText('alice')).toBeInTheDocument();
 
-        // Find the logout button (not the ThemeToggle which has aria-label="Toggle theme")
-        const buttons = screen.getAllByRole('button');
-        const logoutButton = buttons.find(b => b.getAttribute('aria-label') !== 'Toggle theme')!;
-
-        await act(async () => {
-            logoutButton.click();
-        });
+        // Open the user dropdown in the Sidebar, then click "Log out"
+        const triggerButton = screen.getByText('alice').closest('button')!;
+        await user.click(triggerButton);
+        const logoutItem = screen.getByText('Log out');
+        await user.click(logoutItem);
         expect(screen.queryByText('alice')).not.toBeInTheDocument();
     });
 
@@ -78,6 +78,7 @@ describe('App', () => {
     });
 
     it('re-fetches user via getMe when setAuthenticated(true) is called', async () => {
+        const user = userEvent.setup();
         // First call: auth check succeeds, second call: after setAuthenticated(true)
         mockGetMe
             .mockResolvedValueOnce({email: 'alice'})
@@ -88,15 +89,11 @@ describe('App', () => {
         });
         expect(screen.getByText('alice')).toBeInTheDocument();
 
-        // Trigger setAuthenticated(true) via the LoginPage route — but since we're already
-        // authenticated we can't easily reach it. Instead verify the second getMe call happens
-        // by directly triggering logout then re-login flow is tracked via call count.
-        // setAuthenticated(false) → clears user, setAuthenticated(true) → calls getMe again.
-        const buttons = screen.getAllByRole('button');
-        const logoutButton = buttons.find(b => b.getAttribute('aria-label') !== 'Toggle theme')!;
-        await act(async () => {
-            logoutButton.click();
-        });
+        // Trigger setAuthenticated(false) via Sidebar logout dropdown.
+        const triggerButton = screen.getByText('alice').closest('button')!;
+        await user.click(triggerButton);
+        const logoutItem = screen.getByText('Log out');
+        await user.click(logoutItem);
         // After logout, username is cleared — setAuthenticated(true) would call getMe again
         expect(mockGetMe).toHaveBeenCalledTimes(1); // only the mount call so far
     });

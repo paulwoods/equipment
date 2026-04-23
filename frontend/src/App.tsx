@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {BrowserRouter, Navigate, Route, Routes, useLocation} from 'react-router-dom';
-import {Breadcrumbs, Footer, Header, ThemeProvider} from './components';
+import {AppLayout, ThemeProvider} from './components';
 import {AuthContext} from './hooks';
 import {getMe, getSetupStatus} from './api/client';
 import type {UserRole} from './types/user';
@@ -35,21 +35,6 @@ const ProtectedRoute = ({email, children}: { email: string | null; children: Rea
         return <Navigate to={`/login?returnTo=${returnTo}`} replace/>;
     }
     return <>{children}</>;
-};
-
-const Layout = ({children}: { children: React.ReactNode }): React.JSX.Element => {
-    return (
-        <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-gray-950">
-            <Header/>
-            <div className="max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-3">
-                <Breadcrumbs/>
-            </div>
-            <main className="flex-1">
-                {children}
-            </main>
-            <Footer/>
-        </div>
-    );
 };
 
 const App = (): React.JSX.Element => {
@@ -116,58 +101,26 @@ const App = (): React.JSX.Element => {
                                         setRole('ADMIN');
                                     }}/>
                         }/>
-                        <Route path="/" element={
-                            <Layout>
-                                <HomePage/>
-                            </Layout>
-                        }/>
-                        <Route path="/dashboard" element={
-                            <ProtectedRoute email={email}><Layout><DashboardPage/></Layout></ProtectedRoute>
-                        }/>
-                        <Route path="/equipment" element={
-                            <ProtectedRoute email={email}><Layout><EquipmentPage/></Layout></ProtectedRoute>
-                        }/>
-                        <Route path="/equipment/new" element={
-                            <ProtectedRoute email={email}><Layout><NewEquipmentPage/></Layout></ProtectedRoute>
-                        }/>
-                        <Route path="/equipment/import" element={
-                            <ProtectedRoute email={email}><Layout><ImportEquipmentPage/></Layout></ProtectedRoute>
-                        }/>
-                        <Route path="/equipment/:id" element={
-                            <ProtectedRoute email={email}><Layout><EquipmentShowPage/></Layout></ProtectedRoute>
-                        }/>
-                        <Route path="/equipment/:id/edit" element={
-                            <ProtectedRoute email={email}><Layout><EditEquipmentPage/></Layout></ProtectedRoute>
-                        }/>
-                        <Route path="/equipment/:id/procedures" element={
-                            <ProtectedRoute email={email}><Layout><ProceduresPage/></Layout></ProtectedRoute>
-                        }/>
-                        <Route path="/equipment/:id/procedures/new" element={
-                            <ProtectedRoute email={email}><Layout><NewProcedurePage/></Layout></ProtectedRoute>
-                        }/>
-                        <Route path="/equipment/:id/procedures/:procedureId" element={
-                            <ProtectedRoute email={email}><Layout><ProcedureShowPage/></Layout></ProtectedRoute>
-                        }/>
-                        <Route path="/equipment/:id/procedures/:procedureId/edit" element={
-                            <ProtectedRoute email={email}><Layout><EditProcedurePage/></Layout></ProtectedRoute>
-                        }/>
-                        <Route path="/equipment/:id/procedures/:procedureId/perform" element={
-                            <ProtectedRoute email={email}><Layout><PerformProcedurePage/></Layout></ProtectedRoute>
-                        }/>
-                        <Route path="/equipment/:id/procedures/:procedureId/history" element={
-                            <ProtectedRoute email={email}><Layout><ProcedureHistoryPage/></Layout></ProtectedRoute>
-                        }/>
-                        <Route path="/users" element={
-                            <ProtectedRoute email={email}><Layout><UsersPage/></Layout></ProtectedRoute>
-                        }/>
-                        <Route path="/users/new" element={
-                            <ProtectedRoute email={email}><Layout><NewUserPage/></Layout></ProtectedRoute>
-                        }/>
-                        <Route path="/users/:id/edit" element={
-                            <ProtectedRoute email={email}><Layout><EditUserPage/></Layout></ProtectedRoute>
-                        }/>
-                        <Route path="/about" element={<Layout><AboutPage/></Layout>}/>
-                        <Route path="/contact" element={<Layout><ContactPage/></Layout>}/>
+                        <Route element={<AppLayout/>}>
+                            <Route path="/" element={<HomePage/>}/>
+                            <Route path="/dashboard" element={<ProtectedRoute email={email}><DashboardPage/></ProtectedRoute>}/>
+                            <Route path="/equipment" element={<ProtectedRoute email={email}><EquipmentPage/></ProtectedRoute>}/>
+                            <Route path="/equipment/new" element={<ProtectedRoute email={email}><NewEquipmentPage/></ProtectedRoute>}/>
+                            <Route path="/equipment/import" element={<ProtectedRoute email={email}><ImportEquipmentPage/></ProtectedRoute>}/>
+                            <Route path="/equipment/:id" element={<ProtectedRoute email={email}><EquipmentShowPage/></ProtectedRoute>}/>
+                            <Route path="/equipment/:id/edit" element={<ProtectedRoute email={email}><EditEquipmentPage/></ProtectedRoute>}/>
+                            <Route path="/equipment/:id/procedures" element={<ProtectedRoute email={email}><ProceduresPage/></ProtectedRoute>}/>
+                            <Route path="/equipment/:id/procedures/new" element={<ProtectedRoute email={email}><NewProcedurePage/></ProtectedRoute>}/>
+                            <Route path="/equipment/:id/procedures/:procedureId" element={<ProtectedRoute email={email}><ProcedureShowPage/></ProtectedRoute>}/>
+                            <Route path="/equipment/:id/procedures/:procedureId/edit" element={<ProtectedRoute email={email}><EditProcedurePage/></ProtectedRoute>}/>
+                            <Route path="/equipment/:id/procedures/:procedureId/perform" element={<ProtectedRoute email={email}><PerformProcedurePage/></ProtectedRoute>}/>
+                            <Route path="/equipment/:id/procedures/:procedureId/history" element={<ProtectedRoute email={email}><ProcedureHistoryPage/></ProtectedRoute>}/>
+                            <Route path="/users" element={<ProtectedRoute email={email}><UsersPage/></ProtectedRoute>}/>
+                            <Route path="/users/new" element={<ProtectedRoute email={email}><NewUserPage/></ProtectedRoute>}/>
+                            <Route path="/users/:id/edit" element={<ProtectedRoute email={email}><EditUserPage/></ProtectedRoute>}/>
+                            <Route path="/about" element={<AboutPage/>}/>
+                            <Route path="/contact" element={<ContactPage/>}/>
+                        </Route>
                     </Routes>
                 </BrowserRouter>
             </AuthContext.Provider>
