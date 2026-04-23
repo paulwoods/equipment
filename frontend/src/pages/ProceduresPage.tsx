@@ -5,6 +5,7 @@ import type {Procedure} from "../types/procedure";
 import type {Equipment} from "../types/equipment";
 import {ProcedureList} from "../components";
 import {Hash, MapPin, Tag} from "lucide-react";
+import {Button} from "../components/ui/button";
 
 const ProceduresPage = (): React.JSX.Element => {
     const {id} = useParams() as { id: string };
@@ -29,35 +30,29 @@ const ProceduresPage = (): React.JSX.Element => {
         }
     };
 
-    if (loading) return <div className="p-8">Loading...</div>;
+    if (loading) return <div className="p-8 text-[var(--muted-foreground)]">Loading...</div>;
 
     return (
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-[var(--background)] py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
                 <div className="mb-6 flex justify-end gap-4">
-                    <Link
-                        to="/equipment"
-                        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-                    >
-                        Equipment
-                    </Link>
-                    <Link
-                        to={`/equipment/${id}/procedures/new`}
-                        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-                    >
-                        Add Procedure
-                    </Link>
+                    <Button asChild variant="outline">
+                        <Link to="/equipment">Equipment</Link>
+                    </Button>
+                    <Button asChild>
+                        <Link to={`/equipment/${id}/procedures/new`}>Add Procedure</Link>
+                    </Button>
                 </div>
 
                 <div
-                    className="bg-white dark:bg-gray-900 shadow rounded-lg overflow-hidden p-6 border border-gray-200 dark:border-gray-800">
-                    <div className="mb-8 border-b border-gray-100 dark:border-gray-800 pb-6">
+                    className="bg-[var(--card)] shadow rounded-lg overflow-hidden p-6 border border-[var(--border)]">
+                    <div className="mb-8 border-b border-[var(--border)] pb-6">
                         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
                             <div>
-                                <h2 className="text-2xl font-bold text-black dark:text-white">
+                                <h2 className="text-2xl font-bold text-[var(--foreground)]">
                                     {equipment?.manufacturer} {equipment?.modelNumber}
                                 </h2>
-                                <p className="text-gray-600 dark:text-gray-400 mt-1">Maintenance Procedures</p>
+                                <p className="text-[var(--muted-foreground)] mt-1">Maintenance Procedures</p>
                             </div>
                             <div className="mt-2 sm:mt-0">
                                 {equipment && <StatusBadge status={equipment.status}/>}
@@ -65,21 +60,21 @@ const ProceduresPage = (): React.JSX.Element => {
                         </div>
 
                         <div
-                            className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm mt-6 bg-gray-50 dark:bg-gray-800/50 p-4 rounded-lg border border-gray-100 dark:border-gray-800">
-                            <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                            className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm mt-6 bg-[var(--muted)] p-4 rounded-lg border border-[var(--border)]">
+                            <div className="flex items-center gap-2 text-[var(--muted-foreground)]">
                                 <Hash className="w-4 h-4 text-blue-500"/>
                                 <span>SN: <span
-                                    className="font-medium text-gray-900 dark:text-gray-100">{equipment?.serialNumber || "N/A"}</span></span>
+                                    className="font-medium text-[var(--foreground)]">{equipment?.serialNumber || "N/A"}</span></span>
                             </div>
-                            <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                            <div className="flex items-center gap-2 text-[var(--muted-foreground)]">
                                 <Tag className="w-4 h-4 text-purple-500"/>
                                 <span>Tag: <span
-                                    className="font-medium text-gray-900 dark:text-gray-100">{equipment?.assetTag || "N/A"}</span></span>
+                                    className="font-medium text-[var(--foreground)]">{equipment?.assetTag || "N/A"}</span></span>
                             </div>
-                            <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                            <div className="flex items-center gap-2 text-[var(--muted-foreground)]">
                                 <MapPin className="w-4 h-4 text-orange-500"/>
                                 <span className="truncate">Loc: <span
-                                    className="font-medium text-gray-900 dark:text-gray-100">{equipment?.location || "N/A"}</span></span>
+                                    className="font-medium text-[var(--foreground)]">{equipment?.location || "N/A"}</span></span>
                             </div>
                         </div>
                     </div>

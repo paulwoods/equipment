@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import type {Equipment} from "../types/equipment";
 import {EquipmentList} from "../components";
 import {deleteEquipment, exportEquipment, fetchEquipment} from "../api/client";
+import {Button} from "../components/ui/button";
 
 const EquipmentPage = (): React.JSX.Element => {
     const [equipmentList, setEquipmentList] = useState<Equipment[]>([]);
@@ -27,37 +28,28 @@ const EquipmentPage = (): React.JSX.Element => {
         }
     };
 
-    if (loading) return <div className="p-8 text-center text-gray-500">Loading...</div>;
-    if (error) return <div className="p-8 text-center text-red-600 dark:text-red-400">{error}</div>;
+    if (loading) return <div className="p-8 text-center text-[var(--muted-foreground)]">Loading...</div>;
+    if (error) return <div className="p-8 text-center text-[var(--destructive)]">{error}</div>;
 
     return (
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-[var(--background)] py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Equipment</h1>
+                    <h1 className="text-2xl font-bold text-[var(--foreground)]">Equipment</h1>
                     <div className="flex gap-4">
-                        <button
-                            onClick={handleExport}
-                            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-                        >
+                        <Button onClick={handleExport}>
                             Export
-                        </button>
-                        <Link
-                            to="/dashboard"
-                            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-                        >
-                            Dashboard
-                        </Link>
-                        <Link
-                            to="/users"
-                            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-                        >
-                            Users
-                        </Link>
+                        </Button>
+                        <Button asChild>
+                            <Link to="/dashboard">Dashboard</Link>
+                        </Button>
+                        <Button asChild>
+                            <Link to="/users">Users</Link>
+                        </Button>
                     </div>
                 </div>
 
-                <div className="bg-white dark:bg-gray-900 shadow rounded-lg overflow-hidden">
+                <div className="bg-[var(--card)] shadow rounded-lg overflow-hidden">
                     <EquipmentList
                         items={equipmentList}
                         onDelete={handleDelete}

@@ -2,6 +2,10 @@ import React, {useState} from "react";
 import {setupAdmin} from "../api/client";
 import {Lock, Mail} from "lucide-react";
 import {useNavigate} from "react-router-dom";
+import {Button} from "../components/ui/button";
+import {Input} from "../components/ui/input";
+import {Label} from "../components/ui/label";
+import {Alert, AlertDescription} from "../components/ui/alert";
 
 interface SetupPageProps {
     onSetupComplete: (email: string) => void;
@@ -41,73 +45,60 @@ const SetupPage = ({onSetupComplete}: SetupPageProps): React.JSX.Element => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
+        <div className="min-h-screen flex items-center justify-center px-4" style={{background: 'var(--background)'}}>
             <div
-                className="max-w-md w-full space-y-8 bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
+                className="max-w-md w-full space-y-8 p-8 rounded-xl border shadow-lg"
+                style={{background: 'var(--card)', borderColor: 'var(--border)'}}
+            >
                 <div>
-                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-gray-100">
+                    <h2 className="text-center text-3xl font-extrabold" style={{color: 'var(--card-foreground)'}}>
                         Welcome
                     </h2>
-                    <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
+                    <p className="mt-2 text-center text-sm" style={{color: 'var(--muted-foreground)'}}>
                         Create your admin account to get started
                     </p>
                 </div>
-                <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                <form className="space-y-6" onSubmit={handleSubmit}>
                     {error && (
-                        <div
-                            className="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded-md text-sm text-center">
-                            {error}
-                        </div>
+                        <Alert variant="destructive">
+                            <AlertDescription>{error}</AlertDescription>
+                        </Alert>
                     )}
-                    <div className="rounded-md shadow-sm space-y-4">
-                        <div>
-                            <label htmlFor="email" className="sr-only">
-                                Email
-                            </label>
+                    <div className="space-y-4">
+                        <div className="space-y-1.5">
+                            <Label htmlFor="email" className="sr-only">Email</Label>
                             <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <Mail className="h-5 w-5 text-gray-400"/>
-                                </div>
-                                <input
+                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--muted-foreground)]"/>
+                                <Input
                                     id="email"
                                     name="email"
                                     type="email"
                                     required
                                     autoFocus
-                                    className="appearance-none rounded-md relative block w-full px-10 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                                     placeholder="Admin email address"
+                                    className="pl-10"
                                 />
                             </div>
                         </div>
-                        <div>
-                            <label htmlFor="password" className="sr-only">
-                                Password
-                            </label>
+                        <div className="space-y-1.5">
+                            <Label htmlFor="password" className="sr-only">Password</Label>
                             <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <Lock className="h-5 w-5 text-gray-400"/>
-                                </div>
-                                <input
+                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--muted-foreground)]"/>
+                                <Input
                                     id="password"
                                     name="password"
                                     type="password"
                                     required
-                                    className="appearance-none rounded-md relative block w-full px-10 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                                     placeholder="Password"
+                                    className="pl-10"
                                 />
                             </div>
                         </div>
                     </div>
 
-                    <div>
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            {loading ? "Creating account..." : "Create admin account"}
-                        </button>
-                    </div>
+                    <Button type="submit" className="w-full" disabled={loading}>
+                        {loading ? "Creating account..." : "Create admin account"}
+                    </Button>
                 </form>
             </div>
         </div>

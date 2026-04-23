@@ -5,6 +5,7 @@ import type {Perform, Procedure} from "../types/procedure";
 import type {Equipment} from "../types/equipment";
 import ReactMarkdown from "react-markdown";
 import {Calendar, Clock, Edit, FileText, History, Play, Wrench} from "lucide-react";
+import {Button} from "../components/ui/button";
 
 const ProcedureShowPage = (): React.JSX.Element => {
     const {id, procedureId} = useParams() as { id: string; procedureId: string };
@@ -24,8 +25,8 @@ const ProcedureShowPage = (): React.JSX.Element => {
             .finally(() => setLoading(false));
     }, [id, procedureId]);
 
-    if (loading) return <div className="p-8 text-center text-black dark:text-white">Loading...</div>;
-    if (!procedure || !equipment) return <div className="p-8 text-center text-black dark:text-white">Procedure not
+    if (loading) return <div className="p-8 text-center text-[var(--foreground)]">Loading...</div>;
+    if (!procedure || !equipment) return <div className="p-8 text-center text-[var(--foreground)]">Procedure not
         found.</div>;
 
     const lastPerformed = history.length > 0
@@ -33,32 +34,30 @@ const ProcedureShowPage = (): React.JSX.Element => {
         : null;
 
     return (
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-[var(--background)] py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto">
                 <div className="mb-6 flex justify-end gap-3">
-                    <Link
-                        to={`/equipment/${id}/procedures/${procedureId}/edit`}
-                        className="flex items-center gap-2 px-3 py-1.5 border border-gray-300 dark:border-gray-700 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-sm font-medium"
-                    >
-                        <Edit className="w-4 h-4"/>
-                        Edit
-                    </Link>
-                    <Link
-                        to={`/equipment/${id}/procedures/${procedureId}/perform`}
-                        className="flex items-center gap-2 px-3 py-1.5 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors text-sm font-medium"
-                    >
-                        <Play className="w-4 h-4"/>
-                        Perform
-                    </Link>
+                    <Button variant="outline" asChild>
+                        <Link to={`/equipment/${id}/procedures/${procedureId}/edit`}>
+                            <Edit className="w-4 h-4 mr-2"/>
+                            Edit
+                        </Link>
+                    </Button>
+                    <Button className="bg-green-600 hover:bg-green-700" asChild>
+                        <Link to={`/equipment/${id}/procedures/${procedureId}/perform`}>
+                            <Play className="w-4 h-4 mr-2"/>
+                            Perform
+                        </Link>
+                    </Button>
                 </div>
 
                 <div
-                    className="bg-white dark:bg-gray-900 shadow-lg rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800">
-                    <div className="p-6 md:p-8 border-b border-gray-100 dark:border-gray-800">
+                    className="bg-[var(--card)] shadow-lg rounded-xl overflow-hidden border border-[var(--border)]">
+                    <div className="p-6 md:p-8 border-b border-[var(--border)]">
                         <div className="flex flex-col gap-1 mb-4">
                             <span
-                                className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider">Procedure Details</span>
-                            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">{procedure.name}</h1>
+                                className="text-xs font-semibold text-[var(--primary)] uppercase tracking-wider">Procedure Details</span>
+                            <h1 className="text-3xl font-bold text-[var(--foreground)]">{procedure.name}</h1>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
@@ -68,10 +67,10 @@ const ProcedureShowPage = (): React.JSX.Element => {
                                     <FileText className="w-5 h-5"/>
                                 </div>
                                 <div>
-                                    <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Equipment</p>
-                                    <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{equipment.manufacturer} {equipment.modelNumber}</p>
+                                    <p className="text-xs font-medium text-[var(--muted-foreground)] uppercase">Equipment</p>
+                                    <p className="text-sm font-semibold text-[var(--foreground)]">{equipment.manufacturer} {equipment.modelNumber}</p>
                                     {(equipment.serialNumber || equipment.assetTag) && (
-                                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                                        <p className="text-xs text-[var(--muted-foreground)]">
                                             {equipment.serialNumber && `SN: ${equipment.serialNumber}`}
                                             {equipment.serialNumber && equipment.assetTag && " | "}
                                             {equipment.assetTag && `Tag: ${equipment.assetTag}`}
@@ -85,8 +84,8 @@ const ProcedureShowPage = (): React.JSX.Element => {
                                     <Clock className="w-5 h-5"/>
                                 </div>
                                 <div>
-                                    <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Interval</p>
-                                    <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">Every {procedure.intervalDays} days</p>
+                                    <p className="text-xs font-medium text-[var(--muted-foreground)] uppercase">Interval</p>
+                                    <p className="text-sm font-semibold text-[var(--foreground)]">Every {procedure.intervalDays} days</p>
                                 </div>
                             </div>
                             <div className="flex items-start gap-3">
@@ -95,9 +94,9 @@ const ProcedureShowPage = (): React.JSX.Element => {
                                     <Calendar className="w-5 h-5"/>
                                 </div>
                                 <div>
-                                    <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Last
+                                    <p className="text-xs font-medium text-[var(--muted-foreground)] uppercase">Last
                                         Performed</p>
-                                    <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                                    <p className="text-sm font-semibold text-[var(--foreground)]">
                                         {lastPerformed ? lastPerformed.toLocaleDateString() : "Never"}
                                     </p>
                                 </div>
@@ -110,7 +109,7 @@ const ProcedureShowPage = (): React.JSX.Element => {
                                 <div>
                                     <Link
                                         to={`/equipment/${id}/procedures/${procedureId}/history`}
-                                        className="text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+                                        className="text-sm font-semibold text-[var(--primary)] hover:underline"
                                     >
                                         View Full History
                                     </Link>
@@ -122,8 +121,8 @@ const ProcedureShowPage = (): React.JSX.Element => {
                     <div className="p-6 md:p-8 space-y-8">
                         {procedure.description && (
                             <div>
-                                <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2">Description</h2>
-                                <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+                                <h2 className="text-lg font-bold text-[var(--foreground)] mb-2">Description</h2>
+                                <p className="text-[var(--muted-foreground)] leading-relaxed">
                                     {procedure.description}
                                 </p>
                             </div>
@@ -131,8 +130,8 @@ const ProcedureShowPage = (): React.JSX.Element => {
 
                         {procedure.requiredTools && (
                             <div>
-                                <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-3 flex items-center gap-2">
-                                    <Wrench className="w-5 h-5 text-blue-600 dark:text-blue-400"/>
+                                <h2 className="text-lg font-bold text-[var(--foreground)] mb-3 flex items-center gap-2">
+                                    <Wrench className="w-5 h-5 text-[var(--primary)]"/>
                                     Required Tools / PPE
                                 </h2>
                                 <div
@@ -145,9 +144,9 @@ const ProcedureShowPage = (): React.JSX.Element => {
                         )}
 
                         <div>
-                            <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">Procedure Steps</h2>
+                            <h2 className="text-lg font-bold text-[var(--foreground)] mb-4">Procedure Steps</h2>
                             <div
-                                className="prose prose-sm md:prose-base max-w-none dark:prose-invert bg-gray-50 dark:bg-gray-800/50 p-6 rounded-xl border border-gray-100 dark:border-gray-800">
+                                className="prose prose-sm md:prose-base max-w-none dark:prose-invert bg-[var(--muted)] p-6 rounded-xl border border-[var(--border)]">
                                 <ReactMarkdown>{procedure.steps || "_No steps provided._"}</ReactMarkdown>
                             </div>
                         </div>

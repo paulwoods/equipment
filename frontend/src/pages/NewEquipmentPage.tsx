@@ -15,12 +15,12 @@ const NewEquipmentPage = (): React.JSX.Element => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-[var(--background)] py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
                 <div className="mb-6">
                     <Link
                         to="/equipment"
-                        className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center gap-2 font-medium"
+                        className="text-[var(--primary)] hover:opacity-80 flex items-center gap-2 font-medium"
                     >
                         ← Back to Equipment List
                     </Link>

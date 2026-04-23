@@ -2,6 +2,7 @@ import React, {type ChangeEvent, type FormEvent, useState} from "react";
 import {Link} from "react-router-dom";
 import {importEquipment} from "../api/client";
 import type {ImportResult} from "../types/equipment";
+import {Button} from "../components/ui/button";
 
 const ImportEquipmentPage = (): React.JSX.Element => {
     const [file, setFile] = useState<File | null>(null);
@@ -44,21 +45,21 @@ const ImportEquipmentPage = (): React.JSX.Element => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-[var(--background)] py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
                 <div className="mb-6">
                     <Link
                         to="/equipment"
-                        className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center gap-2 font-medium"
+                        className="text-[var(--primary)] hover:opacity-80 flex items-center gap-2 font-medium"
                     >
                         ← Back to Equipment List
                     </Link>
                 </div>
 
                 <div
-                    className="bg-white dark:bg-gray-900 shadow rounded-lg p-6 border border-gray-200 dark:border-gray-800">
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">Import Equipment</h1>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
+                    className="bg-[var(--card)] shadow rounded-lg p-6 border border-[var(--border)]">
+                    <h1 className="text-2xl font-bold text-[var(--foreground)] mb-2">Import Equipment</h1>
+                    <p className="text-sm text-[var(--muted-foreground)] mb-6">
                         Upload a JSON file to import equipment, procedures, and history into the database.
                         All IDs in the file will be replaced with new ones.
                     </p>
@@ -77,18 +78,12 @@ const ImportEquipmentPage = (): React.JSX.Element => {
                                 </ul>
                             </div>
                             <div className="flex gap-3">
-                                <button
-                                    onClick={handleReset}
-                                    className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition text-sm"
-                                >
+                                <Button variant="secondary" onClick={handleReset}>
                                     Import Another File
-                                </button>
-                                <Link
-                                    to="/equipment"
-                                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition text-sm flex items-center"
-                                >
-                                    View Equipment
-                                </Link>
+                                </Button>
+                                <Button asChild>
+                                    <Link to="/equipment">View Equipment</Link>
+                                </Button>
                             </div>
                         </div>
                     ) : (
@@ -96,7 +91,7 @@ const ImportEquipmentPage = (): React.JSX.Element => {
                             <div>
                                 <label
                                     htmlFor="file"
-                                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                                    className="block text-sm font-medium text-[var(--foreground)] mb-2"
                                 >
                                     JSON File
                                 </label>
@@ -105,7 +100,7 @@ const ImportEquipmentPage = (): React.JSX.Element => {
                                     type="file"
                                     accept=".json"
                                     onChange={handleFileChange}
-                                    className="block w-full text-sm text-gray-900 dark:text-gray-100
+                                    className="block w-full text-sm text-[var(--foreground)]
                                         file:mr-4 file:py-2 file:px-4
                                         file:rounded-md file:border-0
                                         file:text-sm file:font-medium
@@ -115,7 +110,7 @@ const ImportEquipmentPage = (): React.JSX.Element => {
                                         file:cursor-pointer cursor-pointer"
                                 />
                                 {file && (
-                                    <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                                    <p className="mt-2 text-xs text-[var(--muted-foreground)]">
                                         Selected: {file.name}
                                     </p>
                                 )}
@@ -124,24 +119,21 @@ const ImportEquipmentPage = (): React.JSX.Element => {
                             {error && (
                                 <div
                                     className="rounded-md bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-4">
-                                    <p className="text-sm text-red-700 dark:text-red-400">{error}</p>
+                                    <p className="text-sm text-[var(--destructive)]">{error}</p>
                                 </div>
                             )}
 
                             <div className="flex gap-3">
-                                <button
+                                <Button
                                     type="submit"
                                     disabled={!file || loading}
-                                    className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="bg-green-600 hover:bg-green-700"
                                 >
                                     {loading ? 'Importing...' : 'Import'}
-                                </button>
-                                <Link
-                                    to="/equipment"
-                                    className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition text-sm flex items-center"
-                                >
-                                    Cancel
-                                </Link>
+                                </Button>
+                                <Button variant="outline" asChild>
+                                    <Link to="/equipment">Cancel</Link>
+                                </Button>
                             </div>
                         </form>
                     )}

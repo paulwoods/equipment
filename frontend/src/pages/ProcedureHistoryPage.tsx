@@ -23,57 +23,57 @@ const ProcedureHistoryPage = (): React.JSX.Element => {
             .finally(() => setLoading(false));
     }, [id, procedureId]);
 
-    if (loading) return <div className="p-8 text-center text-black dark:text-white">Loading...</div>;
-    if (!procedure) return <div className="p-8 text-center text-black dark:text-white">Procedure not found.</div>;
+    if (loading) return <div className="p-8 text-center text-[var(--foreground)]">Loading...</div>;
+    if (!procedure) return <div className="p-8 text-center text-[var(--foreground)]">Procedure not found.</div>;
 
     return (
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-[var(--background)] py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
 
                 <div
-                    className="bg-white dark:bg-gray-900 shadow rounded-lg overflow-hidden p-6 border border-gray-200 dark:border-gray-800">
-                    <div className="mb-8 border-b border-gray-100 dark:border-gray-800 pb-4">
-                        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Performance History</h1>
-                        <p className="text-gray-600 dark:text-gray-400 mt-2">
+                    className="bg-[var(--card)] shadow rounded-lg overflow-hidden p-6 border border-[var(--border)]">
+                    <div className="mb-8 border-b border-[var(--border)] pb-4">
+                        <h1 className="text-3xl font-bold text-[var(--foreground)]">Performance History</h1>
+                        <p className="text-[var(--muted-foreground)] mt-2">
                             Procedure: <span
-                            className="font-semibold text-black dark:text-white">{procedure.name}</span>
+                            className="font-semibold text-[var(--foreground)]">{procedure.name}</span>
                         </p>
-                        <p className="text-gray-600 dark:text-gray-400">
+                        <p className="text-[var(--muted-foreground)]">
                             Equipment: <span
-                            className="font-semibold text-black dark:text-white">{equipmentInfo.manufacturer} - {equipmentInfo.modelNumber}</span>
+                            className="font-semibold text-[var(--foreground)]">{equipmentInfo.manufacturer} - {equipmentInfo.modelNumber}</span>
                         </p>
                     </div>
 
                     <div className="overflow-x-auto">
-                        <table className="hidden md:table min-w-full divide-y divide-gray-200 dark:divide-gray-800">
-                            <thead className="bg-gray-50 dark:bg-gray-800/50">
+                        <table className="hidden md:table min-w-full divide-y divide-[var(--border)]">
+                            <thead className="bg-[var(--muted)]">
                             <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                <th className="px-6 py-3 text-left text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wider">
                                     Date Performed
                                 </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                <th className="px-6 py-3 text-left text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wider">
                                     Notes
                                 </th>
                             </tr>
                             </thead>
-                            <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
+                            <tbody className="bg-[var(--card)] divide-y divide-[var(--border)]">
                             {history.length > 0 ? (
                                 [...history]
                                     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                                     .map((record) => (
                                         <tr key={record.id}>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]">
                                                 {new Date(record.date).toLocaleDateString()}
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-300">
-                                                {record.notes || <span className="text-gray-400 italic">No notes</span>}
+                                            <td className="px-6 py-4 text-sm text-[var(--foreground)]">
+                                                {record.notes || <span className="text-[var(--muted-foreground)] italic">No notes</span>}
                                             </td>
                                         </tr>
                                     ))
                             ) : (
                                 <tr>
                                     <td colSpan={2}
-                                        className="px-6 py-10 text-center text-sm text-gray-500 dark:text-gray-400">
+                                        className="px-6 py-10 text-center text-sm text-[var(--muted-foreground)]">
                                         No performance records found for this procedure.
                                     </td>
                                 </tr>
@@ -81,22 +81,22 @@ const ProcedureHistoryPage = (): React.JSX.Element => {
                             </tbody>
                         </table>
 
-                        <div className="md:hidden divide-y divide-gray-200 dark:divide-gray-800">
+                        <div className="md:hidden divide-y divide-[var(--border)]">
                             {history.length > 0 ? (
                                 [...history]
                                     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                                     .map((record) => (
                                         <div key={record.id} className="py-4 space-y-2">
-                                            <div className="text-sm font-bold text-gray-900 dark:text-gray-100">
+                                            <div className="text-sm font-bold text-[var(--foreground)]">
                                                 {new Date(record.date).toLocaleDateString()}
                                             </div>
-                                            <div className="text-sm text-gray-700 dark:text-gray-300">
-                                                {record.notes || <span className="text-gray-400 italic">No notes</span>}
+                                            <div className="text-sm text-[var(--foreground)]">
+                                                {record.notes || <span className="text-[var(--muted-foreground)] italic">No notes</span>}
                                             </div>
                                         </div>
                                     ))
                             ) : (
-                                <div className="py-10 text-center text-sm text-gray-500 dark:text-gray-400">
+                                <div className="py-10 text-center text-sm text-[var(--muted-foreground)]">
                                     No performance records found.
                                 </div>
                             )}
