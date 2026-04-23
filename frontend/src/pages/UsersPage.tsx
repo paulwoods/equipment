@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import type {User} from "../types/user";
+import {canManageUsers} from "../types/user";
 import {deleteUser, fetchUsers} from "../api/client";
 import {useAuth} from "../hooks";
 
 const UsersPage = (): React.JSX.Element => {
     const {role} = useAuth();
-    const isAdmin = role === 'ADMIN';
+    const isAdmin = canManageUsers(role);
 
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
@@ -82,9 +83,13 @@ const UsersPage = (): React.JSX.Element => {
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <span
                                             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                                user.role === 'ADMIN'
-                                                    ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200'
-                                                    : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+                                                user.role === 'SYSTEM_ADMIN'
+                                                    ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                                                    : user.role === 'ADMIN'
+                                                        ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200'
+                                                        : user.role === 'EDIT'
+                                                            ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+                                                            : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
                                             }`}>
                                             {user.role}
                                         </span>

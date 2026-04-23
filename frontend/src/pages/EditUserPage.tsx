@@ -1,11 +1,15 @@
 import React, {useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import type {User, UserRole} from "../types/user";
+import {assignableRoles} from "../types/user";
 import {getUser, updateUser} from "../api/client";
+import {useAuth} from "../hooks";
 
 const EditUserPage = (): React.JSX.Element => {
     const {id} = useParams() as { id: string };
     const navigate = useNavigate();
+    const {role: callerRole} = useAuth();
+    const roleOptions = assignableRoles(callerRole);
 
     const [user, setUser] = useState<User | null>(null);
     const [name, setName] = useState('');
@@ -120,8 +124,9 @@ const EditUserPage = (): React.JSX.Element => {
                                 onChange={(e) => setRole(e.target.value as UserRole)}
                                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             >
-                                <option value="USER">User</option>
-                                <option value="ADMIN">Admin</option>
+                                {roleOptions.map((r) => (
+                                    <option key={r} value={r}>{r}</option>
+                                ))}
                             </select>
                         </div>
 
