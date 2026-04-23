@@ -9,3 +9,4 @@ export {ProcedureForm} from './ProcedureForm';
 export {ProcedureList} from './ProcedureList';
 export {ThemeProvider} from './ThemeProvider';
 export {ThemeToggle} from './ThemeToggle';
+export {TableSkeleton} from './TableSkeleton';
