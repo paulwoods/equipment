@@ -4,6 +4,7 @@ import type {DashboardItem} from "../types/equipment";
 import {deleteProcedure, getDashboard, sendDashboardEmail} from "../api/client";
 import {Calendar as CalendarIcon, ChevronDown, ChevronUp, List, Mail, Search, X} from "lucide-react";
 import {CalendarView} from "../components";
+import {Button} from "../components/ui/button";
 
 type SortField = 'equipmentName' | 'procedureName' | 'intervalDays' | 'daysTillDue';
 type SortOrder = 'asc' | 'desc';
@@ -133,46 +134,41 @@ const DashboardPage = (): React.JSX.Element => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-[var(--background)] py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-6xl mx-auto">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Dashboard</h1>
+                    <h1 className="text-2xl font-bold text-[var(--foreground)]">Dashboard</h1>
                     <div className="flex gap-2">
-                        <button
+                        <Button
+                            variant="outline"
                             onClick={handleEmailDashboard}
                             disabled={emailSending}
-                            className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-700 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition disabled:opacity-50"
+                            className="flex items-center gap-2"
                         >
                             <Mail className="w-4 h-4"/>
                             {emailSending ? "Sending..." : "Email Dashboard"}
-                        </button>
-                        <Link
-                            to="/equipment"
-                            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition w-fit"
-                        >
-                            Equipment
-                        </Link>
-                        <Link
-                            to="/users"
-                            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition w-fit"
-                        >
-                            Users
-                        </Link>
+                        </Button>
+                        <Button asChild>
+                            <Link to="/equipment">Equipment</Link>
+                        </Button>
+                        <Button asChild>
+                            <Link to="/users">Users</Link>
+                        </Button>
                     </div>
                 </div>
 
-                <div className="bg-white dark:bg-gray-900 shadow rounded-lg overflow-hidden">
+                <div className="bg-[var(--card)] shadow rounded-lg overflow-hidden">
                     {loading ? (
-                        <div className="p-8 text-center text-gray-500">Loading...</div>
+                        <div className="p-8 text-center text-[var(--muted-foreground)]">Loading...</div>
                     ) : (
                         <div className="space-y-4">
-                            <div className="flex border-b border-gray-200 dark:border-gray-800">
+                            <div className="flex border-b border-[var(--border)]">
                                 <button
                                     onClick={() => setActiveTab('list')}
                                     className={`flex items-center gap-2 px-6 py-3 text-sm font-medium transition-colors border-b-2 ${
                                         activeTab === 'list'
-                                            ? 'border-blue-600 text-blue-600 dark:text-blue-400'
-                                            : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+                                            ? 'border-[var(--primary)] text-[var(--primary)]'
+                                            : 'border-transparent text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
                                     }`}
                                 >
                                     <List className="w-4 h-4"/>
@@ -182,8 +178,8 @@ const DashboardPage = (): React.JSX.Element => {
                                     onClick={() => setActiveTab('calendar')}
                                     className={`flex items-center gap-2 px-6 py-3 text-sm font-medium transition-colors border-b-2 ${
                                         activeTab === 'calendar'
-                                            ? 'border-blue-600 text-blue-600 dark:text-blue-400'
-                                            : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+                                            ? 'border-[var(--primary)] text-[var(--primary)]'
+                                            : 'border-transparent text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
                                     }`}
                                 >
                                     <CalendarIcon className="w-4 h-4"/>
@@ -197,12 +193,12 @@ const DashboardPage = (): React.JSX.Element => {
                                         <div className="relative">
                                             <div
                                                 className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                <Search className="h-4 w-4 text-gray-400"/>
+                                                <Search className="h-4 w-4 text-[var(--muted-foreground)]"/>
                                             </div>
                                             <input
                                                 type="text"
                                                 placeholder="Search procedures..."
-                                                className="block w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-700 rounded-md leading-5 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors"
+                                                className="block w-full pl-10 pr-10 py-2 border border-[var(--border)] rounded-md leading-5 bg-[var(--card)] text-[var(--foreground)] placeholder-[var(--muted-foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--primary)] focus:border-[var(--primary)] sm:text-sm transition-colors"
                                                 value={searchTerm}
                                                 onChange={(e) => setSearchTerm(e.target.value)}
                                             />
@@ -211,7 +207,7 @@ const DashboardPage = (): React.JSX.Element => {
                                                     className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
                                                     onClick={() => setSearchTerm("")}
                                                 >
-                                                    <X className="h-4 w-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"/>
+                                                    <X className="h-4 w-4 text-[var(--muted-foreground)] hover:text-[var(--foreground)]"/>
                                                 </button>
                                             )}
                                         </div>
@@ -241,12 +237,12 @@ export {DashboardPage};
 
 const DueStatus = ({item}: { item: DashboardItem }): React.JSX.Element => {
     if (item.daysTillDue === null || item.dueDate === null) {
-        return <span className="text-gray-400 italic text-sm">N/A</span>;
+        return <span className="text-[var(--muted-foreground)] italic text-sm">N/A</span>;
     }
 
     return (
         <div
-            className={item.daysTillDue <= 0 ? "text-red-600 dark:text-red-400 font-bold" : "text-gray-900 dark:text-gray-100"}>
+            className={item.daysTillDue <= 0 ? "text-[var(--destructive)] font-bold" : "text-[var(--foreground)]"}>
             <div className="text-sm">{item.daysTillDue} days</div>
             <div className="text-xs opacity-75">({new Date(item.dueDate).toLocaleDateString()})</div>
         </div>
@@ -274,73 +270,73 @@ const DashboardList = ({items, onDelete, sortField, sortOrder, onSort}: {
     return (
         <div>
             <div className="hidden md:block overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
-                    <thead className="bg-gray-50 dark:bg-gray-800/50">
+                <table className="min-w-full divide-y divide-[var(--border)]">
+                    <thead className="bg-[var(--muted)]">
                     <tr>
                         <th
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
+                            className="px-6 py-3 text-left text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wider cursor-pointer hover:text-[var(--foreground)]"
                             onClick={() => onSort('equipmentName')}
                         >
                             Equipment <SortIndicator field="equipmentName" sortField={sortField} sortOrder={sortOrder}/>
                         </th>
                         <th
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
+                            className="px-6 py-3 text-left text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wider cursor-pointer hover:text-[var(--foreground)]"
                             onClick={() => onSort('procedureName')}
                         >
                             Procedure <SortIndicator field="procedureName" sortField={sortField} sortOrder={sortOrder}/>
                         </th>
                         <th
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
+                            className="px-6 py-3 text-left text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wider cursor-pointer hover:text-[var(--foreground)]"
                             onClick={() => onSort('intervalDays')}
                         >
                             Interval <SortIndicator field="intervalDays" sortField={sortField} sortOrder={sortOrder}/>
                         </th>
                         <th
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
+                            className="px-6 py-3 text-left text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wider cursor-pointer hover:text-[var(--foreground)]"
                             onClick={() => onSort('daysTillDue')}
                         >
                             Due In <SortIndicator field="daysTillDue" sortField={sortField} sortOrder={sortOrder}/>
                         </th>
-                        <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+                        <th className="px-6 py-3 text-right text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wider">Actions</th>
                     </tr>
                     </thead>
-                    <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
+                    <tbody className="bg-[var(--card)] divide-y divide-[var(--border)]">
                     {items.map((item) => (
                         <tr key={`${item.equipmentId}-${item.procedureId}`}>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[var(--foreground)]">
                                 <Link to={`/equipment/${item.equipmentId}`}
-                                      className="hover:underline text-blue-600 dark:text-blue-400">
+                                      className="hover:underline text-[var(--primary)]">
                                     {item.equipmentName}
                                 </Link>
                             </td>
-                            <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-300">
+                            <td className="px-6 py-4 text-sm text-[var(--foreground)]">
                                 <Link to={`/equipment/${item.equipmentId}/procedures/${item.procedureId}`}
-                                      className="font-medium text-blue-600 dark:text-blue-400 hover:underline transition-colors">
+                                      className="font-medium text-[var(--primary)] hover:underline transition-colors">
                                     {item.procedureName}
                                 </Link>
-                                <div className="text-xs text-gray-500 line-clamp-1">{item.procedureDescription}</div>
+                                <div className="text-xs text-[var(--muted-foreground)] line-clamp-1">{item.procedureDescription}</div>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">{item.intervalDays} days</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]">{item.intervalDays} days</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]">
                                 <DueStatus item={item}/>
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <div className="flex gap-3 justify-end">
                                     <Link
                                         to={`/equipment/${item.equipmentId}/procedures/${item.procedureId}/perform`}
-                                        className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium"
+                                        className="text-green-500 hover:text-green-600 text-sm font-medium"
                                     >
                                         Perform
                                     </Link>
                                     <Link
                                         to={`/equipment/${item.equipmentId}/procedures/${item.procedureId}/history`}
-                                        className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 text-sm font-medium"
+                                        className="text-indigo-600 hover:text-indigo-900 text-sm font-medium"
                                     >
                                         History
                                     </Link>
                                     <button
                                         onClick={() => onDelete(item.equipmentId, item.procedureId)}
-                                        className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium cursor-pointer"
+                                        className="text-[var(--destructive)] hover:opacity-80 text-sm font-medium cursor-pointer"
                                     >
                                         Delete
                                     </button>
@@ -352,41 +348,41 @@ const DashboardList = ({items, onDelete, sortField, sortOrder, onSort}: {
                 </table>
             </div>
 
-            <div className="md:hidden divide-y divide-gray-200 dark:divide-gray-800">
+            <div className="md:hidden divide-y divide-[var(--border)]">
                 {items.map((item) => (
                     <div key={`${item.equipmentId}-${item.procedureId}`} className="p-4 space-y-3">
                         <div className="flex justify-between items-start">
                             <div>
                                 <Link to={`/equipment/${item.equipmentId}`}
-                                      className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline">
+                                      className="text-xs font-semibold text-[var(--primary)] hover:underline">
                                     {item.equipmentName}
                                 </Link>
                                 <Link to={`/equipment/${item.equipmentId}/procedures/${item.procedureId}`}
-                                      className="hover:underline text-blue-600 dark:text-blue-400">
+                                      className="hover:underline text-[var(--primary)]">
                                     <h3 className="text-sm font-bold">{item.procedureName}</h3>
                                 </Link>
                             </div>
                             <DueStatus item={item}/>
                         </div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400">
+                        <div className="text-xs text-[var(--muted-foreground)]">
                             Interval: {item.intervalDays} days
                         </div>
                         <div className="flex flex-wrap justify-end gap-3 pt-2">
                             <Link
                                 to={`/equipment/${item.equipmentId}/procedures/${item.procedureId}/perform`}
-                                className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium"
+                                className="text-green-500 hover:text-green-600 text-sm font-medium"
                             >
                                 Perform
                             </Link>
                             <Link
                                 to={`/equipment/${item.equipmentId}/procedures/${item.procedureId}/history`}
-                                className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 text-sm font-medium"
+                                className="text-indigo-600 hover:text-indigo-900 text-sm font-medium"
                             >
                                 History
                             </Link>
                             <button
                                 onClick={() => onDelete(item.equipmentId, item.procedureId)}
-                                className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium cursor-pointer"
+                                className="text-[var(--destructive)] hover:opacity-80 text-sm font-medium cursor-pointer"
                             >
                                 Delete
                             </button>
@@ -396,7 +392,7 @@ const DashboardList = ({items, onDelete, sortField, sortOrder, onSort}: {
             </div>
 
             {items.length === 0 && (
-                <div className="py-10 text-center text-sm text-gray-500 dark:text-gray-400">
+                <div className="py-10 text-center text-sm text-[var(--muted-foreground)]">
                     No procedures found.
                 </div>
             )}
