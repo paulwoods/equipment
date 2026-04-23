@@ -64,15 +64,15 @@ export const CalendarView = ({events}: CalendarViewProps): React.JSX.Element => 
     };
 
     return (
-        <div className="bg-white dark:bg-gray-900 rounded-lg shadow overflow-hidden">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-800">
+        <div className="bg-[var(--card)] rounded-lg shadow overflow-hidden">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--border)]">
                 <div className="flex items-center gap-4">
-                    <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">
+                    <h2 className="text-lg font-bold text-[var(--foreground)]">
                         {monthName} {year}
                     </h2>
                     <button
                         onClick={goToToday}
-                        className="px-3 py-1 text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+                        className="px-3 py-1 text-sm font-medium bg-[var(--muted)] text-[var(--foreground)] rounded hover:opacity-80 transition"
                     >
                         Today
                     </button>
@@ -80,23 +80,23 @@ export const CalendarView = ({events}: CalendarViewProps): React.JSX.Element => 
                 <div className="flex items-center gap-2">
                     <button
                         onClick={prevMonth}
-                        className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition text-gray-600 dark:text-gray-400"
+                        className="p-2 hover:bg-[var(--muted)] rounded-full transition text-[var(--muted-foreground)]"
                     >
                         <ChevronLeft className="w-5 h-5"/>
                     </button>
                     <button
                         onClick={nextMonth}
-                        className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition text-gray-600 dark:text-gray-400"
+                        className="p-2 hover:bg-[var(--muted)] rounded-full transition text-[var(--muted-foreground)]"
                     >
                         <ChevronRight className="w-5 h-5"/>
                     </button>
                 </div>
             </div>
 
-            <div className="grid grid-cols-7 border-b border-gray-200 dark:border-gray-800">
+            <div className="grid grid-cols-7 border-b border-[var(--border)]">
                 {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
                     <div key={day}
-                         className="py-2 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                         className="py-2 text-center text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wider">
                         {day}
                     </div>
                 ))}
@@ -110,8 +110,8 @@ export const CalendarView = ({events}: CalendarViewProps): React.JSX.Element => 
                     return (
                         <div
                             key={idx}
-                            className={`p-2 border-b border-r border-gray-100 dark:border-gray-800 min-h-30 ${
-                                dateObj.day === null ? 'bg-gray-50/50 dark:bg-gray-800/20' : ''
+                            className={`p-2 border-b border-r border-[var(--border)] min-h-30 ${
+                                dateObj.day === null ? 'bg-[var(--muted)]/30' : ''
                             }`}
                         >
                             {dateObj.day && (
@@ -119,8 +119,8 @@ export const CalendarView = ({events}: CalendarViewProps): React.JSX.Element => 
                                     <div className="flex justify-between items-center mb-1">
                                         <span className={`text-sm font-medium ${
                                             isCurrentToday
-                                                ? 'bg-blue-600 text-white w-7 h-7 flex items-center justify-center rounded-full'
-                                                : 'text-gray-700 dark:text-gray-300'
+                                                ? 'bg-[var(--primary)] text-[var(--primary-foreground)] w-7 h-7 flex items-center justify-center rounded-full'
+                                                : 'text-[var(--foreground)]'
                                         }`}>
                                             {dateObj.day}
                                         </span>
@@ -132,8 +132,8 @@ export const CalendarView = ({events}: CalendarViewProps): React.JSX.Element => 
                                                 to={`/equipment/${event.equipmentId}/procedures/${event.procedureId}`}
                                                 className={`block p-1 text-[10px] leading-tight rounded border transition ${
                                                     event.isOverdue
-                                                        ? 'bg-red-50 dark:bg-red-900/20 border-red-100 dark:border-red-900/30 text-red-700 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30'
-                                                        : 'bg-blue-50 dark:bg-blue-900/20 border-blue-100 dark:border-blue-900/30 text-blue-700 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/30'
+                                                        ? 'bg-red-50 dark:bg-red-900/20 border-red-100 dark:border-red-900/30 text-[var(--destructive)] hover:bg-red-100 dark:hover:bg-red-900/30'
+                                                        : 'bg-blue-50 dark:bg-blue-900/20 border-blue-100 dark:border-blue-900/30 text-[var(--primary)] hover:bg-blue-100 dark:hover:bg-blue-900/30'
                                                 }`}
                                                 title={`${event.equipmentName}: ${event.procedureName}`}
                                             >
@@ -150,20 +150,20 @@ export const CalendarView = ({events}: CalendarViewProps): React.JSX.Element => 
             </div>
 
             <div
-                className="p-4 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-800 flex flex-wrap gap-4 text-xs">
+                className="p-4 bg-[var(--muted)] border-t border-[var(--border)] flex flex-wrap gap-4 text-xs">
                 <div className="flex items-center gap-1.5">
                     <div
                         className="w-3 h-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-900/30 rounded"></div>
-                    <span className="text-gray-600 dark:text-gray-400">Scheduled</span>
+                    <span className="text-[var(--muted-foreground)]">Scheduled</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                     <div
                         className="w-3 h-3 bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/30 rounded"></div>
-                    <span className="text-gray-600 dark:text-gray-400">Overdue</span>
+                    <span className="text-[var(--muted-foreground)]">Overdue</span>
                 </div>
                 <div className="flex items-center gap-1.5 ml-auto">
-                    <Info className="w-3 h-3 text-gray-400"/>
-                    <span className="text-gray-500 italic">Click on a procedure to view details</span>
+                    <Info className="w-3 h-3 text-[var(--muted-foreground)]"/>
+                    <span className="text-[var(--muted-foreground)] italic">Click on a procedure to view details</span>
                 </div>
             </div>
         </div>
