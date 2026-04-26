@@ -10,7 +10,7 @@ import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "../
 import {TableSkeleton} from "../components";
 
 const UsersPage = (): React.JSX.Element => {
-    const {role} = useAuth();
+    const {role, userId} = useAuth();
     const isAdmin = canManageUsers(role);
 
     const [users, setUsers] = useState<User[]>([]);
@@ -97,12 +97,14 @@ const UsersPage = (): React.JSX.Element => {
                                                 >
                                                     Edit
                                                 </Link>
-                                                <button
-                                                    onClick={() => handleDelete(user.id)}
-                                                    className="text-[var(--destructive)] hover:opacity-80"
-                                                >
-                                                    Delete
-                                                </button>
+                                                {user.id !== userId && (
+                                                    <button
+                                                        onClick={() => handleDelete(user.id)}
+                                                        className="text-[var(--destructive)] hover:opacity-80"
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                )}
                                             </TableCell>
                                         )}
                                     </TableRow>
