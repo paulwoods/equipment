@@ -27,8 +27,8 @@ export const logout = async (): Promise<void> => {
     await apiClient.post('/api/v1/auth/logout');
 };
 
-export const getMe = async (): Promise<{ email: string; role: string } | null> => {
-    const {data} = await apiClient.get<{ email: string; role: string } | null>('/api/v1/auth/me');
+export const getMe = async (): Promise<{ id: string; email: string; role: string } | null> => {
+    const {data} = await apiClient.get<{ id: string; email: string; role: string } | null>('/api/v1/auth/me');
     return data;
 };
 
@@ -181,4 +181,13 @@ export const updateUser = async (id: string, payload: UserUpdatePayload): Promis
 
 export const deleteUser = async (id: string): Promise<void> => {
     await apiClient.delete(`/api/v1/users/${id}`);
+};
+
+export const updateMe = async (payload: { name: string; email: string }): Promise<User> => {
+    const {data} = await apiClient.put<User>('/api/v1/users/me', payload);
+    return data;
+};
+
+export const changePassword = async (payload: { currentPassword: string; newPassword: string }): Promise<void> => {
+    await apiClient.post('/api/v1/users/me/password', payload);
 };

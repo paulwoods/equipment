@@ -40,6 +40,7 @@ const ProtectedRoute = ({email, children}: { email: string | null; children: Rea
 
 const App = (): React.JSX.Element => {
     const [email, setEmail] = useState<string | null>(null);
+    const [userId, setUserId] = useState<string | null>(null);
     const [role, setRole] = useState<UserRole | null>(null);
     const [authChecked, setAuthChecked] = useState(false);
     const [setupRequired, setSetupRequired] = useState(false);
@@ -48,6 +49,7 @@ const App = (): React.JSX.Element => {
         Promise.all([
             getMe().then((data) => {
                 setEmail(data?.email ?? null);
+                setUserId(data?.id ?? null);
                 if (data?.role) {
                     setRole(data.role.replace(/^ROLE_/, '') as UserRole);
                 } else {
@@ -55,6 +57,7 @@ const App = (): React.JSX.Element => {
                 }
             }).catch(() => {
                 setEmail(null);
+                setUserId(null);
                 setRole(null);
             }),
             getSetupStatus().then((data) => setSetupRequired(data.setupRequired)).catch(() => {
@@ -65,10 +68,12 @@ const App = (): React.JSX.Element => {
     const setAuthenticated = async (authenticated: boolean): Promise<void> => {
         if (!authenticated) {
             setEmail(null);
+            setUserId(null);
             setRole(null);
         } else {
             const data = await getMe().catch(() => null);
             setEmail(data?.email ?? null);
+            setUserId(data?.id ?? null);
             if (data?.role) {
                 setRole(data.role.replace(/^ROLE_/, '') as UserRole);
             } else {
@@ -83,7 +88,7 @@ const App = (): React.JSX.Element => {
 
     return (
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <AuthContext.Provider value={{username: email, role, setAuthenticated}}>
+            <AuthContext.Provider value={{username: email, userId, role, setAuthenticated}}>
                 <BrowserRouter>
                     <Routes>
                         <Route path="/login" element={
