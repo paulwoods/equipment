@@ -10,7 +10,8 @@ import {Button} from "../components/ui/button";
 const EditUserPage = (): React.JSX.Element => {
     const {id} = useParams() as { id: string };
     const navigate = useNavigate();
-    const {role: callerRole} = useAuth();
+    const {role: callerRole, userId} = useAuth();
+    const isSelfEdit = userId !== null && userId !== undefined && String(userId) === String(id);
     const roleOptions = assignableRoles(callerRole);
 
     const [user, setUser] = useState<User | null>(null);
@@ -125,15 +126,30 @@ const EditUserPage = (): React.JSX.Element => {
                             <label className="block text-sm font-medium text-[var(--foreground)] mb-1">
                                 Role
                             </label>
-                            <select
-                                value={role}
-                                onChange={(e) => setRole(e.target.value as UserRole)}
-                                className="w-full px-3 py-2 border border-[var(--border)] rounded-md bg-[var(--card)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
-                            >
-                                {roleOptions.map((r) => (
-                                    <option key={r} value={r}>{r}</option>
-                                ))}
-                            </select>
+                            {isSelfEdit ? (
+                                <span
+                                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                                        role === 'SYSTEM_ADMIN'
+                                            ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                                            : role === 'ADMIN'
+                                                ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200'
+                                                : role === 'EDIT'
+                                                    ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+                                                    : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+                                    }`}>
+                                    {role}
+                                </span>
+                            ) : (
+                                <select
+                                    value={role}
+                                    onChange={(e) => setRole(e.target.value as UserRole)}
+                                    className="w-full px-3 py-2 border border-[var(--border)] rounded-md bg-[var(--card)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                                >
+                                    {roleOptions.map((r) => (
+                                        <option key={r} value={r}>{r}</option>
+                                    ))}
+                                </select>
+                            )}
                         </div>
 
                         <div className="flex gap-3 pt-2">
