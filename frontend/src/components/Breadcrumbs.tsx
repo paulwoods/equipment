@@ -73,7 +73,7 @@ export const Breadcrumbs = (): React.JSX.Element | null => {
                 <li className="inline-flex items-center">
                     <Link
                         to="/"
-                        className="inline-flex items-center text-sm font-medium text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
+                        className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground"
                     >
                         <Home className="w-4 h-4 mr-2"/>
                         Home
@@ -82,16 +82,16 @@ export const Breadcrumbs = (): React.JSX.Element | null => {
                 {breadcrumbs.map((breadcrumb, index) => (
                     <li key={breadcrumb.href}>
                         <div className="flex items-center">
-                            <ChevronRight className="w-4 h-4 text-[var(--muted-foreground)] mx-1"/>
+                            <ChevronRight className="w-4 h-4 text-muted-foreground mx-1"/>
                             {index === breadcrumbs.length - 1 ? (
                                 <span
-                                    className="ml-1 text-sm font-medium text-[var(--muted-foreground)] md:ml-2">
+                                    className="ml-1 text-sm font-medium text-muted-foreground md:ml-2">
                                     {breadcrumb.label}
                                 </span>
                             ) : (
                                 <Link
                                     to={breadcrumb.href}
-                                    className="ml-1 text-sm font-medium text-[var(--muted-foreground)] hover:text-[var(--foreground)] md:ml-2"
+                                    className="ml-1 text-sm font-medium text-muted-foreground hover:text-foreground md:ml-2"
                                 >
                                     {breadcrumb.label}
                                 </Link>

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {getUser, updateMe, changePassword} from "../api/client";
+import {changePassword, getUser, updateMe} from "../api/client";
 import {useAuth} from "../hooks";
 import {Button} from "../components/ui/button";
 import {Alert, AlertDescription} from "../components/ui/alert";
@@ -83,15 +83,15 @@ const ProfilePage = (): React.JSX.Element => {
 
     if (profileLoading) {
         return (
-            <div className="min-h-screen bg-[var(--background)] flex items-center justify-center">
-                <p className="text-[var(--muted-foreground)]">Loading...</p>
+            <div className="min-h-screen bg-background flex items-center justify-center">
+                <p className="text-muted-foreground">Loading...</p>
             </div>
         );
     }
 
     if (profileError && !name) {
         return (
-            <div className="min-h-screen bg-[var(--background)] px-4 sm:px-6 lg:px-8">
+            <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl pt-8">
                     <Alert variant="destructive">
                         <AlertDescription>{profileError}</AlertDescription>
@@ -102,13 +102,13 @@ const ProfilePage = (): React.JSX.Element => {
     }
 
     return (
-        <div className="min-h-screen bg-[var(--background)] px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto max-w-2xl space-y-8">
-                <h1 className="text-2xl font-bold text-[var(--foreground)] pt-2">My Profile</h1>
+        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto space-y-8">
+                <h1 className="text-2xl font-bold text-foreground pt-2">My Profile</h1>
 
                 {/* Profile Details */}
-                <div className="bg-[var(--card)] shadow rounded-lg p-6">
-                    <h2 className="text-lg font-semibold text-[var(--foreground)] mb-4">Profile Details</h2>
+                <div className="bg-card shadow rounded-lg p-6">
+                    <h2 className="text-lg font-semibold text-foreground mb-4">Profile Details</h2>
 
                     {profileError && (
                         <Alert variant="destructive" className="mb-4">
@@ -123,7 +123,7 @@ const ProfilePage = (): React.JSX.Element => {
 
                     <form onSubmit={handleProfileSubmit} className="space-y-4">
                         <div>
-                            <label className="block text-sm font-medium text-[var(--foreground)] mb-1">
+                            <label className="block text-sm font-medium text-foreground mb-1">
                                 Name
                             </label>
                             <input
@@ -131,12 +131,12 @@ const ProfilePage = (): React.JSX.Element => {
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 required
-                                className="w-full px-3 py-2 border border-[var(--border)] rounded-md bg-[var(--card)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                                className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-[var(--foreground)] mb-1">
+                            <label className="block text-sm font-medium text-foreground mb-1">
                                 Email
                             </label>
                             <input
@@ -144,7 +144,7 @@ const ProfilePage = (): React.JSX.Element => {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
-                                className="w-full px-3 py-2 border border-[var(--border)] rounded-md bg-[var(--card)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                                className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                             />
                         </div>
 
@@ -155,8 +155,8 @@ const ProfilePage = (): React.JSX.Element => {
                 </div>
 
                 {/* Change Password */}
-                <div className="bg-[var(--card)] shadow rounded-lg p-6">
-                    <h2 className="text-lg font-semibold text-[var(--foreground)] mb-4">Change Password</h2>
+                <div className="bg-card shadow rounded-lg p-6">
+                    <h2 className="text-lg font-semibold text-foreground mb-4">Change Password</h2>
 
                     {passwordError && (
                         <Alert variant="destructive" className="mb-4">
@@ -171,7 +171,7 @@ const ProfilePage = (): React.JSX.Element => {
 
                     <form onSubmit={handlePasswordSubmit} className="space-y-4">
                         <div>
-                            <label className="block text-sm font-medium text-[var(--foreground)] mb-1">
+                            <label className="block text-sm font-medium text-foreground mb-1">
                                 Current Password
                             </label>
                             <input
@@ -179,12 +179,12 @@ const ProfilePage = (): React.JSX.Element => {
                                 value={currentPassword}
                                 onChange={(e) => setCurrentPassword(e.target.value)}
                                 required
-                                className="w-full px-3 py-2 border border-[var(--border)] rounded-md bg-[var(--card)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                                className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-[var(--foreground)] mb-1">
+                            <label className="block text-sm font-medium text-foreground mb-1">
                                 New Password
                             </label>
                             <input
@@ -192,12 +192,12 @@ const ProfilePage = (): React.JSX.Element => {
                                 value={newPassword}
                                 onChange={(e) => setNewPassword(e.target.value)}
                                 required
-                                className="w-full px-3 py-2 border border-[var(--border)] rounded-md bg-[var(--card)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                                className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-[var(--foreground)] mb-1">
+                            <label className="block text-sm font-medium text-foreground mb-1">
                                 Confirm New Password
                             </label>
                             <input
@@ -205,7 +205,7 @@ const ProfilePage = (): React.JSX.Element => {
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 required
-                                className="w-full px-3 py-2 border border-[var(--border)] rounded-md bg-[var(--card)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                                className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                             />
                         </div>
 

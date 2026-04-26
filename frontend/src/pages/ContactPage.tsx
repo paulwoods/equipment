@@ -4,7 +4,7 @@ import {Mail, MapPin, Phone, Send} from "lucide-react";
 
 const ContactPage = (): React.JSX.Element => {
     return (
-        <div className="min-h-screen bg-[var(--background)] px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
             <div className="mx-auto">
                 <div
                     className="">
@@ -55,14 +55,14 @@ const ContactPage = (): React.JSX.Element => {
                             <form className="space-y-6">
                                 <div>
                                     <label htmlFor="name"
-                                           className="block text-sm font-medium text-[var(--foreground)] mb-1">
+                                           className="block text-sm font-medium text-foreground mb-1">
                                         Full Name
                                     </label>
                                     <input
                                         type="text"
                                         id="name"
                                         name="name"
-                                        className="w-full px-4 py-3 bg-[var(--muted)] border border-[var(--border)] rounded-xl text-[var(--foreground)] focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent transition-all outline-none"
+                                        className="w-full px-4 py-3 bg-muted border border-border rounded-xl text-foreground focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
                                         placeholder="John Doe"
                                         required
                                     />
@@ -70,14 +70,14 @@ const ContactPage = (): React.JSX.Element => {
 
                                 <div>
                                     <label htmlFor="email"
-                                           className="block text-sm font-medium text-[var(--foreground)] mb-1">
+                                           className="block text-sm font-medium text-foreground mb-1">
                                         Email Address
                                     </label>
                                     <input
                                         type="email"
                                         id="email"
                                         name="email"
-                                        className="w-full px-4 py-3 bg-[var(--muted)] border border-[var(--border)] rounded-xl text-[var(--foreground)] focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent transition-all outline-none"
+                                        className="w-full px-4 py-3 bg-muted border border-border rounded-xl text-foreground focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
                                         placeholder="john@example.com"
                                         required
                                     />
@@ -85,14 +85,14 @@ const ContactPage = (): React.JSX.Element => {
 
                                 <div>
                                     <label htmlFor="message"
-                                           className="block text-sm font-medium text-[var(--foreground)] mb-1">
+                                           className="block text-sm font-medium text-foreground mb-1">
                                         Message
                                     </label>
                                     <textarea
                                         id="message"
                                         name="message"
                                         rows={4}
-                                        className="w-full px-4 py-3 bg-[var(--muted)] border border-[var(--border)] rounded-xl text-[var(--foreground)] focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent transition-all outline-none resize-none"
+                                        className="w-full px-4 py-3 bg-muted border border-border rounded-xl text-foreground focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none resize-none"
                                         placeholder="How can we help you?"
                                         required
                                     ></textarea>
@@ -112,7 +112,7 @@ const ContactPage = (): React.JSX.Element => {
                 </div>
 
                 <div className="mt-8 text-center">
-                    <Link to="/" className="text-[var(--primary)] hover:underline font-medium">
+                    <Link to="/" className="text-primary hover:underline font-medium">
                         Return to Home
                     </Link>
                 </div>

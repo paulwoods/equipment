@@ -36,61 +36,61 @@ const PerformProcedurePage = (): React.JSX.Element => {
         navigate(`/dashboard`);
     };
 
-    if (loading) return <div className="p-8 text-center text-[var(--foreground)]">Loading...</div>;
-    if (!equipment) return <div className="p-8 text-center text-[var(--foreground)]">Equipment not found.</div>;
+    if (loading) return <div className="p-8 text-center text-foreground">Loading...</div>;
+    if (!equipment) return <div className="p-8 text-center text-foreground">Equipment not found.</div>;
 
     return (
-        <div className="min-h-screen bg-[var(--background)] px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
             <div className="mx-auto">
 
                 <div
-                    className="bg-[var(--card)] shadow rounded-lg overflow-hidden border-[var(--border)] mb-6">
-                    <div className="p-6 border-b border-[var(--border)]">
+                    className="bg-card shadow rounded-lg overflow-hidden border-border mb-6">
+                    <div className="p-6 border-b border-border">
                         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4">
                             <div>
-                                <h1 className="text-2xl font-bold text-[var(--foreground)]">{equipment.manufacturer} {equipment.modelNumber}</h1>
-                                <p className="text-[var(--muted-foreground)]">Procedure: <span
-                                    className="font-semibold text-[var(--foreground)]">{procedureName}</span></p>
+                                <h1 className="text-2xl font-bold text-foreground">{equipment.manufacturer} {equipment.modelNumber}</h1>
+                                <p className="text-muted-foreground">Procedure: <span
+                                    className="font-semibold text-foreground">{procedureName}</span></p>
                             </div>
                             <StatusBadge status={equipment.status}/>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm mt-4">
-                            <div className="flex items-center gap-2 text-[var(--muted-foreground)]">
+                            <div className="flex items-center gap-2 text-muted-foreground">
                                 <Hash className="w-4 h-4"/>
                                 <span>SN: <span
-                                    className="font-medium text-[var(--foreground)]">{equipment.serialNumber || "N/A"}</span></span>
+                                    className="font-medium text-foreground">{equipment.serialNumber || "N/A"}</span></span>
                             </div>
-                            <div className="flex items-center gap-2 text-[var(--muted-foreground)]">
+                            <div className="flex items-center gap-2 text-muted-foreground">
                                 <Tag className="w-4 h-4"/>
                                 <span>Tag: <span
-                                    className="font-medium text-[var(--foreground)]">{equipment.assetTag || "N/A"}</span></span>
+                                    className="font-medium text-foreground">{equipment.assetTag || "N/A"}</span></span>
                             </div>
-                            <div className="flex items-center gap-2 text-[var(--muted-foreground)]">
+                            <div className="flex items-center gap-2 text-muted-foreground">
                                 <MapPin className="w-4 h-4"/>
                                 <span className="truncate">Loc: <span
-                                    className="font-medium text-[var(--foreground)]">{equipment.location || "N/A"}</span></span>
+                                    className="font-medium text-foreground">{equipment.location || "N/A"}</span></span>
                             </div>
                         </div>
                     </div>
 
                     {requiredTools && (
                         <div
-                            className="p-6 bg-blue-50/50 dark:bg-blue-900/10 border-b border-[var(--border)]">
-                            <h2 className="text-sm font-semibold text-[var(--primary)] uppercase tracking-wider mb-3 flex items-center gap-2">
+                            className="p-6 bg-blue-50/50 dark:bg-blue-900/10 border-b border-border">
+                            <h2 className="text-sm font-semibold text-primary uppercase tracking-wider mb-3 flex items-center gap-2">
                                 <Wrench className="w-4 h-4"/>
                                 Required Tools / PPE
                             </h2>
                             <div
-                                className="prose prose-sm dark:prose-invert max-w-none bg-[var(--card)] p-4 rounded-lg border border-blue-100 dark:border-blue-900/30">
+                                className="prose prose-sm dark:prose-invert max-w-none bg-card p-4 rounded-lg border border-blue-100 dark:border-blue-900/30">
                                 <ReactMarkdown>{requiredTools}</ReactMarkdown>
                             </div>
                         </div>
                     )}
 
                     {procedureSteps && (
-                        <div className="p-6 bg-[var(--muted)]">
-                            <h2 className="text-sm font-semibold text-[var(--foreground)] mb-3 uppercase tracking-wider">Procedure
+                        <div className="p-6 bg-muted">
+                            <h2 className="text-sm font-semibold text-foreground mb-3 uppercase tracking-wider">Procedure
                                 Steps</h2>
                             <div className="prose prose-sm max-w-none dark:prose-invert">
                                 <ReactMarkdown>{procedureSteps}</ReactMarkdown>
@@ -100,27 +100,27 @@ const PerformProcedurePage = (): React.JSX.Element => {
                 </div>
 
                 <form onSubmit={handleSubmit}
-                      className="bg-[var(--card)] shadow rounded-lg p-6 border border-[var(--border)]">
-                    <h2 className="text-xl font-bold mb-6 text-[var(--foreground)]">Record Performance</h2>
+                      className="bg-card shadow rounded-lg p-6 border border-border">
+                    <h2 className="text-xl font-bold mb-6 text-foreground">Record Performance</h2>
 
                     <div className="mb-6">
-                        <label className="block text-sm font-medium text-[var(--foreground)] mb-1">Performance
+                        <label className="block text-sm font-medium text-foreground mb-1">Performance
                             Date</label>
                         <input
                             type="date"
                             value={performDate}
                             onChange={(e) => setPerformDate(e.target.value)}
                             required
-                            className="w-full border border-[var(--border)] rounded-md shadow-sm p-2 text-[var(--foreground)] bg-[var(--card)]"
+                            className="w-full border border-border rounded-md shadow-sm p-2 text-foreground bg-card"
                         />
                     </div>
 
                     <div className="mb-6">
-                        <label className="block text-sm font-medium text-[var(--foreground)] mb-1">Notes</label>
+                        <label className="block text-sm font-medium text-foreground mb-1">Notes</label>
                         <textarea
                             value={notes}
                             onChange={(e) => setNotes(e.target.value)}
-                            className="w-full border border-[var(--border)] rounded-md shadow-sm p-2 text-[var(--foreground)] bg-[var(--card)]"
+                            className="w-full border border-border rounded-md shadow-sm p-2 text-foreground bg-card"
                             rows={3}
                             placeholder="Enter any notes about this performance..."
                         />

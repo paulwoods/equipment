@@ -54,18 +54,18 @@ const EditUserPage = (): React.JSX.Element => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-[var(--background)] flex items-center justify-center">
-                <p className="text-[var(--muted-foreground)]">Loading...</p>
+            <div className="min-h-screen bg-background flex items-center justify-center">
+                <p className="text-muted-foreground">Loading...</p>
             </div>
         );
     }
 
     if (!user) {
         return (
-            <div className="min-h-screen bg-[var(--background)] py-8 px-4">
+            <div className="min-h-screen bg-background py-8 px-4">
                 <div className="max-w-4xl mx-auto text-center">
-                    <h1 className="text-2xl font-bold text-[var(--foreground)] mb-4">User not found</h1>
-                    <Link to="/users" className="text-[var(--primary)] hover:underline">
+                    <h1 className="text-2xl font-bold text-foreground mb-4">User not found</h1>
+                    <Link to="/users" className="text-primary hover:underline">
                         Back to Users
                     </Link>
                 </div>
@@ -74,30 +74,30 @@ const EditUserPage = (): React.JSX.Element => {
     }
 
     return (
-        <div className="min-h-screen bg-[var(--background)] px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
             <div className="mx-auto">
                 <div className="mb-6">
                     <Link
                         to="/users"
-                        className="text-[var(--primary)] hover:opacity-80 flex items-center gap-2 font-medium"
+                        className="text-primary hover:opacity-80 flex items-center gap-2 font-medium"
                     >
                         ← Back to Users
                     </Link>
                 </div>
 
-                <div className="bg-[var(--card)] shadow rounded-lg p-6">
-                    <h1 className="text-xl font-bold text-[var(--foreground)] mb-6">Edit User</h1>
+                <div className="bg-card shadow rounded-lg p-6">
+                    <h1 className="text-xl font-bold text-foreground mb-6">Edit User</h1>
 
                     {error && (
                         <div
-                            className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 text-[var(--destructive)] rounded-md text-sm">
+                            className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 text-destructive rounded-md text-sm">
                             {error}
                         </div>
                     )}
 
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div>
-                            <label className="block text-sm font-medium text-[var(--foreground)] mb-1">
+                            <label className="block text-sm font-medium text-foreground mb-1">
                                 Name
                             </label>
                             <input
@@ -105,12 +105,12 @@ const EditUserPage = (): React.JSX.Element => {
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 required
-                                className="w-full px-3 py-2 border border-[var(--border)] rounded-md bg-[var(--card)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                                className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-[var(--foreground)] mb-1">
+                            <label className="block text-sm font-medium text-foreground mb-1">
                                 Email
                             </label>
                             <input
@@ -118,12 +118,12 @@ const EditUserPage = (): React.JSX.Element => {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
-                                className="w-full px-3 py-2 border border-[var(--border)] rounded-md bg-[var(--card)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                                className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-[var(--foreground)] mb-1">
+                            <label className="block text-sm font-medium text-foreground mb-1">
                                 Role
                             </label>
                             {isSelfEdit ? (
@@ -143,7 +143,7 @@ const EditUserPage = (): React.JSX.Element => {
                                 <select
                                     value={role}
                                     onChange={(e) => setRole(e.target.value as UserRole)}
-                                    className="w-full px-3 py-2 border border-[var(--border)] rounded-md bg-[var(--card)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                                    className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                                 >
                                     {roleOptions.map((r) => (
                                         <option key={r} value={r}>{r}</option>

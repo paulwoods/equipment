@@ -28,14 +28,14 @@ const EquipmentPage = (): React.JSX.Element => {
         }
     };
 
-    if (loading) return <div className="p-8 text-center text-[var(--muted-foreground)]">Loading...</div>;
-    if (error) return <div className="p-8 text-center text-[var(--destructive)]">{error}</div>;
+    if (loading) return <div className="p-8 text-center text-muted-foreground">Loading...</div>;
+    if (error) return <div className="p-8 text-center text-destructive">{error}</div>;
 
     return (
-        <div className="min-h-screen bg-[var(--background)] px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
             <div className="mx-auto">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
-                    <h1 className="text-2xl font-bold text-[var(--foreground)]">Equipment</h1>
+                    <h1 className="text-2xl font-bold text-foreground">Equipment</h1>
                     <div className="flex gap-4">
                         <Button onClick={handleExport}>
                             Export
@@ -49,7 +49,7 @@ const EquipmentPage = (): React.JSX.Element => {
                     </div>
                 </div>
 
-                <div className="bg-[var(--card)] shadow rounded-lg overflow-hidden">
+                <div className="bg-card shadow rounded-lg overflow-hidden">
                     <EquipmentList
                         items={equipmentList}
                         onDelete={handleDelete}

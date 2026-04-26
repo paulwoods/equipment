@@ -1,6 +1,15 @@
 import React from 'react';
 import {Link, useLocation} from 'react-router-dom';
-import {Calendar, CircleQuestionMark, LayoutDashboard, LogOut, Monitor, PhoneCall, UserRound, Users} from 'lucide-react';
+import {
+  Calendar,
+  CircleQuestionMark,
+  LayoutDashboard,
+  LogOut,
+  Monitor,
+  PhoneCall,
+  UserRound,
+  Users
+} from 'lucide-react';
 import {useAuth} from '../hooks';
 import {logout} from '../api/client';
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,} from './ui/dropdown-menu';
@@ -42,8 +51,8 @@ const NavLink = ({item}: {item: NavItem}): React.JSX.Element => {
       className={[
         'flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors border-l-2',
         isActive
-          ? 'bg-[var(--sidebar-active)] border-[var(--sidebar-active-border)] text-[var(--accent-foreground)]'
-          : 'border-transparent text-[var(--muted-foreground)] hover:bg-[var(--secondary)] hover:text-[var(--foreground)]',
+            ? 'bg-[var(--sidebar-active)] border-[var(--sidebar-active-border)] text-accent-foreground'
+            : 'border-transparent text-muted-foreground hover:bg-secondary hover:text-foreground',
       ].join(' ')}
     >
       <Icon className="w-4 h-4 flex-shrink-0" />
@@ -133,7 +142,8 @@ export const Sidebar = (): React.JSX.Element => {
       <div className="border-t px-2 py-3" style={{borderColor: 'var(--border)'}}>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="flex items-center gap-3 w-full px-2 py-2 rounded-md text-left transition-colors hover:bg-[var(--secondary)] cursor-pointer">
+            <button
+                className="flex items-center gap-3 w-full px-2 py-2 rounded-md text-left transition-colors hover:bg-secondary cursor-pointer">
               <div
                 className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold flex-shrink-0"
                 style={{
@@ -150,7 +160,7 @@ export const Sidebar = (): React.JSX.Element => {
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent side="top" align="start" className="w-48">
-            <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-[var(--destructive)]">
+            <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-destructive">
               <LogOut className="w-4 h-4 mr-2" />
               Log out
             </DropdownMenuItem>

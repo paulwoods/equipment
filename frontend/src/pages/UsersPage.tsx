@@ -42,10 +42,10 @@ const UsersPage = (): React.JSX.Element => {
     );
 
     return (
-        <div className="min-h-screen bg-[var(--background)] px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
             <div className="mx-auto">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
-                    <h1 className="text-2xl font-bold text-[var(--foreground)]">Users</h1>
+                    <h1 className="text-2xl font-bold text-foreground">Users</h1>
                     {isAdmin && (
                         <Button asChild>
                             <Link to="/users/new">New User</Link>
@@ -53,9 +53,9 @@ const UsersPage = (): React.JSX.Element => {
                     )}
                 </div>
 
-                <div className="bg-[var(--card)] shadow rounded-lg overflow-hidden">
+                <div className="bg-card shadow rounded-lg overflow-hidden">
                     {users.length === 0 ? (
-                        <p className="p-6 text-center text-[var(--muted-foreground)]">No users found.</p>
+                        <p className="p-6 text-center text-muted-foreground">No users found.</p>
                     ) : (
                         <Table>
                             <TableHeader>
@@ -69,10 +69,10 @@ const UsersPage = (): React.JSX.Element => {
                             <TableBody>
                                 {users.map((user) => (
                                     <TableRow key={user.id}>
-                                        <TableCell className="font-medium text-[var(--foreground)]">
+                                        <TableCell className="font-medium text-foreground">
                                             {user.name}
                                         </TableCell>
-                                        <TableCell className="text-[var(--muted-foreground)]">
+                                        <TableCell className="text-muted-foreground">
                                             {user.email}
                                         </TableCell>
                                         <TableCell>
@@ -93,14 +93,14 @@ const UsersPage = (): React.JSX.Element => {
                                             <TableCell className="text-right">
                                                 <Link
                                                     to={`/users/${user.id}/edit`}
-                                                    className="text-[var(--primary)] hover:opacity-80 mr-4"
+                                                    className="text-primary hover:opacity-80 mr-4"
                                                 >
                                                     Edit
                                                 </Link>
                                                 {user.id !== userId && (
                                                     <button
                                                         onClick={() => handleDelete(user.id)}
-                                                        className="text-[var(--destructive)] hover:opacity-80"
+                                                        className="text-destructive hover:opacity-80"
                                                     >
                                                         Delete
                                                     </button>

@@ -30,10 +30,10 @@ const ProceduresPage = (): React.JSX.Element => {
         }
     };
 
-    if (loading) return <div className="p-8 text-[var(--muted-foreground)]">Loading...</div>;
+    if (loading) return <div className="p-8 text-muted-foreground">Loading...</div>;
 
     return (
-        <div className="min-h-screen bg-[var(--background)] px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
             <div className="mx-auto">
                 <div className="mb-6 flex justify-end gap-4">
                     <Button asChild variant="outline">
@@ -45,14 +45,14 @@ const ProceduresPage = (): React.JSX.Element => {
                 </div>
 
                 <div
-                    className="bg-[var(--card)] shadow rounded-lg overflow-hidden p-6 border-[var(--border)]">
-                    <div className="mb-8 border-b border-[var(--border)] pb-6">
+                    className="bg-card shadow rounded-lg overflow-hidden p-6 border-border">
+                    <div className="mb-8 border-b border-border pb-6">
                         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
                             <div>
-                                <h2 className="text-2xl font-bold text-[var(--foreground)]">
+                                <h2 className="text-2xl font-bold text-foreground">
                                     {equipment?.manufacturer} {equipment?.modelNumber}
                                 </h2>
-                                <p className="text-[var(--muted-foreground)] mt-1">Maintenance Procedures</p>
+                                <p className="text-muted-foreground mt-1">Maintenance Procedures</p>
                             </div>
                             <div className="mt-2 sm:mt-0">
                                 {equipment && <StatusBadge status={equipment.status}/>}
@@ -60,21 +60,21 @@ const ProceduresPage = (): React.JSX.Element => {
                         </div>
 
                         <div
-                            className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm mt-6 bg-[var(--muted)] p-4 rounded-lg border border-[var(--border)]">
-                            <div className="flex items-center gap-2 text-[var(--muted-foreground)]">
+                            className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm mt-6 bg-muted p-4 rounded-lg border border-border">
+                            <div className="flex items-center gap-2 text-muted-foreground">
                                 <Hash className="w-4 h-4 text-blue-500"/>
                                 <span>SN: <span
-                                    className="font-medium text-[var(--foreground)]">{equipment?.serialNumber || "N/A"}</span></span>
+                                    className="font-medium text-foreground">{equipment?.serialNumber || "N/A"}</span></span>
                             </div>
-                            <div className="flex items-center gap-2 text-[var(--muted-foreground)]">
+                            <div className="flex items-center gap-2 text-muted-foreground">
                                 <Tag className="w-4 h-4 text-purple-500"/>
                                 <span>Tag: <span
-                                    className="font-medium text-[var(--foreground)]">{equipment?.assetTag || "N/A"}</span></span>
+                                    className="font-medium text-foreground">{equipment?.assetTag || "N/A"}</span></span>
                             </div>
-                            <div className="flex items-center gap-2 text-[var(--muted-foreground)]">
+                            <div className="flex items-center gap-2 text-muted-foreground">
                                 <MapPin className="w-4 h-4 text-orange-500"/>
                                 <span className="truncate">Loc: <span
-                                    className="font-medium text-[var(--foreground)]">{equipment?.location || "N/A"}</span></span>
+                                    className="font-medium text-foreground">{equipment?.location || "N/A"}</span></span>
                             </div>
                         </div>
                     </div>

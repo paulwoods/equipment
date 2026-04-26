@@ -41,16 +41,15 @@ const LoginPage = (): React.JSX.Element => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4" style={{background: 'var(--background)'}}>
+      <div className="min-h-screen flex items-center justify-center px-4 bg-background">
       <div
-        className="max-w-md w-full space-y-8 p-8 rounded-xl border shadow-lg"
-        style={{background: 'var(--card)', borderColor: 'var(--border)'}}
+          className="max-w-md w-full space-y-8 p-8 rounded-xl border shadow-lg bg-card border-border"
       >
         <div>
-          <h2 className="text-center text-3xl font-extrabold" style={{color: 'var(--card-foreground)'}}>
+          <h2 className="text-center text-3xl font-extrabold text-card-foreground">
             Sign in to your account
           </h2>
-          <p className="mt-2 text-center text-sm" style={{color: 'var(--muted-foreground)'}}>
+          <p className="mt-2 text-center text-sm text-muted-foreground">
             Please enter your email and password
           </p>
         </div>
@@ -66,7 +65,7 @@ const LoginPage = (): React.JSX.Element => {
             <div className="space-y-1.5">
               <Label htmlFor="email" className="sr-only">Email</Label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--muted-foreground)]"/>
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground"/>
                 <Input
                   id="email"
                   name="email"
@@ -80,7 +79,7 @@ const LoginPage = (): React.JSX.Element => {
             <div className="space-y-1.5">
               <Label htmlFor="password" className="sr-only">Password</Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--muted-foreground)]"/>
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground"/>
                 <Input
                   id="password"
                   name="password"

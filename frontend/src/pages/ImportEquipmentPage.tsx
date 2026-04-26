@@ -45,21 +45,21 @@ const ImportEquipmentPage = (): React.JSX.Element => {
     };
 
     return (
-        <div className="min-h-screen bg-[var(--background)] px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
             <div className="mx-auto">
                 <div className="mb-6">
                     <Link
                         to="/equipment"
-                        className="text-[var(--primary)] hover:opacity-80 flex items-center gap-2 font-medium"
+                        className="text-primary hover:opacity-80 flex items-center gap-2 font-medium"
                     >
                         ← Back to Equipment List
                     </Link>
                 </div>
 
                 <div
-                    className="bg-[var(--card)] shadow rounded-lg p-6 border border-[var(--border)]">
-                    <h1 className="text-2xl font-bold text-[var(--foreground)] mb-2">Import Equipment</h1>
-                    <p className="text-sm text-[var(--muted-foreground)] mb-6">
+                    className="bg-card shadow rounded-lg p-6 border border-border">
+                    <h1 className="text-2xl font-bold text-foreground mb-2">Import Equipment</h1>
+                    <p className="text-sm text-muted-foreground mb-6">
                         Upload a JSON file to import equipment, procedures, and history into the database.
                         All IDs in the file will be replaced with new ones.
                     </p>
@@ -91,7 +91,7 @@ const ImportEquipmentPage = (): React.JSX.Element => {
                             <div>
                                 <label
                                     htmlFor="file"
-                                    className="block text-sm font-medium text-[var(--foreground)] mb-2"
+                                    className="block text-sm font-medium text-foreground mb-2"
                                 >
                                     JSON File
                                 </label>
@@ -100,7 +100,7 @@ const ImportEquipmentPage = (): React.JSX.Element => {
                                     type="file"
                                     accept=".json"
                                     onChange={handleFileChange}
-                                    className="block w-full text-sm text-[var(--foreground)]
+                                    className="block w-full text-sm text-foreground
                                         file:mr-4 file:py-2 file:px-4
                                         file:rounded-md file:border-0
                                         file:text-sm file:font-medium
@@ -110,7 +110,7 @@ const ImportEquipmentPage = (): React.JSX.Element => {
                                         file:cursor-pointer cursor-pointer"
                                 />
                                 {file && (
-                                    <p className="mt-2 text-xs text-[var(--muted-foreground)]">
+                                    <p className="mt-2 text-xs text-muted-foreground">
                                         Selected: {file.name}
                                     </p>
                                 )}
@@ -119,7 +119,7 @@ const ImportEquipmentPage = (): React.JSX.Element => {
                             {error && (
                                 <div
                                     className="rounded-md bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-4">
-                                    <p className="text-sm text-[var(--destructive)]">{error}</p>
+                                    <p className="text-sm text-destructive">{error}</p>
                                 </div>
                             )}
 

@@ -76,7 +76,7 @@ export const EquipmentList = ({items, onDelete, loading = false}: EquipmentListP
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-grow">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--muted-foreground)]"/>
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"/>
           <Input
             type="text"
             placeholder="Search equipment..."
@@ -86,7 +86,7 @@ export const EquipmentList = ({items, onDelete, loading = false}: EquipmentListP
           />
           {searchTerm && (
             <button aria-label="Clear search" className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer" onClick={() => setSearchTerm('')}>
-              <X className="h-4 w-4 text-[var(--muted-foreground)]"/>
+              <X className="h-4 w-4 text-muted-foreground"/>
             </button>
           )}
         </div>
@@ -104,50 +104,50 @@ export const EquipmentList = ({items, onDelete, loading = false}: EquipmentListP
         <>
           <div className="hidden md:block overflow-x-auto">
             <Table>
-              <TableHeader className="bg-[var(--muted)]">
+              <TableHeader className="bg-muted">
                 <TableRow>
                   <TableHead
-                      className="px-6 py-3 text-left text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wider cursor-pointer hover:text-[var(--foreground)]"
+                      className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider cursor-pointer hover:text-foreground"
                       onClick={() => handleSort('modelNumber')}>
                     Model Number <SortIndicator field="modelNumber" sortField={sortField} sortOrder={sortOrder}/>
                   </TableHead>
                   <TableHead
-                      className="px-6 py-3 text-left text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wider cursor-pointer hover:text-[var(--foreground)]"
+                      className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider cursor-pointer hover:text-foreground"
                       onClick={() => handleSort('manufacturer')}>
                     Manufacturer <SortIndicator field="manufacturer" sortField={sortField} sortOrder={sortOrder}/>
                   </TableHead>
                   <TableHead
-                      className="px-6 py-3 text-left text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wider cursor-pointer hover:text-[var(--foreground)]"
+                      className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider cursor-pointer hover:text-foreground"
                       onClick={() => handleSort('location')}>
                     Location <SortIndicator field="location" sortField={sortField} sortOrder={sortOrder}/>
                   </TableHead>
                   <TableHead
-                      className="px-6 py-3 text-left text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wider cursor-pointer hover:text-[var(--foreground)]"
+                      className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider cursor-pointer hover:text-foreground"
                       onClick={() => handleSort('status')}>
                     Status <SortIndicator field="status" sortField={sortField} sortOrder={sortOrder}/>
                   </TableHead>
                   <TableHead
-                      className="px-6 py-3 text-left text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wider">Procedures</TableHead>
+                      className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Procedures</TableHead>
                   <TableHead
-                      className="px-6 py-3 text-right text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wider">Actions</TableHead>
+                      className="px-6 py-3 text-right text-xs font-medium text-muted-foreground uppercase tracking-wider">Actions</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody className="bg-[var(--card)] divide-y divide-[var(--border)]">
+              <TableBody className="bg-card divide-y divide-border">
                 {filteredAndSortedItems.map((item) => (
                   <TableRow key={item.id}>
-                    <TableCell className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[var(--foreground)]">
-                      <Link to={`/equipment/${item.id}`} className="text-[var(--primary)] hover:underline">
+                    <TableCell className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">
+                      <Link to={`/equipment/${item.id}`} className="text-primary hover:underline">
                         {item.modelNumber}
                       </Link>
                     </TableCell>
                     <TableCell
-                        className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]">{item.manufacturer}</TableCell>
+                        className="px-6 py-4 whitespace-nowrap text-sm text-foreground">{item.manufacturer}</TableCell>
                     <TableCell
-                        className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]">{item.location ?? '-'}</TableCell>
-                    <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]">
+                        className="px-6 py-4 whitespace-nowrap text-sm text-foreground">{item.location ?? '-'}</TableCell>
+                    <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-foreground">
                       <Badge variant={statusVariant[item.status] ?? 'default'}>{item.status}</Badge>
                     </TableCell>
-                    <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]">
+                    <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-foreground">
                       <Button variant="outline" size="sm" asChild>
                         <Link to={`/equipment/${item.id}/procedures`}>View</Link>
                       </Button>
@@ -155,11 +155,11 @@ export const EquipmentList = ({items, onDelete, loading = false}: EquipmentListP
                     <TableCell className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div className="flex gap-3 justify-end">
                         <Link to={`/equipment/${item.id}/edit`}
-                              className="text-[var(--primary)] hover:underline text-sm font-medium">
+                              className="text-primary hover:underline text-sm font-medium">
                           Edit
                         </Link>
                         <button
-                            className="text-[var(--destructive)] hover:opacity-80 text-sm font-medium cursor-pointer"
+                            className="text-destructive hover:opacity-80 text-sm font-medium cursor-pointer"
                             onClick={() => onDelete(item.id)}>
                           Delete
                         </button>
@@ -176,11 +176,11 @@ export const EquipmentList = ({items, onDelete, loading = false}: EquipmentListP
               <div key={item.id} className="p-4 space-y-3">
                 <div className="flex justify-between items-start">
                   <div>
-                    <Link to={`/equipment/${item.id}`} className="text-[var(--primary)] hover:underline">
+                    <Link to={`/equipment/${item.id}`} className="text-primary hover:underline">
                       <h3 className="text-sm font-bold">{item.modelNumber}</h3>
                     </Link>
-                    <p className="text-sm text-[var(--muted-foreground)]">{item.manufacturer}</p>
-                    {item.location && <p className="text-xs text-[var(--muted-foreground)]">{item.location}</p>}
+                    <p className="text-sm text-muted-foreground">{item.manufacturer}</p>
+                    {item.location && <p className="text-xs text-muted-foreground">{item.location}</p>}
                   </div>
                   <div className="flex flex-col items-end gap-2">
                     <Button variant="outline" size="sm" asChild>
@@ -189,12 +189,12 @@ export const EquipmentList = ({items, onDelete, loading = false}: EquipmentListP
                     <Badge variant={statusVariant[item.status] ?? 'default'}>{item.status}</Badge>
                   </div>
                 </div>
-                {item.description && <p className="text-sm text-[var(--muted-foreground)]">{item.description}</p>}
+                {item.description && <p className="text-sm text-muted-foreground">{item.description}</p>}
                 <div className="flex justify-end gap-2 pt-2">
                   <Button variant="ghost" size="sm" asChild>
                     <Link to={`/equipment/${item.id}/edit`}>Edit</Link>
                   </Button>
-                  <Button variant="ghost" size="sm" className="text-[var(--destructive)]" onClick={() => onDelete(item.id)}>
+                  <Button variant="ghost" size="sm" className="text-destructive" onClick={() => onDelete(item.id)}>
                     Delete
                   </Button>
                 </div>
@@ -203,7 +203,7 @@ export const EquipmentList = ({items, onDelete, loading = false}: EquipmentListP
           </div>
 
           {filteredAndSortedItems.length === 0 && (
-            <div className="py-10 text-center text-sm text-[var(--muted-foreground)]">
+              <div className="py-10 text-center text-sm text-muted-foreground">
               {searchTerm ? 'No equipment matches your search.' : 'No equipment found. Add some to get started!'}
             </div>
           )}

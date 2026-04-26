@@ -33,11 +33,11 @@ const EditProcedurePage = (): React.JSX.Element => {
         }
     };
 
-    if (loading) return <div className="p-8 text-center text-[var(--foreground)]">Loading...</div>;
-    if (!procedure) return <div className="p-8 text-center text-[var(--foreground)]">Procedure not found.</div>;
+    if (loading) return <div className="p-8 text-center text-foreground">Loading...</div>;
+    if (!procedure) return <div className="p-8 text-center text-foreground">Procedure not found.</div>;
 
     return (
-        <div className="min-h-screen bg-[var(--background)] px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
             <div className="mx-auto">
                 <ProcedureForm
                     equipment={equipment || undefined}

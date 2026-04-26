@@ -71,7 +71,7 @@ export const ProcedureList = ({equipmentId, procedures, onDelete, loading = fals
   return (
     <div className="space-y-4">
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--muted-foreground)]"/>
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"/>
         <Input
           type="text"
           placeholder="Search procedures..."
@@ -81,7 +81,7 @@ export const ProcedureList = ({equipmentId, procedures, onDelete, loading = fals
         />
         {searchTerm && (
           <button aria-label="Clear search" className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer" onClick={() => setSearchTerm('')}>
-            <X className="h-4 w-4 text-[var(--muted-foreground)]"/>
+            <X className="h-4 w-4 text-muted-foreground"/>
           </button>
         )}
       </div>
@@ -110,7 +110,8 @@ export const ProcedureList = ({equipmentId, procedures, onDelete, loading = fals
                 {filteredAndSortedProcedures.map((proc) => (
                   <TableRow key={proc.id}>
                     <TableCell className="font-medium">
-                      <Link to={`/equipment/${equipmentId}/procedures/${proc.id}`} className="text-[var(--primary)] hover:underline">
+                      <Link to={`/equipment/${equipmentId}/procedures/${proc.id}`}
+                            className="text-primary hover:underline">
                         {proc.name}
                       </Link>
                     </TableCell>
@@ -126,7 +127,7 @@ export const ProcedureList = ({equipmentId, procedures, onDelete, loading = fals
                       <Button variant="ghost" size="sm" asChild className="mr-1">
                         <Link to={`/equipment/${equipmentId}/procedures/${proc.id}/edit`}>Edit</Link>
                       </Button>
-                      <Button variant="ghost" size="sm" className="text-[var(--destructive)]" onClick={() => onDelete(proc.id)}>
+                      <Button variant="ghost" size="sm" className="text-destructive" onClick={() => onDelete(proc.id)}>
                         Delete
                       </Button>
                     </TableCell>
@@ -140,12 +141,12 @@ export const ProcedureList = ({equipmentId, procedures, onDelete, loading = fals
             {filteredAndSortedProcedures.map((proc) => (
               <div key={proc.id} className="py-4 space-y-3">
                 <div>
-                  <Link to={`/equipment/${equipmentId}/procedures/${proc.id}`} className="text-[var(--primary)] hover:underline">
+                  <Link to={`/equipment/${equipmentId}/procedures/${proc.id}`} className="text-primary hover:underline">
                     <h3 className="text-sm font-bold">{proc.name}</h3>
                   </Link>
-                  {proc.description && <p className="text-sm text-[var(--muted-foreground)] line-clamp-2">{proc.description}</p>}
+                  {proc.description && <p className="text-sm text-muted-foreground line-clamp-2">{proc.description}</p>}
                 </div>
-                <div className="text-xs text-[var(--muted-foreground)]">Interval: {proc.intervalDays} days</div>
+                <div className="text-xs text-muted-foreground">Interval: {proc.intervalDays} days</div>
                 <div className="flex flex-wrap justify-end gap-2 pt-2">
                   <Button variant="ghost" size="sm" asChild>
                     <Link to={`/equipment/${equipmentId}/procedures/${proc.id}/perform`}>Perform</Link>
@@ -156,7 +157,7 @@ export const ProcedureList = ({equipmentId, procedures, onDelete, loading = fals
                   <Button variant="ghost" size="sm" asChild>
                     <Link to={`/equipment/${equipmentId}/procedures/${proc.id}/edit`}>Edit</Link>
                   </Button>
-                  <Button variant="ghost" size="sm" className="text-[var(--destructive)]" onClick={() => onDelete(proc.id)}>
+                  <Button variant="ghost" size="sm" className="text-destructive" onClick={() => onDelete(proc.id)}>
                     Delete
                   </Button>
                 </div>
@@ -165,7 +166,7 @@ export const ProcedureList = ({equipmentId, procedures, onDelete, loading = fals
           </div>
 
           {filteredAndSortedProcedures.length === 0 && (
-            <div className="py-10 text-center text-sm text-[var(--muted-foreground)]">
+              <div className="py-10 text-center text-sm text-muted-foreground">
               {searchTerm ? 'No procedures match your search.' : 'No procedures found for this equipment.'}
             </div>
           )}

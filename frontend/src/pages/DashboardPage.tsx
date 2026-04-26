@@ -119,10 +119,10 @@ const DashboardPage = (): React.JSX.Element => {
     };
 
     return (
-        <div className="min-h-screen bg-[var(--background)] px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
             <div className="mx-auto">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
-                    <h1 className="text-2xl font-bold text-[var(--foreground)]">Dashboard</h1>
+                    <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
                     <div className="flex gap-2">
                         <Button
                             variant="outline"
@@ -142,21 +142,21 @@ const DashboardPage = (): React.JSX.Element => {
                     </div>
                 </div>
 
-                <div className="bg-[var(--card)] shadow rounded-lg overflow-hidden">
+                <div className="bg-card shadow rounded-lg overflow-hidden">
                     {loading ? (
-                        <div className="p-8 text-center text-[var(--muted-foreground)]">Loading...</div>
+                        <div className="p-8 text-center text-muted-foreground">Loading...</div>
                     ) : (
                         <div className="space-y-4">
                             <div className="px-4 md:px-6 pt-4">
                                 <div className="relative">
                                     <div
                                         className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <Search className="h-4 w-4 text-[var(--muted-foreground)]"/>
+                                        <Search className="h-4 w-4 text-muted-foreground"/>
                                     </div>
                                     <input
                                         type="text"
                                         placeholder="Search procedures..."
-                                        className="block w-full pl-10 pr-10 py-2 border border-[var(--border)] rounded-md leading-5 bg-[var(--card)] text-[var(--foreground)] placeholder-[var(--muted-foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--primary)] focus:border-[var(--primary)] sm:text-sm transition-colors"
+                                        className="block w-full pl-10 pr-10 py-2 border border-border rounded-md leading-5 bg-card text-foreground placeholder-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm transition-colors"
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
                                     />
@@ -165,7 +165,7 @@ const DashboardPage = (): React.JSX.Element => {
                                             className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
                                             onClick={() => setSearchTerm("")}
                                         >
-                                            <X className="h-4 w-4 text-[var(--muted-foreground)] hover:text-[var(--foreground)]"/>
+                                            <X className="h-4 w-4 text-muted-foreground hover:text-foreground"/>
                                         </button>
                                     )}
                                 </div>
@@ -189,12 +189,12 @@ export {DashboardPage};
 
 const DueStatus = ({item}: { item: DashboardItem }): React.JSX.Element => {
     if (item.daysTillDue === null || item.dueDate === null) {
-        return <span className="text-[var(--muted-foreground)] italic text-sm">N/A</span>;
+        return <span className="text-muted-foreground italic text-sm">N/A</span>;
     }
 
     return (
         <div
-            className={item.daysTillDue <= 0 ? "text-[var(--destructive)] font-bold" : "text-[var(--foreground)]"}>
+            className={item.daysTillDue <= 0 ? "text-destructive font-bold" : "text-foreground"}>
             <div className="text-sm">{item.daysTillDue} days</div>
             <div className="text-xs opacity-75">({new Date(item.dueDate).toLocaleDateString()})</div>
         </div>
@@ -222,54 +222,55 @@ const DashboardList = ({items, onDelete, sortField, sortOrder, onSort}: {
     return (
         <div>
             <div className="hidden md:block overflow-x-auto">
-                <table className="min-w-full divide-y divide-[var(--border)]">
-                    <thead className="bg-[var(--muted)]">
+                <table className="min-w-full divide-y divide-border">
+                    <thead className="bg-muted">
                     <tr>
                         <th
-                            className="px-6 py-3 text-left text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wider cursor-pointer hover:text-[var(--foreground)]"
+                            className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider cursor-pointer hover:text-foreground"
                             onClick={() => onSort('equipmentName')}
                         >
                             Equipment <SortIndicator field="equipmentName" sortField={sortField} sortOrder={sortOrder}/>
                         </th>
                         <th
-                            className="px-6 py-3 text-left text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wider cursor-pointer hover:text-[var(--foreground)]"
+                            className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider cursor-pointer hover:text-foreground"
                             onClick={() => onSort('procedureName')}
                         >
                             Procedure <SortIndicator field="procedureName" sortField={sortField} sortOrder={sortOrder}/>
                         </th>
                         <th
-                            className="px-6 py-3 text-left text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wider cursor-pointer hover:text-[var(--foreground)]"
+                            className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider cursor-pointer hover:text-foreground"
                             onClick={() => onSort('intervalDays')}
                         >
                             Interval <SortIndicator field="intervalDays" sortField={sortField} sortOrder={sortOrder}/>
                         </th>
                         <th
-                            className="px-6 py-3 text-left text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wider cursor-pointer hover:text-[var(--foreground)]"
+                            className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider cursor-pointer hover:text-foreground"
                             onClick={() => onSort('daysTillDue')}
                         >
                             Due In <SortIndicator field="daysTillDue" sortField={sortField} sortOrder={sortOrder}/>
                         </th>
-                        <th className="px-6 py-3 text-right text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wider">Actions</th>
+                        <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground uppercase tracking-wider">Actions</th>
                     </tr>
                     </thead>
-                    <tbody className="bg-[var(--card)] divide-y divide-[var(--border)]">
+                    <tbody className="bg-card divide-y divide-border">
                     {items.map((item) => (
                         <tr key={`${item.equipmentId}-${item.procedureId}`}>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[var(--foreground)]">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">
                                 <Link to={`/equipment/${item.equipmentId}`}
-                                      className="hover:underline text-[var(--primary)]">
+                                      className="hover:underline text-primary">
                                     {item.equipmentName}
                                 </Link>
                             </td>
-                            <td className="px-6 py-4 text-sm text-[var(--foreground)]">
+                            <td className="px-6 py-4 text-sm text-foreground">
                                 <Link to={`/equipment/${item.equipmentId}/procedures/${item.procedureId}`}
-                                      className="font-medium text-[var(--primary)] hover:underline transition-colors">
+                                      className="font-medium text-primary hover:underline transition-colors">
                                     {item.procedureName}
                                 </Link>
-                                <div className="text-xs text-[var(--muted-foreground)] line-clamp-1">{item.procedureDescription}</div>
+                                <div
+                                    className="text-xs text-muted-foreground line-clamp-1">{item.procedureDescription}</div>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]">{item.intervalDays} days</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">{item.intervalDays} days</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">
                                 <DueStatus item={item}/>
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -294,23 +295,23 @@ const DashboardList = ({items, onDelete, sortField, sortOrder, onSort}: {
                 </table>
             </div>
 
-            <div className="md:hidden divide-y divide-[var(--border)]">
+            <div className="md:hidden divide-y divide-border">
                 {items.map((item) => (
                     <div key={`${item.equipmentId}-${item.procedureId}`} className="p-4 space-y-3">
                         <div className="flex justify-between items-start">
                             <div>
                                 <Link to={`/equipment/${item.equipmentId}`}
-                                      className="text-xs font-semibold text-[var(--primary)] hover:underline">
+                                      className="text-xs font-semibold text-primary hover:underline">
                                     {item.equipmentName}
                                 </Link>
                                 <Link to={`/equipment/${item.equipmentId}/procedures/${item.procedureId}`}
-                                      className="hover:underline text-[var(--primary)]">
+                                      className="hover:underline text-primary">
                                     <h3 className="text-sm font-bold">{item.procedureName}</h3>
                                 </Link>
                             </div>
                             <DueStatus item={item}/>
                         </div>
-                        <div className="text-xs text-[var(--muted-foreground)]">
+                        <div className="text-xs text-muted-foreground">
                             Interval: {item.intervalDays} days
                         </div>
                         <div className="flex flex-wrap justify-end gap-3 pt-2">
@@ -328,7 +329,7 @@ const DashboardList = ({items, onDelete, sortField, sortOrder, onSort}: {
                             </Link>
                             <button
                                 onClick={() => onDelete(item.equipmentId, item.procedureId)}
-                                className="text-[var(--destructive)] hover:opacity-80 text-sm font-medium cursor-pointer"
+                                className="text-destructive hover:opacity-80 text-sm font-medium cursor-pointer"
                             >
                                 Delete
                             </button>
@@ -338,7 +339,7 @@ const DashboardList = ({items, onDelete, sortField, sortOrder, onSort}: {
             </div>
 
             {items.length === 0 && (
-                <div className="py-10 text-center text-sm text-[var(--muted-foreground)]">
+                <div className="py-10 text-center text-sm text-muted-foreground">
                     No procedures found.
                 </div>
             )}

@@ -36,14 +36,14 @@ const CalendarPage = (): React.JSX.Element => {
     }, [items]);
 
     return (
-        <div className="min-h-screen bg-[var(--background)] px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
             <div className="mx-auto">
                 <div className="mb-8">
-                    <h1 className="text-2xl font-bold text-[var(--foreground)]">Calendar</h1>
+                    <h1 className="text-2xl font-bold text-foreground">Calendar</h1>
                 </div>
-                <div className="bg-[var(--card)] shadow rounded-lg overflow-hidden">
+                <div className="bg-card shadow rounded-lg overflow-hidden">
                     {loading ? (
-                        <div className="p-8 text-center text-[var(--muted-foreground)]">Loading...</div>
+                        <div className="p-8 text-center text-muted-foreground">Loading...</div>
                     ) : (
                         <div className="p-4 md:p-6">
                             <CalendarView events={calendarEvents}/>
