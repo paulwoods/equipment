@@ -1,9 +1,18 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {Info, ShieldCheck} from "lucide-react";
 import {Button} from "../components/ui/button";
+import {getVersion} from "../api/client";
 
 const AboutPage = (): React.JSX.Element => {
+    const [serverVersion, setServerVersion] = useState<string | null>(null);
+
+    useEffect(() => {
+        getVersion()
+            .then(data => setServerVersion(data.version))
+            .catch(() => setServerVersion("unavailable"));
+    }, []);
+
     return (
         <div className="min-h-screen bg-[var(--background)] px-4 sm:px-6 lg:px-8">
             <div className="mx-auto">
@@ -17,6 +26,19 @@ const AboutPage = (): React.JSX.Element => {
                             <h1 className="text-3xl font-extrabold text-[var(--foreground)] tracking-tight">
                                 About Equipment Manager
                             </h1>
+                        </div>
+
+                        <div className="flex flex-wrap gap-2 mb-6">
+                            <span
+                                className="px-3 py-1 bg-[var(--muted)] text-[var(--foreground)] rounded-full text-sm font-medium">
+                                <span className="px-2 py-0.5 text-[var(--muted-foreground)] mr-1">Client:</span>
+                                <span className="px-2 py-0.5 font-mono">{__APP_VERSION__}</span>
+                            </span>
+                            <span
+                                className="px-3 py-1 bg-[var(--muted)] text-[var(--foreground)] rounded-full text-sm font-medium">
+                                <span className="px-2 py-0.5 text-[var(--muted-foreground)] mr-1">Server:</span>
+                                <span className="px-2 py-0.5 font-mono">{serverVersion ?? "..."}</span>
+                            </span>
                         </div>
 
                         <div
