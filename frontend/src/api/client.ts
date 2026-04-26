@@ -28,8 +28,8 @@ export const logout = async (): Promise<void> => {
 };
 
 export const getMe = async (): Promise<{ id: string; email: string; role: string } | null> => {
-    const {data} = await apiClient.get<{ id: string; email: string; role: string } | null>('/api/v1/auth/me');
-    return data;
+    const {data} = await apiClient.get<{ id: string; email: string; role: string }>('/api/v1/auth/me');
+    return data ?? null;
 };
 
 // Setup

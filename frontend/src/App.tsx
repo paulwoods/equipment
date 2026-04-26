@@ -38,6 +38,9 @@ const ProtectedRoute = ({email, children}: { email: string | null; children: Rea
     return <>{children}</>;
 };
 
+const parseRole = (raw: string | undefined): UserRole | null =>
+    raw ? (raw.replace(/^ROLE_/, '') as UserRole) : null;
+
 const App = (): React.JSX.Element => {
     const [email, setEmail] = useState<string | null>(null);
     const [userId, setUserId] = useState<string | null>(null);
@@ -45,21 +48,15 @@ const App = (): React.JSX.Element => {
     const [authChecked, setAuthChecked] = useState(false);
     const [setupRequired, setSetupRequired] = useState(false);
 
+    const applyAuthData = (data: { id: string; email: string; role: string } | null): void => {
+        setEmail(data?.email ?? null);
+        setUserId(data?.id ?? null);
+        setRole(parseRole(data?.role));
+    };
+
     useEffect(() => {
         Promise.all([
-            getMe().then((data) => {
-                setEmail(data?.email ?? null);
-                setUserId(data?.id ?? null);
-                if (data?.role) {
-                    setRole(data.role.replace(/^ROLE_/, '') as UserRole);
-                } else {
-                    setRole(null);
-                }
-            }).catch(() => {
-                setEmail(null);
-                setUserId(null);
-                setRole(null);
-            }),
+            getMe().then(applyAuthData).catch(() => applyAuthData(null)),
             getSetupStatus().then((data) => setSetupRequired(data.setupRequired)).catch(() => {
             }),
         ]).finally(() => setAuthChecked(true));
@@ -67,18 +64,10 @@ const App = (): React.JSX.Element => {
 
     const setAuthenticated = async (authenticated: boolean): Promise<void> => {
         if (!authenticated) {
-            setEmail(null);
-            setUserId(null);
-            setRole(null);
+            applyAuthData(null);
         } else {
             const data = await getMe().catch(() => null);
-            setEmail(data?.email ?? null);
-            setUserId(data?.id ?? null);
-            if (data?.role) {
-                setRole(data.role.replace(/^ROLE_/, '') as UserRole);
-            } else {
-                setRole(null);
-            }
+            applyAuthData(data);
         }
     };
 
