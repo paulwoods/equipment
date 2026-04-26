@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link, useLocation} from 'react-router-dom';
-import {Calendar, CircleQuestionMark, LayoutDashboard, LogOut, Monitor, PhoneCall, Users} from 'lucide-react';
+import {Calendar, CircleQuestionMark, LayoutDashboard, LogOut, Monitor, PhoneCall, UserRound, Users} from 'lucide-react';
 import {useAuth} from '../hooks';
 import {logout} from '../api/client';
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,} from './ui/dropdown-menu';
@@ -16,6 +16,10 @@ const mainNav: NavItem[] = [
   {label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard},
   {label: 'Calendar', href: '/calendar', icon: Calendar},
   {label: 'Equipment', href: '/equipment', icon: Monitor},
+];
+
+const profileNav: NavItem[] = [
+  {label: 'My Profile', href: '/profile', icon: UserRound},
 ];
 
 const adminNav: NavItem[] = [
@@ -92,6 +96,15 @@ export const Sidebar = (): React.JSX.Element => {
           Main
         </p>
         {mainNav.map((item) => (
+          <NavLink key={item.href} item={item} />
+        ))}
+
+        <Separator className="my-3" />
+
+        <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-widest" style={{color: 'var(--muted-foreground)'}}>
+          Account
+        </p>
+        {profileNav.map((item) => (
           <NavLink key={item.href} item={item} />
         ))}
 
