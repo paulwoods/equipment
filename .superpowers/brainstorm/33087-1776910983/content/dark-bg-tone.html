@@ -1,0 +1,54 @@
+<h2>How dark should the dark mode background be?</h2>
+<p class="subtitle">This sets the overall mood — from near-black "void" to a softer charcoal.</p>
+
+<div class="cards">
+
+    <div class="card" data-choice="void" onclick="toggleSelect(this)">
+        <div class="card-image"
+             style="background: #09090b; height: 80px; border-radius: 8px; display:flex; align-items:center; justify-content:center; border: 1px solid #27272a;">
+            <span style="color:#fafafa; font-weight:700; font-size:1rem; letter-spacing:0.05em;">VOID · #09090b</span>
+        </div>
+        <div class="card-body">
+            <h3>Near-Black (Zinc-950)</h3>
+            <p>Maximum contrast. High drama. Used by Linear, Vercel, Figma. Feels premium and focused. The fuchsia
+                accent will pop hard against this.</p>
+        </div>
+    </div>
+
+    <div class="card" data-choice="slate" onclick="toggleSelect(this)">
+        <div class="card-image"
+             style="background: #0f172a; height: 80px; border-radius: 8px; display:flex; align-items:center; justify-content:center; border: 1px solid #1e293b;">
+            <span style="color:#f1f5f9; font-weight:700; font-size:1rem; letter-spacing:0.05em;">SLATE · #0f172a</span>
+        </div>
+        <div class="card-body">
+            <h3>Deep Slate (Slate-900)</h3>
+            <p>Slightly blue-tinted dark. Feels technical and cool. Common in developer tools and dashboards. Gives
+                depth without full void.</p>
+        </div>
+    </div>
+
+    <div class="card" data-choice="charcoal" onclick="toggleSelect(this)">
+        <div class="card-image"
+             style="background: #1a1a2e; height: 80px; border-radius: 8px; display:flex; align-items:center; justify-content:center; border: 1px solid #2a2a3e;">
+            <span style="color:#e2e8f0; font-weight:700; font-size:1rem; letter-spacing:0.05em;">INDIGO-DARK · #1a1a2e</span>
+        </div>
+        <div class="card-body">
+            <h3>Deep Indigo-tinted</h3>
+            <p>Custom dark with a subtle purple/indigo undertone. Complements fuchsia beautifully — creates a cohesive
+                cool-to-warm story. Distinctive.</p>
+        </div>
+    </div>
+
+    <div class="card" data-choice="graphite" onclick="toggleSelect(this)">
+        <div class="card-image"
+             style="background: #18181b; height: 80px; border-radius: 8px; display:flex; align-items:center; justify-content:center; border: 1px solid #27272a;">
+            <span style="color:#fafafa; font-weight:700; font-size:1rem; letter-spacing:0.05em;">GRAPHITE · #18181b</span>
+        </div>
+        <div class="card-body">
+            <h3>Graphite (Zinc-900)</h3>
+            <p>Neutral dark without blue tint. Warmer than slate. Clean, versatile. Good middle ground between void and
+                charcoal.</p>
+        </div>
+    </div>
+
+</div>

@@ -40,11 +40,11 @@ const PerformProcedurePage = (): React.JSX.Element => {
     if (!equipment) return <div className="p-8 text-center text-[var(--foreground)]">Equipment not found.</div>;
 
     return (
-        <div className="min-h-screen bg-[var(--background)] py-8 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-2xl mx-auto">
+        <div className="min-h-screen bg-[var(--background)] px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto">
 
                 <div
-                    className="bg-[var(--card)] shadow rounded-lg overflow-hidden border border-[var(--border)] mb-6">
+                    className="bg-[var(--card)] shadow rounded-lg overflow-hidden border-[var(--border)] mb-6">
                     <div className="p-6 border-b border-[var(--border)]">
                         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4">
                             <div>

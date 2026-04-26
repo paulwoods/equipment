@@ -27,11 +27,11 @@ const ProcedureHistoryPage = (): React.JSX.Element => {
     if (!procedure) return <div className="p-8 text-center text-[var(--foreground)]">Procedure not found.</div>;
 
     return (
-        <div className="min-h-screen bg-[var(--background)] py-8 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto">
+        <div className="min-h-screen bg-[var(--background)] px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto">
 
                 <div
-                    className="bg-[var(--card)] shadow rounded-lg overflow-hidden p-6 border border-[var(--border)]">
+                    className="bg-[var(--card)] shadow rounded-lg overflow-hidden p-6 border-[var(--border)]">
                     <div className="mb-8 border-b border-[var(--border)] pb-4">
                         <h1 className="text-3xl font-bold text-[var(--foreground)]">Performance History</h1>
                         <p className="text-[var(--muted-foreground)] mt-2">

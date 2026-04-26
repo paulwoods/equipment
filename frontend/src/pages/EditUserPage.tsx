@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import axios from "axios";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import type {User, UserRole} from "../types/user";
 import {assignableRoles} from "../types/user";
@@ -39,8 +40,12 @@ const EditUserPage = (): React.JSX.Element => {
         try {
             await updateUser(id, {name, email, role});
             navigate('/users');
-        } catch {
-            setError('Failed to update user. The email may already be in use.');
+        } catch (err) {
+            if (axios.isAxiosError(err) && err.response?.data?.detail) {
+                setError(err.response.data.detail);
+            } else {
+                setError('Failed to update user. The email may already be in use.');
+            }
         } finally {
             setSubmitting(false);
         }
@@ -68,8 +73,8 @@ const EditUserPage = (): React.JSX.Element => {
     }
 
     return (
-        <div className="min-h-screen bg-[var(--background)] py-8 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto">
+        <div className="min-h-screen bg-[var(--background)] px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto">
                 <div className="mb-6">
                     <Link
                         to="/users"

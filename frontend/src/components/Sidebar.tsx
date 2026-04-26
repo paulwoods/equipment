@@ -1,21 +1,9 @@
 import React from 'react';
 import {Link, useLocation} from 'react-router-dom';
-import {
-  LayoutDashboard,
-  Monitor,
-  FileText,
-  Users,
-  Settings,
-  LogOut,
-} from 'lucide-react';
+import {CircleQuestionMark, FileText, LayoutDashboard, LogOut, Monitor, PhoneCall, Users} from 'lucide-react';
 import {useAuth} from '../hooks';
 import {logout} from '../api/client';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from './ui/dropdown-menu';
+import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,} from './ui/dropdown-menu';
 import {Separator} from './ui/separator';
 
 interface NavItem {
@@ -32,7 +20,11 @@ const mainNav: NavItem[] = [
 
 const adminNav: NavItem[] = [
   {label: 'Users', href: '/users', icon: Users},
-  {label: 'Setup', href: '/setup', icon: Settings},
+];
+
+const linksNav: NavItem[] = [
+  {label: 'About', href: '/about', icon: CircleQuestionMark},
+  {label: 'Contact', href: '/contact', icon: PhoneCall},
 ];
 
 const NavLink = ({item}: {item: NavItem}): React.JSX.Element => {
@@ -111,6 +103,17 @@ export const Sidebar = (): React.JSX.Element => {
         {adminNav.map((item) => (
           <NavLink key={item.href} item={item} />
         ))}
+
+        <Separator className="my-3"/>
+
+        <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-widest"
+           style={{color: 'var(--muted-foreground)'}}>
+          Links
+        </p>
+        {linksNav.map((item) => (
+            <NavLink key={item.href} item={item}/>
+        ))}
+
       </nav>
 
       {/* User footer */}

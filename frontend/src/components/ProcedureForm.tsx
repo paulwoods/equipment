@@ -1,5 +1,5 @@
 import type {ChangeEvent, FormEvent} from 'react';
-import React, {useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import type {Procedure} from '../types/procedure';
 import type {Equipment} from '../types/equipment';
 import SimpleMDE from 'react-simplemde-editor';
@@ -29,6 +29,19 @@ export const ProcedureForm = ({equipment, procedure, onSubmit, onCancel}: Proced
     status: false,
   }), []);
 
+  const mdeOptionsRequiredTools = useMemo(() => ({
+    ...mdeOptions,
+    placeholder: 'e.g., "10mm wrench", "Multimeter", "Safety glasses"',
+  }), [mdeOptions]);
+
+  const handleRequiredToolsChange = useCallback((value: string) => {
+    setFormData((prev) => ({...prev, requiredTools: value}));
+  }, []);
+
+  const handleStepsChange = useCallback((value: string) => {
+    setFormData((prev) => ({...prev, steps: value}));
+  }, []);
+
   const handleSubmit = (e: FormEvent): void => {
     e.preventDefault();
     if (procedure) {
@@ -50,7 +63,7 @@ export const ProcedureForm = ({equipment, procedure, onSubmit, onCancel}: Proced
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-6 p-6 rounded-lg border"
+      className="space-y-6 p-6 rounded-lg "
       style={{background: 'var(--card)', borderColor: 'var(--border)'}}
     >
       {equipment && (
@@ -91,15 +104,15 @@ export const ProcedureForm = ({equipment, procedure, onSubmit, onCancel}: Proced
           <Label>Required Tools / PPE</Label>
           <SimpleMDE
             value={formData.requiredTools}
-            onChange={(value) => setFormData((prev) => ({...prev, requiredTools: value}))}
-            options={{...mdeOptions, placeholder: 'e.g., "10mm wrench", "Multimeter", "Safety glasses"'}}
+            onChange={handleRequiredToolsChange}
+            options={mdeOptionsRequiredTools}
           />
         </div>
         <div className="prose prose-sm max-w-none dark:prose-invert">
           <Label>Procedure Steps</Label>
           <SimpleMDE
             value={formData.steps}
-            onChange={(value) => setFormData((prev) => ({...prev, steps: value}))}
+            onChange={handleStepsChange}
             options={mdeOptions}
           />
         </div>

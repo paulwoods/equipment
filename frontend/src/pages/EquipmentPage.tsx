@@ -32,8 +32,8 @@ const EquipmentPage = (): React.JSX.Element => {
     if (error) return <div className="p-8 text-center text-[var(--destructive)]">{error}</div>;
 
     return (
-        <div className="min-h-screen bg-[var(--background)] py-8 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto">
+        <div className="min-h-screen bg-[var(--background)] px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
                     <h1 className="text-2xl font-bold text-[var(--foreground)]">Equipment</h1>
                     <div className="flex gap-4">

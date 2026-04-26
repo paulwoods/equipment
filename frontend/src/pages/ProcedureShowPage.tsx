@@ -34,8 +34,8 @@ const ProcedureShowPage = (): React.JSX.Element => {
         : null;
 
     return (
-        <div className="min-h-screen bg-[var(--background)] py-8 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-3xl mx-auto">
+        <div className="min-h-screen bg-[var(--background)] px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto">
                 <div className="mb-6 flex justify-end gap-3">
                     <Button variant="outline" asChild>
                         <Link to={`/equipment/${id}/procedures/${procedureId}/edit`}>

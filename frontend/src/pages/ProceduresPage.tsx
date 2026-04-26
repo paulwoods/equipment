@@ -33,8 +33,8 @@ const ProceduresPage = (): React.JSX.Element => {
     if (loading) return <div className="p-8 text-[var(--muted-foreground)]">Loading...</div>;
 
     return (
-        <div className="min-h-screen bg-[var(--background)] py-8 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto">
+        <div className="min-h-screen bg-[var(--background)] px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto">
                 <div className="mb-6 flex justify-end gap-4">
                     <Button asChild variant="outline">
                         <Link to="/equipment">Equipment</Link>
@@ -45,7 +45,7 @@ const ProceduresPage = (): React.JSX.Element => {
                 </div>
 
                 <div
-                    className="bg-[var(--card)] shadow rounded-lg overflow-hidden p-6 border border-[var(--border)]">
+                    className="bg-[var(--card)] shadow rounded-lg overflow-hidden p-6 border-[var(--border)]">
                     <div className="mb-8 border-b border-[var(--border)] pb-6">
                         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
                             <div>

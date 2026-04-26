@@ -31,8 +31,8 @@ const NewProcedurePage = (): React.JSX.Element => {
     if (loading) return <div className="p-8 text-center text-[var(--foreground)]">Loading...</div>;
 
     return (
-        <div className="min-h-screen bg-[var(--background)] py-8 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-5xl mx-auto">
+        <div className="min-h-screen bg-[var(--background)] px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto">
                 <ProcedureForm
                     equipment={equipment || undefined}
                     onSubmit={handleSubmit}

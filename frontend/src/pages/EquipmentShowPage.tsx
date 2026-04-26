@@ -34,8 +34,8 @@ const EquipmentShowPage = (): React.JSX.Element => {
     if (!equipment) return <div className="p-8 text-center text-[var(--foreground)]">Equipment not found.</div>;
 
     return (
-        <div className="min-h-screen bg-[var(--background)] py-8 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto">
+        <div className="min-h-screen bg-[var(--background)] px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto">
                 <div className="mb-6 flex justify-between items-center">
                     <Link
                         to="/equipment"

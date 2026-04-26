@@ -5,14 +5,7 @@ import {ChevronDown, ChevronUp, Search, X} from 'lucide-react';
 import {Badge} from './ui/badge';
 import {Button} from './ui/button';
 import {Input} from './ui/input';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from './ui/table';
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from './ui/table';
 import {TableSkeleton} from './TableSkeleton';
 
 interface EquipmentListProps {
@@ -109,51 +102,68 @@ export const EquipmentList = ({items, onDelete, loading = false}: EquipmentListP
         <TableSkeleton rows={5} columns={6} />
       ) : (
         <>
-          <div className="hidden md:block rounded-md border overflow-hidden" style={{borderColor: 'var(--border)'}}>
+          <div className="hidden md:block overflow-x-auto">
             <Table>
-              <TableHeader>
+              <TableHeader className="bg-[var(--muted)]">
                 <TableRow>
-                  <TableHead className="cursor-pointer" onClick={() => handleSort('modelNumber')}>
+                  <TableHead
+                      className="px-6 py-3 text-left text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wider cursor-pointer hover:text-[var(--foreground)]"
+                      onClick={() => handleSort('modelNumber')}>
                     Model Number <SortIndicator field="modelNumber" sortField={sortField} sortOrder={sortOrder}/>
                   </TableHead>
-                  <TableHead className="cursor-pointer" onClick={() => handleSort('manufacturer')}>
+                  <TableHead
+                      className="px-6 py-3 text-left text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wider cursor-pointer hover:text-[var(--foreground)]"
+                      onClick={() => handleSort('manufacturer')}>
                     Manufacturer <SortIndicator field="manufacturer" sortField={sortField} sortOrder={sortOrder}/>
                   </TableHead>
-                  <TableHead className="cursor-pointer" onClick={() => handleSort('location')}>
+                  <TableHead
+                      className="px-6 py-3 text-left text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wider cursor-pointer hover:text-[var(--foreground)]"
+                      onClick={() => handleSort('location')}>
                     Location <SortIndicator field="location" sortField={sortField} sortOrder={sortOrder}/>
                   </TableHead>
-                  <TableHead className="cursor-pointer" onClick={() => handleSort('status')}>
+                  <TableHead
+                      className="px-6 py-3 text-left text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wider cursor-pointer hover:text-[var(--foreground)]"
+                      onClick={() => handleSort('status')}>
                     Status <SortIndicator field="status" sortField={sortField} sortOrder={sortOrder}/>
                   </TableHead>
-                  <TableHead>Procedures</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead
+                      className="px-6 py-3 text-left text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wider">Procedures</TableHead>
+                  <TableHead
+                      className="px-6 py-3 text-right text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wider">Actions</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody>
+              <TableBody className="bg-[var(--card)] divide-y divide-[var(--border)]">
                 {filteredAndSortedItems.map((item) => (
                   <TableRow key={item.id}>
-                    <TableCell className="font-medium">
+                    <TableCell className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[var(--foreground)]">
                       <Link to={`/equipment/${item.id}`} className="text-[var(--primary)] hover:underline">
                         {item.modelNumber}
                       </Link>
                     </TableCell>
-                    <TableCell>{item.manufacturer}</TableCell>
-                    <TableCell>{item.location ?? '-'}</TableCell>
-                    <TableCell>
+                    <TableCell
+                        className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]">{item.manufacturer}</TableCell>
+                    <TableCell
+                        className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]">{item.location ?? '-'}</TableCell>
+                    <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]">
                       <Badge variant={statusVariant[item.status] ?? 'default'}>{item.status}</Badge>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]">
                       <Button variant="outline" size="sm" asChild>
                         <Link to={`/equipment/${item.id}/procedures`}>View</Link>
                       </Button>
                     </TableCell>
-                    <TableCell className="text-right">
-                      <Button variant="ghost" size="sm" asChild className="mr-2">
-                        <Link to={`/equipment/${item.id}/edit`}>Edit</Link>
-                      </Button>
-                      <Button variant="ghost" size="sm" className="text-[var(--destructive)]" onClick={() => onDelete(item.id)}>
-                        Delete
-                      </Button>
+                    <TableCell className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <div className="flex gap-3 justify-end">
+                        <Link to={`/equipment/${item.id}/edit`}
+                              className="text-[var(--primary)] hover:underline text-sm font-medium">
+                          Edit
+                        </Link>
+                        <button
+                            className="text-[var(--destructive)] hover:opacity-80 text-sm font-medium cursor-pointer"
+                            onClick={() => onDelete(item.id)}>
+                          Delete
+                        </button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}

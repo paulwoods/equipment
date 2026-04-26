@@ -134,8 +134,8 @@ const DashboardPage = (): React.JSX.Element => {
     };
 
     return (
-        <div className="min-h-screen bg-[var(--background)] py-8 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-6xl mx-auto">
+        <div className="min-h-screen bg-[var(--background)] px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
                     <h1 className="text-2xl font-bold text-[var(--foreground)]">Dashboard</h1>
                     <div className="flex gap-2">
@@ -334,12 +334,6 @@ const DashboardList = ({items, onDelete, sortField, sortOrder, onSort}: {
                                     >
                                         History
                                     </Link>
-                                    <button
-                                        onClick={() => onDelete(item.equipmentId, item.procedureId)}
-                                        className="text-[var(--destructive)] hover:opacity-80 text-sm font-medium cursor-pointer"
-                                    >
-                                        Delete
-                                    </button>
                                 </div>
                             </td>
                         </tr>

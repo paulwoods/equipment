@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en" style="height:100%">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Sidebar Mockup</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f172a;
+            color: #f1f5f9;
+            height: 100vh;
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 220px;
+            background: #0a0f1e;
+            border-right: 1px solid #1e293b;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .sidebar-logo {
+            padding: 20px 16px 16px;
+            border-bottom: 1px solid #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-logo-icon {
+            width: 28px;
+            height: 28px;
+            background: #d946ef;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar-logo-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: white;
+        }
+
+        .sidebar-logo-text {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #f1f5f9;
+            letter-spacing: 0.02em;
+        }
+
+        .sidebar-logo-sub {
+            font-size: 0.6rem;
+            color: #64748b;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .sidebar-nav {
+            padding: 12px 8px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .nav-section-label {
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: #475569;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 8px 8px 4px;
+            margin-top: 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #94a3b8;
+            cursor: pointer;
+            border-left: 2px solid transparent;
+            transition: all 0.15s;
+        }
+
+        .nav-item:hover {
+            background: #1e293b;
+            color: #f1f5f9;
+        }
+
+        .nav-item.active {
+            background: #2d1a3d;
+            color: #e879f9;
+            border-left-color: #d946ef;
+        }
+
+        .nav-item svg {
+            width: 15px;
+            height: 15px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-footer {
+            padding: 12px 8px;
+            border-top: 1px solid #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #d946ef22;
+            border: 1px solid #d946ef55;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #d946ef;
+            flex-shrink: 0;
+        }
+
+        .user-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .user-name {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #f1f5f9;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .user-role {
+            font-size: 0.6rem;
+            color: #64748b;
+        }
+
+        .icon-btn {
+            width: 26px;
+            height: 26px;
+            border-radius: 5px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+        }
+
+        .icon-btn:hover {
+            background: #1e293b;
+            color: #f1f5f9;
+        }
+
+        .icon-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Main content */
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .topbar {
+            height: 52px;
+            background: #0f172a;
+            border-bottom: 1px solid #1e293b;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            gap: 12px;
+        }
+
+        .breadcrumb {
+            font-size: 0.75rem;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .breadcrumb span {
+            color: #f1f5f9;
+            font-weight: 500;
+        }
+
+        .topbar-right {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .theme-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .theme-btn svg {
+            width: 14px;
+            height: 14px;
+            color: #94a3b8;
+        }
+
+        .content {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .page-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #f1f5f9;
+        }
+
+        .page-subtitle {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        .btn-primary {
+            background: #d946ef;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 7px 14px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            letter-spacing: 0.01em;
+        }
+
+        .btn-primary:hover {
+            background: #c026d3;
+        }
+
+        /* Stats row */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 14px 16px;
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 6px;
+        }
+
+        .stat-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #f1f5f9;
+        }
+
+        .stat-delta {
+            font-size: 0.65rem;
+            color: #d946ef;
+            margin-top: 2px;
+        }
+
+        /* Table */
+        .table-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 12px 16px;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .table-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #f1f5f9;
+        }
+
+        .search-input {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 0.7rem;
+            color: #f1f5f9;
+            width: 160px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .search-input::placeholder {
+            color: #475569;
+        }
+
+        .search-input:focus {
+            border-color: #d946ef;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.75rem;
+        }
+
+        thead th {
+            padding: 8px 16px;
+            text-align: left;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            border-bottom: 1px solid #334155;
+            background: #172033;
+        }
+
+        tbody td {
+            padding: 10px 16px;
+            border-bottom: 1px solid #1e2d45;
+            color: #cbd5e1;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover td {
+            background: #1a2744;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 0.6rem;
+            font-weight: 600;
+        }
+
+        .badge-green {
+            background: #14532d44;
+            color: #4ade80;
+            border: 1px solid #14532d;
+        }
+
+        .badge-blue {
+            background: #1e3a5f44;
+            color: #60a5fa;
+            border: 1px solid #1e3a5f;
+        }
+
+        .badge-yellow {
+            background: #78350f44;
+            color: #fbbf24;
+            border: 1px solid #78350f;
+        }
+
+        .badge-gray {
+            background: #27272a44;
+            color: #94a3b8;
+            border: 1px solid #27272a;
+        }
+
+        .action-link {
+            color: #d946ef;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .action-link:hover {
+            color: #e879f9;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+        </div>
+        <div>
+            <div class="sidebar-logo-text">Equipment</div>
+            <div class="sidebar-logo-sub">Manager</div>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav">
+        <div class="nav-section-label">Main</div>
+        <div class="nav-item active">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <rect height="7" width="7" x="3" y="3"/>
+                <rect height="7" width="7" x="14" y="3"/>
+                <rect height="7" width="7" x="14" y="14"/>
+                <rect height="7" width="7" x="3" y="14"/>
+            </svg>
+            Dashboard
+        </div>
+        <div class="nav-item">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <rect height="14" rx="2" width="20" x="2" y="3"/>
+                <path d="M8 21h8M12 17v4"/>
+            </svg>
+            Equipment
+        </div>
+        <div class="nav-item">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" x2="8" y1="13" y2="13"/>
+                <line x1="16" x2="8" y1="17" y2="17"/>
+            </svg>
+            Procedures
+        </div>
+
+        <div class="nav-section-label">Admin</div>
+        <div class="nav-item">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            Users
+        </div>
+        <div class="nav-item">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M19.07 4.93l-1.41 1.41M5.34 18.66l-1.41 1.41M20 12h2M2 12h2M19.07 19.07l-1.41-1.41M5.34 5.34L3.93 3.93M12 20v2M12 2v2"/>
+            </svg>
+            Setup
+        </div>
+    </nav>
+
+    <div class="sidebar-footer">
+        <div class="avatar">PW</div>
+        <div class="user-info">
+            <div class="user-name">Paul Woods</div>
+            <div class="user-role">Admin</div>
+        </div>
+        <button class="icon-btn" title="Log out">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                <polyline points="16 17 21 12 16 7"/>
+                <line x1="21" x2="9" y1="12" y2="12"/>
+            </svg>
+        </button>
+    </div>
+</div>
+
+<!-- Main content -->
+<div class="main">
+    <div class="topbar">
+        <div class="breadcrumb">
+            Home
+            <svg fill="none" height="12" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="12">
+                <polyline points="9 18 15 12 9 6"/>
+            </svg>
+            <span>Dashboard</span>
+        </div>
+        <div class="topbar-right">
+            <div class="theme-btn">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="5"/>
+                    <line x1="12" x2="12" y1="1" y2="3"/>
+                    <line x1="12" x2="12" y1="21" y2="23"/>
+                    <line x1="4.22" x2="5.64" y1="4.22" y2="5.64"/>
+                    <line x1="18.36" x2="19.78" y1="18.36" y2="19.78"/>
+                    <line x1="1" x2="3" y1="12" y2="12"/>
+                    <line x1="21" x2="23" y1="12" y2="12"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="page-header">
+            <div>
+                <div class="page-title">Dashboard</div>
+                <div class="page-subtitle">Equipment overview and upcoming procedures</div>
+            </div>
+            <button class="btn-primary">
+                <svg fill="none" height="13" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" width="13">
+                    <line x1="12" x2="12" y1="5" y2="19"/>
+                    <line x1="5" x2="19" y1="12" y2="12"/>
+                </svg>
+                Add Equipment
+            </button>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-label">Total Equipment</div>
+                <div class="stat-value">48</div>
+                <div class="stat-delta">↑ 3 this month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Active</div>
+                <div class="stat-value">31</div>
+                <div class="stat-delta" style="color:#4ade80;">↑ In service</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Due Procedures</div>
+                <div class="stat-value">7</div>
+                <div class="stat-delta" style="color:#fbbf24;">⚠ This week</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Overdue</div>
+                <div class="stat-value">2</div>
+                <div class="stat-delta" style="color:#f87171;">↑ Needs attention</div>
+            </div>
+        </div>
+
+        <div class="table-card">
+            <div class="table-header">
+                <div class="table-title">Recent Equipment</div>
+                <input class="search-input" placeholder="Search equipment...">
+            </div>
+            <table>
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Serial</th>
+                    <th>Status</th>
+                    <th>Last Procedure</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td style="font-weight:500;color:#f1f5f9;">Hydraulic Press A1</td>
+                    <td style="color:#64748b;">HP-2024-001</td>
+                    <td><span class="badge badge-green">Active</span></td>
+                    <td>2 days ago</td>
+                    <td><span class="action-link">Edit</span></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:500;color:#f1f5f9;">CNC Router B3</td>
+                    <td style="color:#64748b;">CNC-2023-042</td>
+                    <td><span class="badge badge-blue">In Use</span></td>
+                    <td>1 week ago</td>
+                    <td><span class="action-link">Edit</span></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:500;color:#f1f5f9;">Compressor Unit 7</td>
+                    <td style="color:#64748b;">CU-2022-017</td>
+                    <td><span class="badge badge-yellow">Under Repair</span></td>
+                    <td>3 weeks ago</td>
+                    <td><span class="action-link">Edit</span></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:500;color:#f1f5f9;">Conveyor Belt C2</td>
+                    <td style="color:#64748b;">CB-2024-009</td>
+                    <td><span class="badge badge-gray">In Storage</span></td>
+                    <td>2 months ago</td>
+                    <td><span class="action-link">Edit</span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

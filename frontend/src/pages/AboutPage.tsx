@@ -5,10 +5,9 @@ import {Button} from "../components/ui/button";
 
 const AboutPage = (): React.JSX.Element => {
     return (
-        <div className="min-h-screen bg-[var(--background)] py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-3xl mx-auto">
-                <div
-                    className="bg-[var(--card)] shadow-xl rounded-2xl overflow-hidden border border-[var(--border)]">
+        <div className="min-h-screen bg-[var(--background)] px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto">
+                <div>
                     <div className="p-8 md:p-12">
                         <div className="flex items-center gap-4 mb-8">
                             <div
