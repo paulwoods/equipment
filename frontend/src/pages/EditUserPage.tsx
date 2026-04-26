@@ -11,7 +11,7 @@ const EditUserPage = (): React.JSX.Element => {
     const {id} = useParams() as { id: string };
     const navigate = useNavigate();
     const {role: callerRole, userId} = useAuth();
-    const isSelfEdit = userId !== null && userId !== undefined && String(userId) === String(id);
+    const isSelfEdit = userId !== null && userId === id;
     const roleOptions = assignableRoles(callerRole);
 
     const [user, setUser] = useState<User | null>(null);

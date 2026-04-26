@@ -15,7 +15,7 @@ vi.mock('next-themes', () => ({
 const renderSidebar = (username = 'alice@example.com', initialPath = '/dashboard') => {
   render(
     <MemoryRouter initialEntries={[initialPath]}>
-      <AuthContext.Provider value={{username, role: 'ADMIN', setAuthenticated: vi.fn()}}>
+      <AuthContext.Provider value={{username, userId: 'user-1', role: 'ADMIN', setAuthenticated: vi.fn()}}>
         <Sidebar />
       </AuthContext.Provider>
     </MemoryRouter>
@@ -32,13 +32,13 @@ describe('Sidebar', () => {
     renderSidebar();
     expect(screen.getByRole('link', {name: /dashboard/i})).toBeInTheDocument();
     expect(screen.getByRole('link', {name: /equipment/i})).toBeInTheDocument();
-    expect(screen.getByRole('link', {name: /procedures/i})).toBeInTheDocument();
+    expect(screen.getByRole('link', {name: /calendar/i})).toBeInTheDocument();
   });
 
-  it('renders admin nav links', () => {
+  it('renders account and admin nav links', () => {
     renderSidebar();
+    expect(screen.getByRole('link', {name: /my profile/i})).toBeInTheDocument();
     expect(screen.getByRole('link', {name: /users/i})).toBeInTheDocument();
-    expect(screen.getByRole('link', {name: /setup/i})).toBeInTheDocument();
   });
 
   it('renders the logged-in username', () => {
