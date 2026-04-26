@@ -29,3 +29,4 @@ yarn-error.log*
 
 /equipment.json
 /postgres_data/
+.worktrees/
