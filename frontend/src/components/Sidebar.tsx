@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link, useLocation} from 'react-router-dom';
-import {CircleQuestionMark, LayoutDashboard, LogOut, Monitor, PhoneCall, Users} from 'lucide-react';
+import {Calendar, CircleQuestionMark, LayoutDashboard, LogOut, Monitor, PhoneCall, Users} from 'lucide-react';
 import {useAuth} from '../hooks';
 import {logout} from '../api/client';
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,} from './ui/dropdown-menu';
@@ -14,6 +14,7 @@ interface NavItem {
 
 const mainNav: NavItem[] = [
   {label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard},
+  {label: 'Calendar', href: '/calendar', icon: Calendar},
   {label: 'Equipment', href: '/equipment', icon: Monitor},
 ];
 

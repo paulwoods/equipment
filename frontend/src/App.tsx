@@ -7,6 +7,7 @@ import type {UserRole} from './types/user';
 
 import {
     AboutPage,
+    CalendarPage,
     ContactPage,
     DashboardPage,
     EditEquipmentPage,
@@ -104,6 +105,7 @@ const App = (): React.JSX.Element => {
                         <Route element={<AppLayout/>}>
                             <Route path="/" element={<HomePage/>}/>
                             <Route path="/dashboard" element={<ProtectedRoute email={email}><DashboardPage/></ProtectedRoute>}/>
+                            <Route path="/calendar" element={<ProtectedRoute email={email}><CalendarPage/></ProtectedRoute>}/>
                             <Route path="/equipment" element={<ProtectedRoute email={email}><EquipmentPage/></ProtectedRoute>}/>
                             <Route path="/equipment/new" element={<ProtectedRoute email={email}><NewEquipmentPage/></ProtectedRoute>}/>
                             <Route path="/equipment/import" element={<ProtectedRoute email={email}><ImportEquipmentPage/></ProtectedRoute>}/>

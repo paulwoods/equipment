@@ -127,16 +127,6 @@ describe('DashboardPage', () => {
         expect(window.alert).toHaveBeenCalledWith(expect.stringMatching(/Failed/i));
     });
 
-    it('switches to Calendar View tab', async () => {
-        mockGetDashboard.mockResolvedValue(items);
-        await act(async () => {
-            renderPage();
-        });
-
-        await userEvent.click(screen.getByRole('button', {name: /Calendar View/i}));
-        expect(screen.getAllByText('Calendar View').length).toBeGreaterThan(1);
-    });
-
     it('deletes a procedure after confirmation', async () => {
         mockGetDashboard.mockResolvedValue(items);
         mockDeleteProcedure.mockResolvedValue(undefined);

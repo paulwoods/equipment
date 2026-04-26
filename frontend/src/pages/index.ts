@@ -2,6 +2,7 @@ export {HomePage} from './HomePage';
 export {LoginPage} from './LoginPage';
 export {SetupPage} from './SetupPage';
 export {DashboardPage} from './DashboardPage';
+export {CalendarPage} from './CalendarPage';
 export {EquipmentPage} from './EquipmentPage';
 export {NewEquipmentPage} from './NewEquipmentPage';
 export {EquipmentShowPage} from './EquipmentShowPage';
