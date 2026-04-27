@@ -40,7 +40,12 @@ const linksNav: NavItem[] = [
   {label: 'Contact', href: '/contact', icon: PhoneCall},
 ];
 
-const NavLink = ({item}: {item: NavItem}): React.JSX.Element => {
+interface NavLinkProps {
+  item: NavItem;
+  onNavigate?: () => void;
+}
+
+const NavLink = ({item, onNavigate}: NavLinkProps): React.JSX.Element => {
   const {pathname} = useLocation();
   const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
   const Icon = item.icon;
@@ -48,6 +53,7 @@ const NavLink = ({item}: {item: NavItem}): React.JSX.Element => {
   return (
     <Link
       to={item.href}
+      onClick={onNavigate}
       className={[
         'flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors border-l-2',
         isActive
@@ -61,10 +67,15 @@ const NavLink = ({item}: {item: NavItem}): React.JSX.Element => {
   );
 };
 
-export const Sidebar = (): React.JSX.Element => {
+interface SidebarProps {
+  onNavigate?: () => void;
+}
+
+export const Sidebar = ({onNavigate}: SidebarProps): React.JSX.Element => {
   const {username, setAuthenticated} = useAuth();
 
   const handleLogout = async (): Promise<void> => {
+    onNavigate?.();
     try {
       await logout();
     } finally {
@@ -105,7 +116,7 @@ export const Sidebar = (): React.JSX.Element => {
           Main
         </p>
         {mainNav.map((item) => (
-          <NavLink key={item.href} item={item} />
+            <NavLink key={item.href} item={item} onNavigate={onNavigate}/>
         ))}
 
         <Separator className="my-3" />
@@ -114,7 +125,7 @@ export const Sidebar = (): React.JSX.Element => {
           Account
         </p>
         {profileNav.map((item) => (
-          <NavLink key={item.href} item={item} />
+            <NavLink key={item.href} item={item} onNavigate={onNavigate}/>
         ))}
 
         <Separator className="my-3" />
@@ -123,7 +134,7 @@ export const Sidebar = (): React.JSX.Element => {
           Admin
         </p>
         {adminNav.map((item) => (
-          <NavLink key={item.href} item={item} />
+            <NavLink key={item.href} item={item} onNavigate={onNavigate}/>
         ))}
 
         <Separator className="my-3"/>
@@ -133,7 +144,7 @@ export const Sidebar = (): React.JSX.Element => {
           Links
         </p>
         {linksNav.map((item) => (
-            <NavLink key={item.href} item={item}/>
+            <NavLink key={item.href} item={item} onNavigate={onNavigate}/>
         ))}
 
       </nav>
