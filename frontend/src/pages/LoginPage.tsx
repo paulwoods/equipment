@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {login} from '../api/client';
 import {Lock, User} from 'lucide-react';
 import {useAuth} from '../hooks';
-import {useNavigate, useSearchParams} from 'react-router-dom';
+import {Link, useNavigate, useSearchParams} from 'react-router-dom';
 import {Button} from '../components/ui/button';
 import {Input} from '../components/ui/input';
 import {Label} from '../components/ui/label';
@@ -90,6 +90,12 @@ const LoginPage = (): React.JSX.Element => {
                 />
               </div>
             </div>
+          </div>
+
+          <div className="flex justify-end">
+            <Link to="/forgot-password" className="text-sm text-primary hover:underline">
+              Forgot password?
+            </Link>
           </div>
 
           <Button type="submit" className="w-full" disabled={loading}>

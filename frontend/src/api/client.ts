@@ -27,6 +27,30 @@ export const logout = async (): Promise<void> => {
     await apiClient.post('/api/v1/auth/logout');
 };
 
+export const forgotPassword = async (email: string): Promise<{ ok: boolean; status: number }> => {
+    try {
+        await apiClient.post('/api/v1/auth/forgot-password', {email});
+        return {ok: true, status: 200};
+    } catch (error: unknown) {
+        if (axios.isAxiosError(error) && error.response) {
+            return {ok: false, status: error.response.status};
+        }
+        return {ok: false, status: 500};
+    }
+};
+
+export const resetPassword = async (token: string, newPassword: string): Promise<{ ok: boolean; status: number }> => {
+    try {
+        await apiClient.post('/api/v1/auth/reset-password', {token, newPassword});
+        return {ok: true, status: 200};
+    } catch (error: unknown) {
+        if (axios.isAxiosError(error) && error.response) {
+            return {ok: false, status: error.response.status};
+        }
+        return {ok: false, status: 500};
+    }
+};
+
 export const getMe = async (): Promise<{ id: string; email: string; role: string } | null> => {
     const {data} = await apiClient.get<{ id: string; email: string; role: string }>('/api/v1/auth/me');
     return data ?? null;

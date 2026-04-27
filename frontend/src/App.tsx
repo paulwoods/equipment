@@ -15,6 +15,7 @@ import {
     EditUserPage,
     EquipmentPage,
     EquipmentShowPage,
+    ForgotPasswordPage,
     HomePage,
     ImportEquipmentPage,
     LoginPage,
@@ -22,10 +23,11 @@ import {
     NewProcedurePage,
     NewUserPage,
     PerformProcedurePage,
-    ProfilePage,
     ProcedureHistoryPage,
     ProcedureShowPage,
     ProceduresPage,
+    ProfilePage,
+    ResetPasswordPage,
     SetupPage,
     UsersPage
 } from './pages';
@@ -86,6 +88,8 @@ const App = (): React.JSX.Element => {
                                 ? <Navigate to="/setup" replace/>
                                 : <LoginPage/>
                         }/>
+                        <Route path="/forgot-password" element={<ForgotPasswordPage/>}/>
+                        <Route path="/reset-password" element={<ResetPasswordPage/>}/>
                         <Route path="/setup" element={
                             !setupRequired
                                 ? <Navigate to="/login" replace/>

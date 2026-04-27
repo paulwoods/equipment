@@ -1,5 +1,7 @@
 export {HomePage} from './HomePage';
 export {LoginPage} from './LoginPage';
+export {ForgotPasswordPage} from './ForgotPasswordPage';
+export {ResetPasswordPage} from './ResetPasswordPage';
 export {SetupPage} from './SetupPage';
 export {DashboardPage} from './DashboardPage';
 export {CalendarPage} from './CalendarPage';
