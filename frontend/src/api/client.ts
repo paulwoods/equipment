@@ -2,7 +2,7 @@ import axios from 'axios';
 import {apiClient} from '../lib/apiClient';
 import type {DashboardItem, Equipment, ImportResult} from '../types/equipment';
 import type {Perform, Procedure} from '../types/procedure';
-import type {User, UserCreatePayload, UserUpdatePayload} from '../types/user';
+import type {Role, User, UserCreatePayload, UserUpdatePayload} from '../types/user';
 
 // Version
 export const getVersion = async (): Promise<{ version: string }> => {
@@ -51,8 +51,8 @@ export const resetPassword = async (token: string, newPassword: string): Promise
     }
 };
 
-export const getMe = async (): Promise<{ id: string; email: string; role: string } | null> => {
-    const {data} = await apiClient.get<{ id: string; email: string; role: string }>('/api/v1/auth/me');
+export const getMe = async (): Promise<{ id: string; name: string; email: string; roles: Role[] } | null> => {
+    const {data} = await apiClient.get<{ id: string; name: string; email: string; roles: Role[] }>('/api/v1/auth/me');
     return data ?? null;
 };
 

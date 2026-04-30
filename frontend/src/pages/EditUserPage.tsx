@@ -7,17 +7,30 @@ import {getUser, updateUser} from "../api/client";
 import {useAuth} from "../hooks";
 import {Button} from "../components/ui/button";
 
+const roleBadgeClass = (role: UserRole): string => {
+    switch (role) {
+        case 'SYSTEM_ADMIN':
+            return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+        case 'ADMIN':
+            return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200';
+        case 'EDIT':
+            return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
+        default:
+            return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
+    }
+};
+
 const EditUserPage = (): React.JSX.Element => {
     const {id} = useParams() as { id: string };
     const navigate = useNavigate();
-    const {role: callerRole, userId} = useAuth();
+    const {roles: callerRoles, userId} = useAuth();
     const isSelfEdit = userId !== null && userId === id;
-    const roleOptions = assignableRoles(callerRole);
+    const roleOptions = assignableRoles(callerRoles);
 
     const [user, setUser] = useState<User | null>(null);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [role, setRole] = useState<UserRole>('USER');
+    const [selectedRoles, setSelectedRoles] = useState<UserRole[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [submitting, setSubmitting] = useState(false);
@@ -28,18 +41,24 @@ const EditUserPage = (): React.JSX.Element => {
                 setUser(data);
                 setName(data.name);
                 setEmail(data.email);
-                setRole(data.role);
+                setSelectedRoles(data.roles.map(r => r.name));
             })
             .catch(() => setUser(null))
             .finally(() => setLoading(false));
     }, [id]);
+
+    const toggleRole = (role: UserRole) => {
+        setSelectedRoles(prev =>
+            prev.includes(role) ? prev.filter(r => r !== role) : [...prev, role]
+        );
+    };
 
     const handleSubmit = async (e: React.FormEvent): Promise<void> => {
         e.preventDefault();
         setError(null);
         setSubmitting(true);
         try {
-            await updateUser(id, {name, email, role});
+            await updateUser(id, {name, email, roles: selectedRoles});
             navigate('/users');
         } catch (err) {
             if (axios.isAxiosError(err) && err.response?.data?.detail) {
@@ -123,32 +142,34 @@ const EditUserPage = (): React.JSX.Element => {
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-foreground mb-1">
-                                Role
+                            <label className="block text-sm font-medium text-foreground mb-2">
+                                Roles
                             </label>
                             {isSelfEdit ? (
-                                <span
-                                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                        role === 'SYSTEM_ADMIN'
-                                            ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                                            : role === 'ADMIN'
-                                                ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200'
-                                                : role === 'EDIT'
-                                                    ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                                                    : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
-                                    }`}>
-                                    {role}
-                                </span>
-                            ) : (
-                                <select
-                                    value={role}
-                                    onChange={(e) => setRole(e.target.value as UserRole)}
-                                    className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                                >
-                                    {roleOptions.map((r) => (
-                                        <option key={r} value={r}>{r}</option>
+                                <div className="flex flex-wrap gap-2">
+                                    {selectedRoles.map((r) => (
+                                        <span
+                                            key={r}
+                                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${roleBadgeClass(r)}`}
+                                        >
+                                            {r}
+                                        </span>
                                     ))}
-                                </select>
+                                </div>
+                            ) : (
+                                <div className="space-y-2">
+                                    {roleOptions.map((r) => (
+                                        <label key={r} className="flex items-center gap-2 cursor-pointer">
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedRoles.includes(r)}
+                                                onChange={() => toggleRole(r)}
+                                                className="rounded border-border"
+                                            />
+                                            <span className="text-sm text-foreground">{r}</span>
+                                        </label>
+                                    ))}
+                                </div>
                             )}
                         </div>
 

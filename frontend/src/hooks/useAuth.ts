@@ -2,16 +2,18 @@ import {createContext, useContext} from "react";
 import type {UserRole} from "../types/user";
 
 interface AuthContextValue {
+    email: string | null;
     username: string | null;
     userId: string | null;
-    role: UserRole | null;
+    roles: UserRole[];
     setAuthenticated: (authenticated: boolean) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextValue>({
+    email: null,
     username: null,
     userId: null,
-    role: null,
+    roles: [],
     setAuthenticated: async () => {
     },
 });

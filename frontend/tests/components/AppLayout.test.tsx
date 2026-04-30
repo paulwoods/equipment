@@ -1,6 +1,6 @@
 import {describe, expect, it, vi} from 'vitest';
 import {render, screen} from '@testing-library/react';
-import {MemoryRouter, Routes, Route} from 'react-router-dom';
+import {MemoryRouter, Route, Routes} from 'react-router-dom';
 import {AuthContext} from '../../src/hooks/useAuth';
 import {AppLayout} from '../../src/components/AppLayout';
 
@@ -18,7 +18,8 @@ describe('AppLayout', () => {
   it('renders sidebar and outlet content', () => {
     render(
       <MemoryRouter initialEntries={['/dashboard']}>
-        <AuthContext.Provider value={{username: 'alice@example.com', role: 'ADMIN', setAuthenticated: vi.fn()}}>
+          <AuthContext.Provider
+              value={{username: 'alice@example.com', userId: 'user-1', roles: ['ADMIN'], setAuthenticated: vi.fn()}}>
           <Routes>
             <Route element={<AppLayout />}>
               <Route path="/dashboard" element={<div>Dashboard content</div>} />

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
-import type {User} from "../types/user";
+import type {User, UserRole} from "../types/user";
 import {canManageUsers} from "../types/user";
 import {deleteUser, fetchUsers} from "../api/client";
 import {useAuth} from "../hooks";
@@ -9,9 +9,22 @@ import {Alert, AlertDescription} from "../components/ui/alert";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "../components/ui/table";
 import {TableSkeleton} from "../components";
 
+const roleBadgeClass = (role: UserRole): string => {
+    switch (role) {
+        case 'SYSTEM_ADMIN':
+            return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+        case 'ADMIN':
+            return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200';
+        case 'EDIT':
+            return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
+        default:
+            return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
+    }
+};
+
 const UsersPage = (): React.JSX.Element => {
-    const {role, userId} = useAuth();
-    const isAdmin = canManageUsers(role);
+    const {roles, userId} = useAuth();
+    const isAdmin = canManageUsers(roles);
 
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
@@ -63,7 +76,7 @@ const UsersPage = (): React.JSX.Element => {
                                 <TableRow>
                                     <TableHead>Name</TableHead>
                                     <TableHead>Email</TableHead>
-                                    <TableHead>Role</TableHead>
+                                    <TableHead>Roles</TableHead>
                                     {isAdmin && <TableHead className="text-right">Actions</TableHead>}
                                 </TableRow>
                             </TableHeader>
@@ -77,18 +90,16 @@ const UsersPage = (): React.JSX.Element => {
                                             {user.email}
                                         </TableCell>
                                         <TableCell>
-                                            <span
-                                                className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                                    user.role === 'SYSTEM_ADMIN'
-                                                        ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                                                        : user.role === 'ADMIN'
-                                                            ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200'
-                                                            : user.role === 'EDIT'
-                                                                ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                                                                : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
-                                                }`}>
-                                                {user.role}
-                                            </span>
+                                            <div className="flex flex-wrap gap-1">
+                                                {user.roles.map((role) => (
+                                                    <span
+                                                        key={role.id}
+                                                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${roleBadgeClass(role.name)}`}
+                                                    >
+                                                        {role.name}
+                                                    </span>
+                                                ))}
+                                            </div>
                                         </TableCell>
                                         {isAdmin && (
                                             <TableCell className="text-right">

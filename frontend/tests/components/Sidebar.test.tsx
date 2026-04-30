@@ -15,7 +15,7 @@ vi.mock('next-themes', () => ({
 const renderSidebar = (username = 'alice@example.com', initialPath = '/dashboard') => {
   render(
     <MemoryRouter initialEntries={[initialPath]}>
-      <AuthContext.Provider value={{username, userId: 'user-1', role: 'ADMIN', setAuthenticated: vi.fn()}}>
+        <AuthContext.Provider value={{username, userId: 'user-1', roles: ['ADMIN'], setAuthenticated: vi.fn()}}>
         <Sidebar />
       </AuthContext.Provider>
     </MemoryRouter>

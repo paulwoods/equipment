@@ -3,7 +3,7 @@ import {BrowserRouter, Navigate, Route, Routes, useLocation} from 'react-router-
 import {AppLayout, ThemeProvider} from './components';
 import {AuthContext} from './hooks';
 import {getMe, getSetupStatus} from './api/client';
-import type {UserRole} from './types/user';
+import type {Role, UserRole} from './types/user';
 
 import {
     AboutPage,
@@ -41,21 +41,30 @@ const ProtectedRoute = ({email, children}: { email: string | null; children: Rea
     return <>{children}</>;
 };
 
-const parseRole = (raw: string | undefined): UserRole | null =>
-    raw ? (raw.replace(/^ROLE_/, '') as UserRole) : null;
+const extractRoles = (rawRoles: Array<{ name: string }> | undefined): UserRole[] => {
+    if (!rawRoles) return [];
+    return rawRoles.map(r => r.name as UserRole);
+};
 
 const App = (): React.JSX.Element => {
-    const [email, setEmail] = useState<string | null>(null);
     const [userId, setUserId] = useState<string | null>(null);
-    const [role, setRole] = useState<UserRole | null>(null);
+    const [email, setEmail] = useState<string | null>(null);
+    const [username, setUsername] = useState<string | null>(null);
+    const [roles, setRoles] = useState<UserRole[]>([]);
     const [authChecked, setAuthChecked] = useState(false);
     const [setupRequired, setSetupRequired] = useState(false);
 
-    const applyAuthData = (data: { id: string; email: string; role: string } | null): void => {
-        setEmail(data?.email ?? null);
+    const applyAuthData = (data: { id: string; name: string; email: string; roles: Role[] } | null): void => {
         setUserId(data?.id ?? null);
-        setRole(parseRole(data?.role));
+        setEmail(data?.email ?? null);
+        setUsername(data?.name ?? null);
+        setRoles(extractRoles(data?.roles));
     };
+
+    console.log('userId', userId);
+    console.log('email', email);
+    console.log('username', username);
+    console.log('roles', roles);
 
     useEffect(() => {
         Promise.all([
@@ -80,7 +89,7 @@ const App = (): React.JSX.Element => {
 
     return (
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <AuthContext.Provider value={{username: email, userId, role, setAuthenticated}}>
+            <AuthContext.Provider value={{username, email, userId, roles, setAuthenticated}}>
                 <BrowserRouter>
                     <Routes>
                         <Route path="/login" element={
@@ -98,7 +107,7 @@ const App = (): React.JSX.Element => {
                                     : <SetupPage onSetupComplete={(e) => {
                                         setSetupRequired(false);
                                         setEmail(e);
-                                        setRole('ADMIN');
+                                        setRoles(['SYSTEM_ADMIN']);
                                     }}/>
                         }/>
                         <Route element={<AppLayout/>}>

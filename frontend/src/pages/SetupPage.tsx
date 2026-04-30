@@ -45,7 +45,16 @@ const SetupPage = ({onSetupComplete}: SetupPageProps): React.JSX.Element => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center px-4 bg-background">
+        <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-background">
+            <div className="max-w-md w-full mb-8 text-center">
+                <h1 className="text-4xl font-extrabold text-foreground mb-4">
+                    First User Setup
+                </h1>
+                <p className="text-lg text-muted-foreground">
+                    This is the first user for the system. You are creating the system administrator account.
+                </p>
+            </div>
+
             <div
                 className="max-w-md w-full space-y-8 p-8 rounded-xl border border-border shadow-lg bg-card"
             >

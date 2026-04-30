@@ -90,7 +90,7 @@ export const Sidebar = ({onNavigate}: SidebarProps): React.JSX.Element => {
 
   return (
     <aside
-      className="flex flex-col w-56 flex-shrink-0 border-r"
+        className="flex flex-col w-56 flex-shrink-0 border-r h-full"
       style={{
         background: 'var(--sidebar-background)',
         borderColor: 'var(--border)',

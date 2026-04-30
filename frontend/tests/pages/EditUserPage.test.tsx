@@ -19,12 +19,13 @@ const adminUser: User = {
     id: 'user-99',
     name: 'Admin User',
     email: 'admin@example.com',
-    role: 'ADMIN',
+    roles: [{id: 'role-1', name: 'ADMIN'}],
 };
 
 const renderPage = (userId: string | null = 'other-user') =>
     render(
-        <AuthContext.Provider value={{username: 'admin@example.com', userId, role: 'ADMIN', setAuthenticated: vi.fn()}}>
+        <AuthContext.Provider
+            value={{username: 'admin@example.com', userId, roles: ['ADMIN'], setAuthenticated: vi.fn()}}>
             <MemoryRouter initialEntries={['/users/user-99/edit']}>
                 <Routes>
                     <Route path="/users/:id/edit" element={<EditUserPage/>}/>
@@ -61,20 +62,20 @@ describe('EditUserPage', () => {
         expect(screen.getByDisplayValue('admin@example.com')).toBeInTheDocument();
     });
 
-    it('shows role select when editing a different user', async () => {
+    it('shows role checkboxes when editing a different user', async () => {
         mockGetUser.mockResolvedValue(adminUser);
         await act(async () => {
             renderPage('other-user');
         });
-        expect(screen.getByRole('combobox')).toBeInTheDocument();
+        expect(screen.getByRole('checkbox', {name: /ADMIN/i})).toBeInTheDocument();
     });
 
-    it('shows read-only role badge instead of select when self-editing', async () => {
+    it('shows read-only role badge instead of checkboxes when self-editing', async () => {
         mockGetUser.mockResolvedValue(adminUser);
         await act(async () => {
             renderPage('user-99');
         });
-        expect(screen.queryByRole('combobox')).not.toBeInTheDocument();
+        expect(screen.queryByRole('checkbox', {name: /ADMIN/i})).not.toBeInTheDocument();
         expect(screen.getByText('ADMIN')).toBeInTheDocument();
     });
 
