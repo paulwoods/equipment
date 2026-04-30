@@ -63,7 +63,7 @@ const EditUserPage = (): React.JSX.Element => {
         setSubmitting(true);
         try {
             const rolesToSubmit = isSelfEdit && callerIsSystemAdmin
-                ? [...new Set([...selectedRoles, 'SYSTEM_ADMIN'])]
+                ? [...new Set([...selectedRoles, 'SYSTEM_ADMIN'])] as UserRole[]
                 : selectedRoles;
             await updateUser(id, {name, email, roles: rolesToSubmit});
             if (isSelfEdit) {
