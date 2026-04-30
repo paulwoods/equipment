@@ -61,11 +61,6 @@ const App = (): React.JSX.Element => {
         setRoles(extractRoles(data?.roles));
     };
 
-    console.log('userId', userId);
-    console.log('email', email);
-    console.log('username', username);
-    console.log('roles', roles);
-
     useEffect(() => {
         Promise.all([
             getMe().then(applyAuthData).catch(() => applyAuthData(null)),

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import type {User, UserRole} from "../types/user";
-import {assignableRoles} from "../types/user";
+import {assignableRoles, isSystemAdmin} from "../types/user";
 import {getUser, updateUser} from "../api/client";
 import {useAuth} from "../hooks";
 import {Button} from "../components/ui/button";
@@ -23,8 +23,9 @@ const roleBadgeClass = (role: UserRole): string => {
 const EditUserPage = (): React.JSX.Element => {
     const {id} = useParams() as { id: string };
     const navigate = useNavigate();
-    const {roles: callerRoles, userId} = useAuth();
+    const {roles: callerRoles, userId, setAuthenticated} = useAuth();
     const isSelfEdit = userId !== null && userId === id;
+    const callerIsSystemAdmin = isSystemAdmin(callerRoles);
     const roleOptions = assignableRoles(callerRoles);
 
     const [user, setUser] = useState<User | null>(null);
@@ -48,6 +49,9 @@ const EditUserPage = (): React.JSX.Element => {
     }, [id]);
 
     const toggleRole = (role: UserRole) => {
+        if (isSelfEdit && role === 'SYSTEM_ADMIN') {
+            return;
+        }
         setSelectedRoles(prev =>
             prev.includes(role) ? prev.filter(r => r !== role) : [...prev, role]
         );
@@ -58,7 +62,13 @@ const EditUserPage = (): React.JSX.Element => {
         setError(null);
         setSubmitting(true);
         try {
-            await updateUser(id, {name, email, roles: selectedRoles});
+            const rolesToSubmit = isSelfEdit && callerIsSystemAdmin
+                ? [...new Set([...selectedRoles, 'SYSTEM_ADMIN'])]
+                : selectedRoles;
+            await updateUser(id, {name, email, roles: rolesToSubmit});
+            if (isSelfEdit) {
+                await setAuthenticated(true);
+            }
             navigate('/users');
         } catch (err) {
             if (axios.isAxiosError(err) && err.response?.data?.detail) {
@@ -145,7 +155,7 @@ const EditUserPage = (): React.JSX.Element => {
                             <label className="block text-sm font-medium text-foreground mb-2">
                                 Roles
                             </label>
-                            {isSelfEdit ? (
+                            {isSelfEdit && !callerIsSystemAdmin ? (
                                 <div className="flex flex-wrap gap-2">
                                     {selectedRoles.map((r) => (
                                         <span
@@ -158,17 +168,29 @@ const EditUserPage = (): React.JSX.Element => {
                                 </div>
                             ) : (
                                 <div className="space-y-2">
-                                    {roleOptions.map((r) => (
-                                        <label key={r} className="flex items-center gap-2 cursor-pointer">
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedRoles.includes(r)}
-                                                onChange={() => toggleRole(r)}
-                                                className="rounded border-border"
-                                            />
-                                            <span className="text-sm text-foreground">{r}</span>
-                                        </label>
-                                    ))}
+                                    {roleOptions.map((r) => {
+                                        const isOwnSystemAdmin = isSelfEdit && r === 'SYSTEM_ADMIN';
+                                        return (
+                                            <label
+                                                key={r}
+                                                className={`flex items-center gap-2 ${isOwnSystemAdmin ? '' : 'cursor-pointer'}`}
+                                            >
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectedRoles.includes(r)}
+                                                    onChange={() => toggleRole(r)}
+                                                    disabled={isOwnSystemAdmin}
+                                                    className="rounded border-border"
+                                                />
+                                                <span className="text-sm text-foreground">{r}</span>
+                                                {isOwnSystemAdmin && (
+                                                    <span className="text-xs text-muted-foreground">
+                                                        You cannot remove your own SYSTEM_ADMIN role
+                                                    </span>
+                                                )}
+                                            </label>
+                                        );
+                                    })}
                                 </div>
                             )}
                         </div>

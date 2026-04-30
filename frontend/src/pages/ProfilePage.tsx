@@ -4,9 +4,23 @@ import {changePassword, getUser, updateMe} from "../api/client";
 import {useAuth} from "../hooks";
 import {Button} from "../components/ui/button";
 import {Alert, AlertDescription} from "../components/ui/alert";
+import type {UserRole} from "../types/user";
+
+const roleBadgeClass = (role: UserRole): string => {
+    switch (role) {
+        case 'SYSTEM_ADMIN':
+            return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+        case 'ADMIN':
+            return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200';
+        case 'EDIT':
+            return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
+        default:
+            return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
+    }
+};
 
 const ProfilePage = (): React.JSX.Element => {
-    const {userId, setAuthenticated} = useAuth();
+    const {userId, setAuthenticated, roles} = useAuth();
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -146,6 +160,22 @@ const ProfilePage = (): React.JSX.Element => {
                                 required
                                 className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                             />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-foreground mb-2">
+                                Roles
+                            </label>
+                            <div className="flex flex-wrap gap-2">
+                                {roles.map((r) => (
+                                    <span
+                                        key={r}
+                                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${roleBadgeClass(r)}`}
+                                    >
+                                        {r}
+                                    </span>
+                                ))}
+                            </div>
                         </div>
 
                         <Button type="submit" disabled={profileSubmitting}>
