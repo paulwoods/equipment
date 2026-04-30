@@ -42,7 +42,11 @@ export const Breadcrumbs = (): React.JSX.Element | null => {
 
     const pathSegments = pathname.split("/").filter((segment) => segment !== "");
 
-    const breadcrumbs: BreadcrumbItem[] = pathSegments.map((segment, index) => {
+    const breadcrumbs: BreadcrumbItem[] = pathSegments.reduce<BreadcrumbItem[]>((acc, segment, index) => {
+        if (params.id === segment && pathSegments[index - 1] !== 'equipment') {
+            return acc;
+        }
+
         const href = `/${pathSegments.slice(0, index + 1).join("/")}`;
 
         let label = segment.charAt(0).toUpperCase() + segment.slice(1);
@@ -55,7 +59,7 @@ export const Breadcrumbs = (): React.JSX.Element | null => {
         if (segment === "history") label = "History";
         if (segment === "dashboard") label = "Dashboard";
 
-        if (params.id === segment) {
+        if (params.id === segment && pathSegments[index - 1] === 'equipment') {
             const equipment = equipmentList.find(e => e.id === segment);
             label = equipment ? equipment.modelNumber : "Equipment Details";
         }
@@ -64,8 +68,9 @@ export const Breadcrumbs = (): React.JSX.Element | null => {
             label = procedure ? procedure.name : "Procedure Details";
         }
 
-        return {label, href};
-    });
+        acc.push({label, href});
+        return acc;
+    }, []);
 
     return (
         <nav className="flex" aria-label="Breadcrumb">

@@ -19,8 +19,12 @@ const roleBadgeClass = (role: UserRole): string => {
     }
 };
 
+type Tab = 'details' | 'roles' | 'password';
+
 const ProfilePage = (): React.JSX.Element => {
     const {userId, setAuthenticated, roles} = useAuth();
+
+    const [activeTab, setActiveTab] = useState<Tab>('details');
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -95,6 +99,12 @@ const ProfilePage = (): React.JSX.Element => {
         }
     };
 
+    const tabs: { key: Tab; label: string }[] = [
+        {key: 'details', label: 'Details'},
+        {key: 'roles', label: 'Roles'},
+        {key: 'password', label: 'Password'},
+    ];
+
     if (profileLoading) {
         return (
             <div className="min-h-screen bg-background flex items-center justify-center">
@@ -120,129 +130,152 @@ const ProfilePage = (): React.JSX.Element => {
             <div className="mx-auto space-y-8">
                 <h1 className="text-2xl font-bold text-foreground pt-2">My Profile</h1>
 
-                {/* Profile Details */}
-                <div className="bg-card shadow rounded-lg p-6">
-                    <h2 className="text-lg font-semibold text-foreground mb-4">Profile Details</h2>
-
-                    {profileError && (
-                        <Alert variant="destructive" className="mb-4">
-                            <AlertDescription>{profileError}</AlertDescription>
-                        </Alert>
-                    )}
-                    {profileSuccess && (
-                        <Alert className="mb-4">
-                            <AlertDescription>{profileSuccess}</AlertDescription>
-                        </Alert>
-                    )}
-
-                    <form onSubmit={handleProfileSubmit} className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium text-foreground mb-1">
-                                Name
-                            </label>
-                            <input
-                                type="text"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                required
-                                className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-foreground mb-1">
-                                Email
-                            </label>
-                            <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                                className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-foreground mb-2">
-                                Roles
-                            </label>
-                            <div className="flex flex-wrap gap-2">
-                                {roles.map((r) => (
-                                    <span
-                                        key={r}
-                                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${roleBadgeClass(r)}`}
+                <div className="bg-card shadow rounded-lg">
+                    {/* Tab Bar */}
+                    <div className="border-b border-border px-6 pt-4">
+                        <nav className="flex gap-6" aria-label="Profile tabs">
+                            {tabs.map((tab) => {
+                                const isActive = activeTab === tab.key;
+                                return (
+                                    <button
+                                        key={tab.key}
+                                        onClick={() => setActiveTab(tab.key)}
+                                        className={`pb-3 text-sm font-medium transition-colors ${
+                                            isActive
+                                                ? 'text-foreground border-b-2 border-primary'
+                                                : 'text-muted-foreground hover:text-foreground'
+                                        }`}
                                     >
-                                        {r}
-                                    </span>
-                                ))}
+                                        {tab.label}
+                                    </button>
+                                );
+                            })}
+                        </nav>
+                    </div>
+
+                    <div className="p-6">
+                        {/* Details Tab */}
+                        {activeTab === 'details' && (
+                            <form onSubmit={handleProfileSubmit} className="space-y-4">
+                                {profileError && (
+                                    <Alert variant="destructive">
+                                        <AlertDescription>{profileError}</AlertDescription>
+                                    </Alert>
+                                )}
+                                {profileSuccess && (
+                                    <Alert>
+                                        <AlertDescription>{profileSuccess}</AlertDescription>
+                                    </Alert>
+                                )}
+
+                                <div>
+                                    <label className="block text-sm font-medium text-foreground mb-1">
+                                        Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                        required
+                                        className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-foreground mb-1">
+                                        Email
+                                    </label>
+                                    <input
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
+                                        className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                                    />
+                                </div>
+
+                                <Button type="submit" disabled={profileSubmitting}>
+                                    {profileSubmitting ? 'Saving...' : 'Save Changes'}
+                                </Button>
+                            </form>
+                        )}
+
+                        {/* Roles Tab */}
+                        {activeTab === 'roles' && (
+                            <div>
+                                <h2 className="text-lg font-semibold text-foreground mb-4">Your Roles</h2>
+                                <div className="flex flex-wrap gap-2">
+                                    {roles.map((r) => (
+                                        <span
+                                            key={r}
+                                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${roleBadgeClass(r)}`}
+                                        >
+                                            {r}
+                                        </span>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
+                        )}
 
-                        <Button type="submit" disabled={profileSubmitting}>
-                            {profileSubmitting ? 'Saving...' : 'Save Changes'}
-                        </Button>
-                    </form>
-                </div>
+                        {/* Password Tab */}
+                        {activeTab === 'password' && (
+                            <form onSubmit={handlePasswordSubmit} className="space-y-4">
+                                {passwordError && (
+                                    <Alert variant="destructive">
+                                        <AlertDescription>{passwordError}</AlertDescription>
+                                    </Alert>
+                                )}
+                                {passwordSuccess && (
+                                    <Alert>
+                                        <AlertDescription>{passwordSuccess}</AlertDescription>
+                                    </Alert>
+                                )}
 
-                {/* Change Password */}
-                <div className="bg-card shadow rounded-lg p-6">
-                    <h2 className="text-lg font-semibold text-foreground mb-4">Change Password</h2>
+                                <div>
+                                    <label className="block text-sm font-medium text-foreground mb-1">
+                                        Current Password
+                                    </label>
+                                    <input
+                                        type="password"
+                                        value={currentPassword}
+                                        onChange={(e) => setCurrentPassword(e.target.value)}
+                                        required
+                                        className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                                    />
+                                </div>
 
-                    {passwordError && (
-                        <Alert variant="destructive" className="mb-4">
-                            <AlertDescription>{passwordError}</AlertDescription>
-                        </Alert>
-                    )}
-                    {passwordSuccess && (
-                        <Alert className="mb-4">
-                            <AlertDescription>{passwordSuccess}</AlertDescription>
-                        </Alert>
-                    )}
+                                <div>
+                                    <label className="block text-sm font-medium text-foreground mb-1">
+                                        New Password
+                                    </label>
+                                    <input
+                                        type="password"
+                                        value={newPassword}
+                                        onChange={(e) => setNewPassword(e.target.value)}
+                                        required
+                                        className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                                    />
+                                </div>
 
-                    <form onSubmit={handlePasswordSubmit} className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium text-foreground mb-1">
-                                Current Password
-                            </label>
-                            <input
-                                type="password"
-                                value={currentPassword}
-                                onChange={(e) => setCurrentPassword(e.target.value)}
-                                required
-                                className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                            />
-                        </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-foreground mb-1">
+                                        Confirm New Password
+                                    </label>
+                                    <input
+                                        type="password"
+                                        value={confirmPassword}
+                                        onChange={(e) => setConfirmPassword(e.target.value)}
+                                        required
+                                        className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                                    />
+                                </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-foreground mb-1">
-                                New Password
-                            </label>
-                            <input
-                                type="password"
-                                value={newPassword}
-                                onChange={(e) => setNewPassword(e.target.value)}
-                                required
-                                className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-foreground mb-1">
-                                Confirm New Password
-                            </label>
-                            <input
-                                type="password"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                required
-                                className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                            />
-                        </div>
-
-                        <Button type="submit" disabled={passwordSubmitting}>
-                            {passwordSubmitting ? 'Changing...' : 'Change Password'}
-                        </Button>
-                    </form>
+                                <Button type="submit" disabled={passwordSubmitting}>
+                                    {passwordSubmitting ? 'Changing...' : 'Change Password'}
+                                </Button>
+                            </form>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

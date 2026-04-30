@@ -35,6 +35,7 @@ const EditUserPage = (): React.JSX.Element => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [submitting, setSubmitting] = useState(false);
+    const [activeTab, setActiveTab] = useState<'details' | 'roles'>('details');
 
     useEffect(() => {
         getUser(id)
@@ -124,76 +125,103 @@ const EditUserPage = (): React.JSX.Element => {
                         </div>
                     )}
 
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium text-foreground mb-1">
-                                Name
-                            </label>
-                            <input
-                                type="text"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                required
-                                className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-foreground mb-1">
-                                Email
-                            </label>
-                            <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                                className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-foreground mb-2">
+                    <div className="border-b border-border mb-6">
+                        <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+                            <button
+                                type="button"
+                                onClick={() => setActiveTab('details')}
+                                className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'details' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border'}`}
+                                aria-current={activeTab === 'details' ? 'page' : undefined}
+                            >
+                                Details
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => setActiveTab('roles')}
+                                className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'roles' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border'}`}
+                                aria-current={activeTab === 'roles' ? 'page' : undefined}
+                            >
                                 Roles
-                            </label>
-                            {isSelfEdit && !callerIsSystemAdmin ? (
-                                <div className="flex flex-wrap gap-2">
-                                    {selectedRoles.map((r) => (
-                                        <span
-                                            key={r}
-                                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${roleBadgeClass(r)}`}
-                                        >
-                                            {r}
-                                        </span>
-                                    ))}
+                            </button>
+                        </nav>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        {activeTab === 'details' && (
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-foreground mb-1">
+                                        Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                        required
+                                        className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                                    />
                                 </div>
-                            ) : (
-                                <div className="space-y-2">
-                                    {roleOptions.map((r) => {
-                                        const isOwnSystemAdmin = isSelfEdit && r === 'SYSTEM_ADMIN';
-                                        return (
-                                            <label
+
+                                <div>
+                                    <label className="block text-sm font-medium text-foreground mb-1">
+                                        Email
+                                    </label>
+                                    <input
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
+                                        className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                                    />
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'roles' && (
+                            <div>
+                                <label className="block text-sm font-medium text-foreground mb-2">
+                                    Roles
+                                </label>
+                                {isSelfEdit && !callerIsSystemAdmin ? (
+                                    <div className="flex flex-wrap gap-2">
+                                        {selectedRoles.map((r) => (
+                                            <span
                                                 key={r}
-                                                className={`flex items-center gap-2 ${isOwnSystemAdmin ? '' : 'cursor-pointer'}`}
+                                                className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${roleBadgeClass(r)}`}
                                             >
-                                                <input
-                                                    type="checkbox"
-                                                    checked={selectedRoles.includes(r)}
-                                                    onChange={() => toggleRole(r)}
-                                                    disabled={isOwnSystemAdmin}
-                                                    className="rounded border-border"
-                                                />
-                                                <span className="text-sm text-foreground">{r}</span>
-                                                {isOwnSystemAdmin && (
-                                                    <span className="text-xs text-muted-foreground">
-                                                        You cannot remove your own SYSTEM_ADMIN role
-                                                    </span>
-                                                )}
-                                            </label>
-                                        );
-                                    })}
-                                </div>
-                            )}
-                        </div>
+                                                {r}
+                                            </span>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="space-y-2">
+                                        {roleOptions.map((r) => {
+                                            const isOwnSystemAdmin = isSelfEdit && r === 'SYSTEM_ADMIN';
+                                            return (
+                                                <label
+                                                    key={r}
+                                                    className={`flex items-center gap-2 ${isOwnSystemAdmin ? '' : 'cursor-pointer'}`}
+                                                >
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={selectedRoles.includes(r)}
+                                                        onChange={() => toggleRole(r)}
+                                                        disabled={isOwnSystemAdmin}
+                                                        className="rounded border-border"
+                                                    />
+                                                    <span className="text-sm text-foreground">{r}</span>
+                                                    {isOwnSystemAdmin && (
+                                                        <span className="text-xs text-muted-foreground">
+                                                            You cannot remove your own SYSTEM_ADMIN role
+                                                        </span>
+                                                    )}
+                                                </label>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                            </div>
+                        )}
 
                         <div className="flex gap-3 pt-2">
                             <Button type="submit" disabled={submitting}>
