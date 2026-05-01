@@ -9,6 +9,8 @@ import {Alert, AlertDescription} from "../components/ui/alert";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "../components/ui/table";
 import {PageContainer, TableSkeleton} from "../components";
 
+const ROLE_ORDER = ["SYSTEM_ADMIN", "ADMIN", "EDIT", "USER"];
+
 const UsersPage = (): React.JSX.Element => {
     const {roles, userId} = useAuth();
     const isAdmin = canManageUsers(roles);
@@ -77,7 +79,10 @@ const UsersPage = (): React.JSX.Element => {
                                         </TableCell>
                                         <TableCell>
                                             <div className="flex flex-wrap gap-1">
-                                                {user.roles.map((role) => (
+                                                {user.roles
+                                                    .slice()
+                                                    .sort((a, b) => ROLE_ORDER.indexOf(a.name) - ROLE_ORDER.indexOf(b.name))
+                                                    .map((role) => (
                                                     <span
                                                         key={role.id}
                                                         className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${roleBadgeClass(role.name)}`}
