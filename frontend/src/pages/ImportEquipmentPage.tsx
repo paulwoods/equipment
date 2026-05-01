@@ -1,6 +1,6 @@
 import React, {type ChangeEvent, type FormEvent, useState} from "react";
-import {Link} from "react-router-dom";
 import {importEquipment} from "../api/client";
+import {BackLink} from "../components";
 import type {ImportResult} from "../types/equipment";
 import {Button} from "../components/ui/button";
 
@@ -48,12 +48,7 @@ const ImportEquipmentPage = (): React.JSX.Element => {
         <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
             <div className="mx-auto">
                 <div className="mb-6">
-                    <Link
-                        to="/equipment"
-                        className="text-primary hover:opacity-80 flex items-center gap-2 font-medium"
-                    >
-                        ← Back to Equipment List
-                    </Link>
+                    <BackLink to="/equipment">Back to Equipment List</BackLink>
                 </div>
 
                 <div

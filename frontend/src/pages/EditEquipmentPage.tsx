@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import type {Equipment} from "../types/equipment";
-import {EquipmentForm} from "../components";
+import {BackLink, EquipmentForm} from "../components";
 import {getEquipment, updateEquipment} from "../api/client";
 
 const EditEquipmentPage = (): React.JSX.Element => {
@@ -50,12 +50,7 @@ const EditEquipmentPage = (): React.JSX.Element => {
         <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
             <div className="mx-auto">
                 <div className="mb-6">
-                    <Link
-                        to="/equipment"
-                        className="text-primary hover:opacity-80 flex items-center gap-2 font-medium"
-                    >
-                        ← Back to Equipment List
-                    </Link>
+                    <BackLink to="/equipment">Back to Equipment List</BackLink>
                 </div>
 
                 <EquipmentForm

@@ -1,10 +1,10 @@
 import React, {useMemo, useState} from 'react';
 import type {Equipment, EquipmentStatus} from '../types/equipment';
 import {Link} from 'react-router-dom';
-import {ChevronDown, ChevronUp, Search, X} from 'lucide-react';
+import {SortIndicator} from './SortIndicator';
+import {SearchInput} from './SearchInput';
 import {Badge} from './ui/badge';
 import {Button} from './ui/button';
-import {Input} from './ui/input';
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from './ui/table';
 import {TableSkeleton} from './TableSkeleton';
 
@@ -23,17 +23,6 @@ const statusVariant: Record<EquipmentStatus, 'default' | 'secondary' | 'destruct
   'Under Repair': 'outline',
   'Decommissioned': 'destructive',
   'In Storage': 'secondary',
-};
-
-const SortIndicator = ({field, sortField, sortOrder}: {
-  field: SortField;
-  sortField: SortField;
-  sortOrder: SortOrder;
-}): React.JSX.Element => {
-  if (sortField !== field) return <div className="w-4 h-4 ml-1 inline-block"/>;
-  return sortOrder === 'asc'
-    ? <ChevronUp className="w-4 h-4 ml-1 inline-block"/>
-    : <ChevronDown className="w-4 h-4 ml-1 inline-block"/>;
 };
 
 export const EquipmentList = ({items, onDelete, loading = false}: EquipmentListProps): React.JSX.Element => {
@@ -75,21 +64,12 @@ export const EquipmentList = ({items, onDelete, loading = false}: EquipmentListP
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-grow">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"/>
-          <Input
-            type="text"
-            placeholder="Search equipment..."
-            className="pl-10 pr-10"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+          <SearchInput
+              value={searchTerm}
+              onChange={setSearchTerm}
+              placeholder="Search equipment..."
+              className="flex-grow"
           />
-          {searchTerm && (
-            <button aria-label="Clear search" className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer" onClick={() => setSearchTerm('')}>
-              <X className="h-4 w-4 text-muted-foreground"/>
-            </button>
-          )}
-        </div>
         <Button variant="secondary" asChild>
           <Link to="/equipment/import">Import</Link>
         </Button>

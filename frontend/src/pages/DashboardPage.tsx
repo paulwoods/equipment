@@ -2,7 +2,8 @@ import React, {useEffect, useMemo, useState} from "react";
 import {Link} from "react-router-dom";
 import type {DashboardItem} from "../types/equipment";
 import {deleteProcedure, getDashboard, sendDashboardEmail} from "../api/client";
-import {ChevronDown, ChevronUp, Mail, Search, X} from "lucide-react";
+import {Mail} from "lucide-react";
+import {SearchInput, SortIndicator} from "../components";
 import {Button} from "../components/ui/button";
 
 type SortField = 'equipmentName' | 'procedureName' | 'intervalDays' | 'daysTillDue';
@@ -148,27 +149,11 @@ const DashboardPage = (): React.JSX.Element => {
                     ) : (
                         <div className="space-y-4">
                             <div className="px-4 md:px-6 pt-4">
-                                <div className="relative">
-                                    <div
-                                        className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <Search className="h-4 w-4 text-muted-foreground"/>
-                                    </div>
-                                    <input
-                                        type="text"
-                                        placeholder="Search procedures..."
-                                        className="block w-full pl-10 pr-10 py-2 border border-border rounded-md leading-5 bg-card text-foreground placeholder-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm transition-colors"
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                    />
-                                    {searchTerm && (
-                                        <button
-                                            className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
-                                            onClick={() => setSearchTerm("")}
-                                        >
-                                            <X className="h-4 w-4 text-muted-foreground hover:text-foreground"/>
-                                        </button>
-                                    )}
-                                </div>
+                                <SearchInput
+                                    value={searchTerm}
+                                    onChange={setSearchTerm}
+                                    placeholder="Search procedures..."
+                                />
                             </div>
                             <DashboardList
                                 items={filteredAndSortedItems}
@@ -199,17 +184,6 @@ const DueStatus = ({item}: { item: DashboardItem }): React.JSX.Element => {
             <div className="text-xs opacity-75">({new Date(item.dueDate).toLocaleDateString()})</div>
         </div>
     );
-};
-
-const SortIndicator = ({field, sortField, sortOrder}: {
-    field: SortField;
-    sortField: SortField;
-    sortOrder: SortOrder;
-}): React.JSX.Element => {
-    if (sortField !== field) return <div className="w-4 h-4 ml-1 inline-block"/>;
-    return sortOrder === 'asc'
-        ? <ChevronUp className="w-4 h-4 ml-1 inline-block"/>
-        : <ChevronDown className="w-4 h-4 ml-1 inline-block"/>;
 };
 
 const DashboardList = ({items, onDelete, sortField, sortOrder, onSort}: {

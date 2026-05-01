@@ -2,23 +2,11 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import type {User, UserRole} from "../types/user";
-import {assignableRoles, isSystemAdmin} from "../types/user";
+import {assignableRoles, isSystemAdmin, roleBadgeClass} from "../types/user";
+import {BackLink} from "../components";
 import {getUser, updateUser} from "../api/client";
 import {useAuth} from "../hooks";
 import {Button} from "../components/ui/button";
-
-const roleBadgeClass = (role: UserRole): string => {
-    switch (role) {
-        case 'SYSTEM_ADMIN':
-            return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
-        case 'ADMIN':
-            return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200';
-        case 'EDIT':
-            return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
-        default:
-            return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
-    }
-};
 
 const EditUserPage = (): React.JSX.Element => {
     const {id} = useParams() as { id: string };
@@ -107,12 +95,7 @@ const EditUserPage = (): React.JSX.Element => {
         <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
             <div className="mx-auto">
                 <div className="mb-6">
-                    <Link
-                        to="/users"
-                        className="text-primary hover:opacity-80 flex items-center gap-2 font-medium"
-                    >
-                        ← Back to Users
-                    </Link>
+                    <BackLink to="/users">Back to Users</BackLink>
                 </div>
 
                 <div className="bg-card shadow rounded-lg p-6">

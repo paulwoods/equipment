@@ -1,26 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
-import type {User, UserRole} from "../types/user";
-import {canManageUsers} from "../types/user";
+import type {User} from "../types/user";
+import {canManageUsers, roleBadgeClass} from "../types/user";
 import {deleteUser, fetchUsers} from "../api/client";
 import {useAuth} from "../hooks";
 import {Button} from "../components/ui/button";
 import {Alert, AlertDescription} from "../components/ui/alert";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "../components/ui/table";
 import {TableSkeleton} from "../components";
-
-const roleBadgeClass = (role: UserRole): string => {
-    switch (role) {
-        case 'SYSTEM_ADMIN':
-            return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
-        case 'ADMIN':
-            return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200';
-        case 'EDIT':
-            return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
-        default:
-            return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
-    }
-};
 
 const UsersPage = (): React.JSX.Element => {
     const {roles, userId} = useAuth();

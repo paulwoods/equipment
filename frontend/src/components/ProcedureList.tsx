@@ -1,9 +1,9 @@
 import React, {useMemo, useState} from 'react';
 import type {Procedure} from '../types/procedure';
 import {Link} from 'react-router-dom';
-import {ChevronDown, ChevronUp, Search, X} from 'lucide-react';
+import {SortIndicator} from './SortIndicator';
+import {SearchInput} from './SearchInput';
 import {Button} from './ui/button';
-import {Input} from './ui/input';
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from './ui/table';
 import {TableSkeleton} from './TableSkeleton';
 
@@ -16,17 +16,6 @@ interface ProcedureListProps {
 
 type SortField = 'name' | 'description' | 'intervalDays';
 type SortOrder = 'asc' | 'desc';
-
-const SortIndicator = ({field, sortField, sortOrder}: {
-  field: SortField;
-  sortField: SortField;
-  sortOrder: SortOrder;
-}): React.JSX.Element => {
-  if (sortField !== field) return <div className="w-4 h-4 ml-1 inline-block"/>;
-  return sortOrder === 'asc'
-    ? <ChevronUp className="w-4 h-4 ml-1 inline-block"/>
-    : <ChevronDown className="w-4 h-4 ml-1 inline-block"/>;
-};
 
 export const ProcedureList = ({equipmentId, procedures, onDelete, loading = false}: ProcedureListProps): React.JSX.Element => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -70,21 +59,11 @@ export const ProcedureList = ({equipmentId, procedures, onDelete, loading = fals
 
   return (
     <div className="space-y-4">
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"/>
-        <Input
-          type="text"
-          placeholder="Search procedures..."
-          className="pl-10 pr-10"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+        <SearchInput
+            value={searchTerm}
+            onChange={setSearchTerm}
+            placeholder="Search procedures..."
         />
-        {searchTerm && (
-          <button aria-label="Clear search" className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer" onClick={() => setSearchTerm('')}>
-            <X className="h-4 w-4 text-muted-foreground"/>
-          </button>
-        )}
-      </div>
 
       {loading ? (
         <TableSkeleton rows={4} columns={4} />
