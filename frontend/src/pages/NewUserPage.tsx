@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import type {UserRole} from "../types/user";
 import {assignableRoles} from "../types/user";
-import {BackLink} from "../components";
+import {BackLink, PageContainer} from "../components";
 import {createUser} from "../api/client";
 import {useAuth} from "../hooks";
 import {Button} from "../components/ui/button";
@@ -41,8 +41,7 @@ const NewUserPage = (): React.JSX.Element => {
     };
 
     return (
-        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto">
+        <PageContainer>
                 <div className="mb-6">
                     <BackLink to="/users">Back to Users</BackLink>
                 </div>
@@ -123,8 +122,7 @@ const NewUserPage = (): React.JSX.Element => {
                         </div>
                     </form>
                 </div>
-            </div>
-        </div>
+        </PageContainer>
     );
 };
 

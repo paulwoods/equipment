@@ -1,6 +1,7 @@
 import React, {useMemo, useState} from 'react';
 import type {Procedure} from '../types/procedure';
 import {Link} from 'react-router-dom';
+import {useSort} from '../hooks';
 import {SortIndicator} from './SortIndicator';
 import {SearchInput} from './SearchInput';
 import {Button} from './ui/button';
@@ -15,12 +16,10 @@ interface ProcedureListProps {
 }
 
 type SortField = 'name' | 'description' | 'intervalDays';
-type SortOrder = 'asc' | 'desc';
 
 export const ProcedureList = ({equipmentId, procedures, onDelete, loading = false}: ProcedureListProps): React.JSX.Element => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortField, setSortField] = useState<SortField>('name');
-  const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
+    const {sortField, sortOrder, handleSort} = useSort<SortField>('name', 'asc');
 
   const filteredAndSortedProcedures = useMemo(() => {
     let result = [...procedures];
@@ -47,15 +46,6 @@ export const ProcedureList = ({equipmentId, procedures, onDelete, loading = fals
     });
     return result;
   }, [procedures, searchTerm, sortField, sortOrder]);
-
-  const handleSort = (field: SortField): void => {
-    if (sortField === field) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortField(field);
-      setSortOrder('asc');
-    }
-  };
 
   return (
     <div className="space-y-4">

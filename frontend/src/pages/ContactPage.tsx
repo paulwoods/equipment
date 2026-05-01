@@ -1,11 +1,11 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import {Mail, MapPin, Phone, Send} from "lucide-react";
+import {PageContainer} from "../components";
 
 const ContactPage = (): React.JSX.Element => {
     return (
-        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto">
+        <PageContainer>
                 <div
                     className="">
                     <div className="grid grid-cols-1 md:grid-cols-2">
@@ -116,8 +116,7 @@ const ContactPage = (): React.JSX.Element => {
                         Return to Home
                     </Link>
                 </div>
-            </div>
-        </div>
+        </PageContainer>
     );
 }
 

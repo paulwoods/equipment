@@ -3,7 +3,7 @@ import {Link, useParams} from "react-router-dom";
 import {deleteProcedure, fetchProcedures, getEquipment} from "../api/client";
 import type {Procedure} from "../types/procedure";
 import type {Equipment} from "../types/equipment";
-import {ProcedureList, StatusBadge} from "../components";
+import {PageContainer, PageLoader, ProcedureList, StatusBadge} from "../components";
 import {Hash, MapPin, Tag} from "lucide-react";
 import {Button} from "../components/ui/button";
 
@@ -30,11 +30,10 @@ const ProceduresPage = (): React.JSX.Element => {
         }
     };
 
-    if (loading) return <div className="p-8 text-muted-foreground">Loading...</div>;
+    if (loading) return <PageLoader/>;
 
     return (
-        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto">
+        <PageContainer>
                 <div className="mb-6 flex justify-end gap-4">
                     <Button asChild variant="outline">
                         <Link to="/equipment">Equipment</Link>
@@ -85,8 +84,7 @@ const ProceduresPage = (): React.JSX.Element => {
                         onDelete={handleDelete}
                     />
                 </div>
-            </div>
-        </div>
+        </PageContainer>
     );
 }
 

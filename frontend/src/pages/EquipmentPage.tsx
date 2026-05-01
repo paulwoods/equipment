@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import type {Equipment} from "../types/equipment";
-import {EquipmentList} from "../components";
+import {EquipmentList, PageContainer, PageLoader} from "../components";
 import {deleteEquipment, exportEquipment, fetchEquipment} from "../api/client";
 import {Button} from "../components/ui/button";
 
@@ -28,12 +28,11 @@ const EquipmentPage = (): React.JSX.Element => {
         }
     };
 
-    if (loading) return <div className="p-8 text-center text-muted-foreground">Loading...</div>;
+    if (loading) return <PageLoader/>;
     if (error) return <div className="p-8 text-center text-destructive">{error}</div>;
 
     return (
-        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto">
+        <PageContainer>
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
                     <h1 className="text-2xl font-bold text-foreground">Equipment</h1>
                     <div className="flex gap-4">
@@ -55,8 +54,7 @@ const EquipmentPage = (): React.JSX.Element => {
                         onDelete={handleDelete}
                     />
                 </div>
-            </div>
-        </div>
+        </PageContainer>
     );
 };
 

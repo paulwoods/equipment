@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import {ProcedureForm} from "../components";
+import {PageContainer, PageLoader, ProcedureForm} from "../components";
 import {addProcedure, getEquipment} from "../api/client";
 import type {Procedure} from "../types/procedure";
 import type {Equipment} from "../types/equipment";
@@ -28,18 +28,16 @@ const NewProcedurePage = (): React.JSX.Element => {
         }
     };
 
-    if (loading) return <div className="p-8 text-center text-foreground">Loading...</div>;
+    if (loading) return <PageLoader/>;
 
     return (
-        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto">
+        <PageContainer>
                 <ProcedureForm
                     equipment={equipment || undefined}
                     onSubmit={handleSubmit}
                     onCancel={() => navigate(`/equipment/${id}/procedures`)}
                 />
-            </div>
-        </div>
+        </PageContainer>
     );
 }
 

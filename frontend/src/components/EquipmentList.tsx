@@ -1,6 +1,7 @@
 import React, {useMemo, useState} from 'react';
 import type {Equipment, EquipmentStatus} from '../types/equipment';
 import {Link} from 'react-router-dom';
+import {useSort} from '../hooks';
 import {SortIndicator} from './SortIndicator';
 import {SearchInput} from './SearchInput';
 import {Badge} from './ui/badge';
@@ -15,7 +16,6 @@ interface EquipmentListProps {
 }
 
 type SortField = 'manufacturer' | 'modelNumber' | 'location' | 'status';
-type SortOrder = 'asc' | 'desc';
 
 const statusVariant: Record<EquipmentStatus, 'default' | 'secondary' | 'destructive' | 'outline'> = {
   'Active': 'default',
@@ -27,8 +27,7 @@ const statusVariant: Record<EquipmentStatus, 'default' | 'secondary' | 'destruct
 
 export const EquipmentList = ({items, onDelete, loading = false}: EquipmentListProps): React.JSX.Element => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortField, setSortField] = useState<SortField>('manufacturer');
-  const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
+    const {sortField, sortOrder, handleSort} = useSort<SortField>('manufacturer', 'asc');
 
   const filteredAndSortedItems = useMemo(() => {
     let result = [...items];
@@ -51,15 +50,6 @@ export const EquipmentList = ({items, onDelete, loading = false}: EquipmentListP
     });
     return result;
   }, [items, searchTerm, sortField, sortOrder]);
-
-  const handleSort = (field: SortField): void => {
-    if (sortField === field) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortField(field);
-      setSortOrder('asc');
-    }
-  };
 
   return (
     <div className="space-y-4">

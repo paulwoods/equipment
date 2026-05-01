@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import {Info, ShieldCheck} from "lucide-react";
 import {Button} from "../components/ui/button";
 import {getVersion} from "../api/client";
+import {PageContainer} from "../components";
 
 const AboutPage = (): React.JSX.Element => {
     const [serverVersion, setServerVersion] = useState<string | null>(null);
@@ -14,8 +15,7 @@ const AboutPage = (): React.JSX.Element => {
     }, []);
 
     return (
-        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto">
+        <PageContainer>
                 <div>
                     <div className="p-8 md:p-12">
                         <div className="flex items-center gap-4 mb-8">
@@ -102,8 +102,7 @@ const AboutPage = (): React.JSX.Element => {
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+        </PageContainer>
     );
 }
 

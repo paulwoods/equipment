@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
 import {fetchHistory, getEquipment, getProcedure} from "../api/client";
-import {NotFoundScreen} from "../components";
+import {NotFoundScreen, PageContainer, PageLoader} from "../components";
 import type {Perform, Procedure} from "../types/procedure";
 import type {Equipment} from "../types/equipment";
 import ReactMarkdown from "react-markdown";
@@ -26,7 +26,7 @@ const ProcedureShowPage = (): React.JSX.Element => {
             .finally(() => setLoading(false));
     }, [id, procedureId]);
 
-    if (loading) return <div className="p-8 text-center text-foreground">Loading...</div>;
+    if (loading) return <PageLoader/>;
     if (!procedure || !equipment) return <NotFoundScreen title="Procedure not found" backTo="/dashboard"
                                                          backLabel="Back to Dashboard"/>;
 
@@ -35,8 +35,7 @@ const ProcedureShowPage = (): React.JSX.Element => {
         : null;
 
     return (
-        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto">
+        <PageContainer>
                 <div className="mb-6 flex justify-end gap-3">
                     <Button variant="outline" asChild>
                         <Link to={`/equipment/${id}/procedures/${procedureId}/edit`}>
@@ -153,8 +152,7 @@ const ProcedureShowPage = (): React.JSX.Element => {
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+        </PageContainer>
     );
 }
 

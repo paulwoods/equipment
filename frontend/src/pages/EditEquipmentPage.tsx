@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import type {Equipment} from "../types/equipment";
-import {BackLink, EquipmentForm, LoadingScreen, NotFoundScreen} from "../components";
+import {BackLink, EquipmentForm, LoadingScreen, NotFoundScreen, PageContainer} from "../components";
 import {getEquipment, updateEquipment} from "../api/client";
 
 const EditEquipmentPage = (): React.JSX.Element => {
@@ -34,8 +34,7 @@ const EditEquipmentPage = (): React.JSX.Element => {
     }
 
     return (
-        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto">
+        <PageContainer>
                 <div className="mb-6">
                     <BackLink to="/equipment">Back to Equipment List</BackLink>
                 </div>
@@ -45,8 +44,7 @@ const EditEquipmentPage = (): React.JSX.Element => {
                     onSubmit={handleSubmit}
                     onCancel={() => navigate("/equipment")}
                 />
-            </div>
-        </div>
+        </PageContainer>
     );
 }
 

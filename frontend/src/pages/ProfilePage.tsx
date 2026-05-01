@@ -5,6 +5,7 @@ import {useAuth} from "../hooks";
 import {Button} from "../components/ui/button";
 import {Input} from "../components/ui/input";
 import {Alert, AlertDescription} from "../components/ui/alert";
+import {LoadingScreen, PageContainer} from "../components";
 import {roleBadgeClass} from "../types/user";
 
 type Tab = 'details' | 'roles' | 'password';
@@ -94,28 +95,21 @@ const ProfilePage = (): React.JSX.Element => {
     ];
 
     if (profileLoading) {
-        return (
-            <div className="min-h-screen bg-background flex items-center justify-center">
-                <p className="text-muted-foreground">Loading...</p>
-            </div>
-        );
+        return <LoadingScreen/>;
     }
 
     if (profileError && !name) {
         return (
-            <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
-                <div className="mx-auto max-w-2xl pt-8">
-                    <Alert variant="destructive">
-                        <AlertDescription>{profileError}</AlertDescription>
-                    </Alert>
-                </div>
-            </div>
+            <PageContainer className="max-w-2xl pt-8">
+                <Alert variant="destructive">
+                    <AlertDescription>{profileError}</AlertDescription>
+                </Alert>
+            </PageContainer>
         );
     }
 
     return (
-        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto space-y-8">
+        <PageContainer className="space-y-8">
                 <h1 className="text-2xl font-bold text-foreground pt-2">My Profile</h1>
 
                 <div className="bg-card shadow rounded-lg">
@@ -260,8 +254,7 @@ const ProfilePage = (): React.JSX.Element => {
                         )}
                     </div>
                 </div>
-            </div>
-        </div>
+        </PageContainer>
     );
 };
 

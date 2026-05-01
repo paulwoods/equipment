@@ -1,6 +1,7 @@
 import React, {type ChangeEvent, type FormEvent, useState} from "react";
+import {Link} from "react-router-dom";
 import {importEquipment} from "../api/client";
-import {BackLink} from "../components";
+import {BackLink, PageContainer} from "../components";
 import type {ImportResult} from "../types/equipment";
 import {Button} from "../components/ui/button";
 
@@ -45,8 +46,7 @@ const ImportEquipmentPage = (): React.JSX.Element => {
     };
 
     return (
-        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto">
+        <PageContainer>
                 <div className="mb-6">
                     <BackLink to="/equipment">Back to Equipment List</BackLink>
                 </div>
@@ -133,8 +133,7 @@ const ImportEquipmentPage = (): React.JSX.Element => {
                         </form>
                     )}
                 </div>
-            </div>
-        </div>
+        </PageContainer>
     );
 }
 

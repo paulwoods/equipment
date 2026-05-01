@@ -5,7 +5,7 @@ import {getEquipment, getProcedure, recordPerformance} from "../api/client";
 import ReactMarkdown from "react-markdown";
 import type {Equipment} from "../types/equipment";
 import {Hash, MapPin, Tag, Wrench} from "lucide-react";
-import {NotFoundScreen, StatusBadge} from "../components";
+import {NotFoundScreen, PageContainer, PageLoader, StatusBadge} from "../components";
 import {Button} from "../components/ui/button";
 import {Input} from "../components/ui/input";
 import {Textarea} from "../components/ui/textarea";
@@ -39,13 +39,12 @@ const PerformProcedurePage = (): React.JSX.Element => {
         navigate(`/dashboard`);
     };
 
-    if (loading) return <div className="p-8 text-center text-foreground">Loading...</div>;
+    if (loading) return <PageLoader/>;
     if (!equipment) return <NotFoundScreen title="Equipment not found" backTo="/equipment"
                                            backLabel="Back to Equipment List"/>;
 
     return (
-        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto">
+        <PageContainer>
 
                 <div
                     className="bg-card shadow rounded-lg overflow-hidden border-border mb-6">
@@ -137,8 +136,7 @@ const PerformProcedurePage = (): React.JSX.Element => {
                         </Button>
                     </div>
                 </form>
-            </div>
-        </div>
+        </PageContainer>
     );
 }
 

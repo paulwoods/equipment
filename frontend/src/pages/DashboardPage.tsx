@@ -3,11 +3,11 @@ import {Link} from "react-router-dom";
 import type {DashboardItem} from "../types/equipment";
 import {deleteProcedure, getDashboard, sendDashboardEmail} from "../api/client";
 import {Mail} from "lucide-react";
-import {SearchInput, SortIndicator} from "../components";
+import {PageContainer, PageLoader, SearchInput, SortIndicator} from "../components";
 import {Button} from "../components/ui/button";
+import {type SortOrder, useSort} from "../hooks";
 
 type SortField = 'equipmentName' | 'procedureName' | 'intervalDays' | 'daysTillDue';
-type SortOrder = 'asc' | 'desc';
 
 const STORAGE_KEY = 'dashboard_settings';
 
@@ -21,20 +21,21 @@ const DashboardPage = (): React.JSX.Element => {
             return "";
         }
     });
-    const [sortField, setSortField] = useState<SortField>(() => {
+    const initialSortField = (() => {
         try {
             return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}').sortField ?? 'daysTillDue';
         } catch {
             return 'daysTillDue';
         }
-    });
-    const [sortOrder, setSortOrder] = useState<SortOrder>(() => {
+    })();
+    const initialSortOrder = (() => {
         try {
             return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}').sortOrder ?? 'asc';
         } catch {
             return 'asc';
         }
-    });
+    })();
+    const {sortField, sortOrder, handleSort} = useSort<SortField>(initialSortField, initialSortOrder);
     const [emailSending, setEmailSending] = useState(false);
     const [refreshCount, setRefreshCount] = useState(0);
 
@@ -92,15 +93,6 @@ const DashboardPage = (): React.JSX.Element => {
         return result;
     }, [items, searchTerm, sortField, sortOrder]);
 
-    const handleSort = (field: SortField) => {
-        if (sortField === field) {
-            setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-        } else {
-            setSortField(field);
-            setSortOrder('asc');
-        }
-    };
-
     const handleDelete = async (equipmentId: string, procedureId: string) => {
         if (confirm("Are you sure you want to delete this procedure?")) {
             await deleteProcedure(equipmentId, procedureId);
@@ -120,8 +112,7 @@ const DashboardPage = (): React.JSX.Element => {
     };
 
     return (
-        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto">
+        <PageContainer>
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
                     <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
                     <div className="flex gap-2">
@@ -145,7 +136,7 @@ const DashboardPage = (): React.JSX.Element => {
 
                 <div className="bg-card shadow rounded-lg overflow-hidden">
                     {loading ? (
-                        <div className="p-8 text-center text-muted-foreground">Loading...</div>
+                        <PageLoader/>
                     ) : (
                         <div className="space-y-4">
                             <div className="px-4 md:px-6 pt-4">
@@ -165,8 +156,7 @@ const DashboardPage = (): React.JSX.Element => {
                         </div>
                     )}
                 </div>
-            </div>
-        </div>
+        </PageContainer>
     );
 };
 

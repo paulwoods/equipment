@@ -4,7 +4,7 @@ import {deleteEquipment, fetchProcedures, getEquipment} from "../api/client";
 import type {Equipment} from "../types/equipment";
 import type {Procedure} from "../types/procedure";
 import {ArrowLeft, Calendar, Hash, ListChecks, MapPin, PenSquare, Tag, Trash2} from "lucide-react";
-import {StatusBadge} from "../components";
+import {PageContainer, PageLoader, StatusBadge} from "../components";
 import {Button} from "../components/ui/button";
 
 const EquipmentShowPage = (): React.JSX.Element => {
@@ -31,12 +31,11 @@ const EquipmentShowPage = (): React.JSX.Element => {
         }
     };
 
-    if (loading) return <div className="p-8 text-center text-foreground">Loading...</div>;
+    if (loading) return <PageLoader/>;
     if (!equipment) return <div className="p-8 text-center text-foreground">Equipment not found.</div>;
 
     return (
-        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto">
+        <PageContainer>
                 <div className="mb-6 flex justify-between items-center">
                     <Link
                         to="/equipment"
@@ -170,8 +169,7 @@ const EquipmentShowPage = (): React.JSX.Element => {
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+        </PageContainer>
     );
 }
 

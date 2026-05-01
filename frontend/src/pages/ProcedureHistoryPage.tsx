@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {fetchHistory, getEquipment, getProcedure} from "../api/client";
-import {NotFoundScreen} from "../components";
+import {NotFoundScreen, PageContainer, PageLoader} from "../components";
 import type {Perform, Procedure} from "../types/procedure";
 
 const ProcedureHistoryPage = (): React.JSX.Element => {
@@ -24,13 +24,12 @@ const ProcedureHistoryPage = (): React.JSX.Element => {
             .finally(() => setLoading(false));
     }, [id, procedureId]);
 
-    if (loading) return <div className="p-8 text-center text-foreground">Loading...</div>;
+    if (loading) return <PageLoader/>;
     if (!procedure) return <NotFoundScreen title="Procedure not found" backTo="/dashboard"
                                            backLabel="Back to Dashboard"/>;
 
     return (
-        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto">
+        <PageContainer>
 
                 <div
                     className="bg-card shadow rounded-lg overflow-hidden p-6 border-border">
@@ -107,8 +106,7 @@ const ProcedureHistoryPage = (): React.JSX.Element => {
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+        </PageContainer>
     );
 }
 

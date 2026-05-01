@@ -3,7 +3,7 @@ import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
 import type {User, UserRole} from "../types/user";
 import {assignableRoles, isSystemAdmin, roleBadgeClass} from "../types/user";
-import {BackLink, LoadingScreen, NotFoundScreen} from "../components";
+import {BackLink, LoadingScreen, NotFoundScreen, PageContainer} from "../components";
 import {getUser, updateUser} from "../api/client";
 import {useAuth} from "../hooks";
 import {Button} from "../components/ui/button";
@@ -81,8 +81,7 @@ const EditUserPage = (): React.JSX.Element => {
     }
 
     return (
-        <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto">
+        <PageContainer>
                 <div className="mb-6">
                     <BackLink to="/users">Back to Users</BackLink>
                 </div>
@@ -202,8 +201,7 @@ const EditUserPage = (): React.JSX.Element => {
                         </div>
                     </form>
                 </div>
-            </div>
-        </div>
+        </PageContainer>
     );
 };
 
