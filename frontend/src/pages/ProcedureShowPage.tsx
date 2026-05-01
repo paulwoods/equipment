@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
 import {fetchHistory, getEquipment, getProcedure} from "../api/client";
+import {NotFoundScreen} from "../components";
 import type {Perform, Procedure} from "../types/procedure";
 import type {Equipment} from "../types/equipment";
 import ReactMarkdown from "react-markdown";
@@ -26,8 +27,8 @@ const ProcedureShowPage = (): React.JSX.Element => {
     }, [id, procedureId]);
 
     if (loading) return <div className="p-8 text-center text-foreground">Loading...</div>;
-    if (!procedure || !equipment) return <div className="p-8 text-center text-foreground">Procedure not
-        found.</div>;
+    if (!procedure || !equipment) return <NotFoundScreen title="Procedure not found" backTo="/dashboard"
+                                                         backLabel="Back to Dashboard"/>;
 
     const lastPerformed = history.length > 0
         ? new Date(Math.max(...history.map((h: Perform) => new Date(h.date).getTime())))

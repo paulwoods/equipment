@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import type {Equipment} from "../types/equipment";
-import {BackLink, EquipmentForm} from "../components";
+import {BackLink, EquipmentForm, LoadingScreen, NotFoundScreen} from "../components";
 import {getEquipment, updateEquipment} from "../api/client";
 
 const EditEquipmentPage = (): React.JSX.Element => {
@@ -26,24 +26,11 @@ const EditEquipmentPage = (): React.JSX.Element => {
     };
 
     if (loading) {
-        return (
-            <div className="min-h-screen bg-background flex items-center justify-center">
-                <p className="text-muted-foreground">Loading...</p>
-            </div>
-        );
+        return <LoadingScreen/>;
     }
 
     if (!equipment) {
-        return (
-            <div className="min-h-screen bg-background py-8 px-4">
-                <div className="max-w-4xl mx-auto text-center">
-                    <h1 className="text-2xl font-bold text-foreground mb-4">Equipment not found</h1>
-                    <Link to="/equipment" className="text-primary hover:underline">
-                        Back to Equipment List
-                    </Link>
-                </div>
-            </div>
-        );
+        return <NotFoundScreen title="Equipment not found" backTo="/equipment" backLabel="Back to Equipment List"/>;
     }
 
     return (

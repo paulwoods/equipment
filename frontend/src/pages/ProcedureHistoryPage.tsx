@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {fetchHistory, getEquipment, getProcedure} from "../api/client";
+import {NotFoundScreen} from "../components";
 import type {Perform, Procedure} from "../types/procedure";
 
 const ProcedureHistoryPage = (): React.JSX.Element => {
@@ -24,7 +25,8 @@ const ProcedureHistoryPage = (): React.JSX.Element => {
     }, [id, procedureId]);
 
     if (loading) return <div className="p-8 text-center text-foreground">Loading...</div>;
-    if (!procedure) return <div className="p-8 text-center text-foreground">Procedure not found.</div>;
+    if (!procedure) return <NotFoundScreen title="Procedure not found" backTo="/dashboard"
+                                           backLabel="Back to Dashboard"/>;
 
     return (
         <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">

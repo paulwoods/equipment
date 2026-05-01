@@ -6,6 +6,7 @@ import {Button} from "../components/ui/button";
 import {Input} from "../components/ui/input";
 import {Label} from "../components/ui/label";
 import {Alert, AlertDescription} from "../components/ui/alert";
+import {AuthCard} from "../components";
 
 interface SetupPageProps {
     onSetupComplete: (email: string) => void;
@@ -55,17 +56,7 @@ const SetupPage = ({onSetupComplete}: SetupPageProps): React.JSX.Element => {
                 </p>
             </div>
 
-            <div
-                className="max-w-md w-full space-y-8 p-8 rounded-xl border border-border shadow-lg bg-card"
-            >
-                <div>
-                    <h2 className="text-center text-3xl font-extrabold text-card-foreground">
-                        Welcome
-                    </h2>
-                    <p className="mt-2 text-center text-sm text-muted-foreground">
-                        Create your admin account to get started
-                    </p>
-                </div>
+            <AuthCard title="Welcome" subtitle="Create your admin account to get started">
                 <form className="space-y-6" onSubmit={handleSubmit}>
                     {error && (
                         <Alert variant="destructive">
@@ -110,7 +101,7 @@ const SetupPage = ({onSetupComplete}: SetupPageProps): React.JSX.Element => {
                         {loading ? "Creating account..." : "Create admin account"}
                     </Button>
                 </form>
-            </div>
+            </AuthCard>
         </div>
     );
 };

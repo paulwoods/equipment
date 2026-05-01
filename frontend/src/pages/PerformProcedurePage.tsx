@@ -5,8 +5,10 @@ import {getEquipment, getProcedure, recordPerformance} from "../api/client";
 import ReactMarkdown from "react-markdown";
 import type {Equipment} from "../types/equipment";
 import {Hash, MapPin, Tag, Wrench} from "lucide-react";
-import {StatusBadge} from "../components";
+import {NotFoundScreen, StatusBadge} from "../components";
 import {Button} from "../components/ui/button";
+import {Input} from "../components/ui/input";
+import {Textarea} from "../components/ui/textarea";
 
 const PerformProcedurePage = (): React.JSX.Element => {
     const {id, procedureId} = useParams() as { id: string; procedureId: string };
@@ -38,7 +40,8 @@ const PerformProcedurePage = (): React.JSX.Element => {
     };
 
     if (loading) return <div className="p-8 text-center text-foreground">Loading...</div>;
-    if (!equipment) return <div className="p-8 text-center text-foreground">Equipment not found.</div>;
+    if (!equipment) return <NotFoundScreen title="Equipment not found" backTo="/equipment"
+                                           backLabel="Back to Equipment List"/>;
 
     return (
         <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
@@ -107,21 +110,19 @@ const PerformProcedurePage = (): React.JSX.Element => {
                     <div className="mb-6">
                         <label className="block text-sm font-medium text-foreground mb-1">Performance
                             Date</label>
-                        <input
+                        <Input
                             type="date"
                             value={performDate}
                             onChange={(e) => setPerformDate(e.target.value)}
                             required
-                            className="w-full border border-border rounded-md shadow-sm p-2 text-foreground bg-card"
                         />
                     </div>
 
                     <div className="mb-6">
                         <label className="block text-sm font-medium text-foreground mb-1">Notes</label>
-                        <textarea
+                        <Textarea
                             value={notes}
                             onChange={(e) => setNotes(e.target.value)}
-                            className="w-full border border-border rounded-md shadow-sm p-2 text-foreground bg-card"
                             rows={3}
                             placeholder="Enter any notes about this performance..."
                         />

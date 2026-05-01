@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import type {User, UserRole} from "../types/user";
 import {assignableRoles, isSystemAdmin, roleBadgeClass} from "../types/user";
-import {BackLink} from "../components";
+import {BackLink, LoadingScreen, NotFoundScreen} from "../components";
 import {getUser, updateUser} from "../api/client";
 import {useAuth} from "../hooks";
 import {Button} from "../components/ui/button";
+import {Input} from "../components/ui/input";
+import {Alert, AlertDescription} from "../components/ui/alert";
 
 const EditUserPage = (): React.JSX.Element => {
     const {id} = useParams() as { id: string };
@@ -71,24 +73,11 @@ const EditUserPage = (): React.JSX.Element => {
     };
 
     if (loading) {
-        return (
-            <div className="min-h-screen bg-background flex items-center justify-center">
-                <p className="text-muted-foreground">Loading...</p>
-            </div>
-        );
+        return <LoadingScreen/>;
     }
 
     if (!user) {
-        return (
-            <div className="min-h-screen bg-background py-8 px-4">
-                <div className="max-w-4xl mx-auto text-center">
-                    <h1 className="text-2xl font-bold text-foreground mb-4">User not found</h1>
-                    <Link to="/users" className="text-primary hover:underline">
-                        Back to Users
-                    </Link>
-                </div>
-            </div>
-        );
+        return <NotFoundScreen title="User not found" backTo="/users" backLabel="Back to Users"/>;
     }
 
     return (
@@ -102,10 +91,9 @@ const EditUserPage = (): React.JSX.Element => {
                     <h1 className="text-xl font-bold text-foreground mb-6">Edit User</h1>
 
                     {error && (
-                        <div
-                            className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 text-destructive rounded-md text-sm">
-                            {error}
-                        </div>
+                        <Alert variant="destructive">
+                            <AlertDescription>{error}</AlertDescription>
+                        </Alert>
                     )}
 
                     <div className="border-b border-border mb-6">
@@ -136,12 +124,11 @@ const EditUserPage = (): React.JSX.Element => {
                                     <label className="block text-sm font-medium text-foreground mb-1">
                                         Name
                                     </label>
-                                    <input
+                                    <Input
                                         type="text"
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
                                         required
-                                        className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                                     />
                                 </div>
 
@@ -149,12 +136,11 @@ const EditUserPage = (): React.JSX.Element => {
                                     <label className="block text-sm font-medium text-foreground mb-1">
                                         Email
                                     </label>
-                                    <input
+                                    <Input
                                         type="email"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         required
-                                        className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                                     />
                                 </div>
                             </div>

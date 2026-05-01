@@ -6,6 +6,8 @@ import {BackLink} from "../components";
 import {createUser} from "../api/client";
 import {useAuth} from "../hooks";
 import {Button} from "../components/ui/button";
+import {Input} from "../components/ui/input";
+import {Alert, AlertDescription} from "../components/ui/alert";
 
 const NewUserPage = (): React.JSX.Element => {
     const navigate = useNavigate();
@@ -49,10 +51,9 @@ const NewUserPage = (): React.JSX.Element => {
                     <h1 className="text-xl font-bold text-foreground mb-6">New User</h1>
 
                     {error && (
-                        <div
-                            className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 text-destructive rounded-md text-sm">
-                            {error}
-                        </div>
+                        <Alert variant="destructive">
+                            <AlertDescription>{error}</AlertDescription>
+                        </Alert>
                     )}
 
                     <form onSubmit={handleSubmit} className="space-y-4">
@@ -60,12 +61,11 @@ const NewUserPage = (): React.JSX.Element => {
                             <label className="block text-sm font-medium text-foreground mb-1">
                                 Name
                             </label>
-                            <input
+                            <Input
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 required
-                                className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                             />
                         </div>
 
@@ -73,12 +73,11 @@ const NewUserPage = (): React.JSX.Element => {
                             <label className="block text-sm font-medium text-foreground mb-1">
                                 Email
                             </label>
-                            <input
+                            <Input
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
-                                className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                             />
                         </div>
 
@@ -86,13 +85,12 @@ const NewUserPage = (): React.JSX.Element => {
                             <label className="block text-sm font-medium text-foreground mb-1">
                                 Password
                             </label>
-                            <input
+                            <Input
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                                 minLength={8}
-                                className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                             />
                         </div>
 

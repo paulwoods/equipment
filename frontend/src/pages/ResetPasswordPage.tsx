@@ -6,6 +6,7 @@ import {Button} from '../components/ui/button';
 import {Input} from '../components/ui/input';
 import {Label} from '../components/ui/label';
 import {Alert, AlertDescription} from '../components/ui/alert';
+import {AuthCard} from '../components';
 
 const ResetPasswordPage = (): React.JSX.Element => {
     const [searchParams] = useSearchParams();
@@ -49,16 +50,7 @@ const ResetPasswordPage = (): React.JSX.Element => {
 
     return (
         <div className="min-h-screen flex items-center justify-center px-4 bg-background">
-            <div className="max-w-md w-full space-y-8 p-8 rounded-xl border shadow-lg bg-card border-border">
-                <div>
-                    <h2 className="text-center text-3xl font-extrabold text-card-foreground">
-                        Set new password
-                    </h2>
-                    <p className="mt-2 text-center text-sm text-muted-foreground">
-                        Enter your new password below
-                    </p>
-                </div>
-
+            <AuthCard title="Set new password" subtitle="Enter your new password below">
                 <form className="space-y-6" onSubmit={handleSubmit}>
                     {error && (
                         <Alert variant="destructive">
@@ -118,7 +110,7 @@ const ResetPasswordPage = (): React.JSX.Element => {
                         {loading ? 'Updating...' : 'Update password'}
                     </Button>
                 </form>
-            </div>
+            </AuthCard>
         </div>
     );
 };

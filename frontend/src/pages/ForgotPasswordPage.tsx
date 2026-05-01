@@ -6,6 +6,7 @@ import {Button} from '../components/ui/button';
 import {Input} from '../components/ui/input';
 import {Label} from '../components/ui/label';
 import {Alert, AlertDescription} from '../components/ui/alert';
+import {AuthCard} from '../components';
 
 const ForgotPasswordPage = (): React.JSX.Element => {
     const [error, setError] = useState<string | null>(null);
@@ -39,16 +40,7 @@ const ForgotPasswordPage = (): React.JSX.Element => {
 
     return (
         <div className="min-h-screen flex items-center justify-center px-4 bg-background">
-            <div className="max-w-md w-full space-y-8 p-8 rounded-xl border shadow-lg bg-card border-border">
-                <div>
-                    <h2 className="text-center text-3xl font-extrabold text-card-foreground">
-                        Reset your password
-                    </h2>
-                    <p className="mt-2 text-center text-sm text-muted-foreground">
-                        Enter your email and we will send you reset instructions
-                    </p>
-                </div>
-
+            <AuthCard title="Reset your password" subtitle="Enter your email and we will send you reset instructions">
                 <form className="space-y-6" onSubmit={handleSubmit}>
                     {error && (
                         <Alert variant="destructive">
@@ -90,7 +82,7 @@ const ForgotPasswordPage = (): React.JSX.Element => {
                         </Link>
                     </p>
                 </form>
-            </div>
+            </AuthCard>
         </div>
     );
 };

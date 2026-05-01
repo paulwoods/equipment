@@ -7,6 +7,7 @@ import {Button} from '../components/ui/button';
 import {Input} from '../components/ui/input';
 import {Label} from '../components/ui/label';
 import {Alert, AlertDescription} from '../components/ui/alert';
+import {AuthCard} from '../components';
 
 const LoginPage = (): React.JSX.Element => {
   const [error, setError] = useState<string | null>(null);
@@ -42,18 +43,7 @@ const LoginPage = (): React.JSX.Element => {
 
   return (
       <div className="min-h-screen flex items-center justify-center px-4 bg-background">
-      <div
-          className="max-w-md w-full space-y-8 p-8 rounded-xl border shadow-lg bg-card border-border"
-      >
-        <div>
-          <h2 className="text-center text-3xl font-extrabold text-card-foreground">
-            Sign in to your account
-          </h2>
-          <p className="mt-2 text-center text-sm text-muted-foreground">
-            Please enter your email and password
-          </p>
-        </div>
-
+          <AuthCard title="Sign in to your account" subtitle="Please enter your email and password">
         <form className="space-y-6" onSubmit={handleSubmit}>
           {error && (
             <Alert variant="destructive">
@@ -102,7 +92,7 @@ const LoginPage = (): React.JSX.Element => {
             {loading ? 'Signing in...' : 'Sign in'}
           </Button>
         </form>
-      </div>
+          </AuthCard>
     </div>
   );
 };

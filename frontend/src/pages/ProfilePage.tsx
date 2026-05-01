@@ -3,6 +3,7 @@ import axios from "axios";
 import {changePassword, getUser, updateMe} from "../api/client";
 import {useAuth} from "../hooks";
 import {Button} from "../components/ui/button";
+import {Input} from "../components/ui/input";
 import {Alert, AlertDescription} from "../components/ui/alert";
 import {roleBadgeClass} from "../types/user";
 
@@ -159,12 +160,11 @@ const ProfilePage = (): React.JSX.Element => {
                                     <label className="block text-sm font-medium text-foreground mb-1">
                                         Name
                                     </label>
-                                    <input
+                                    <Input
                                         type="text"
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
                                         required
-                                        className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                                     />
                                 </div>
 
@@ -172,12 +172,11 @@ const ProfilePage = (): React.JSX.Element => {
                                     <label className="block text-sm font-medium text-foreground mb-1">
                                         Email
                                     </label>
-                                    <input
+                                    <Input
                                         type="email"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         required
-                                        className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                                     />
                                 </div>
 
@@ -222,12 +221,11 @@ const ProfilePage = (): React.JSX.Element => {
                                     <label className="block text-sm font-medium text-foreground mb-1">
                                         Current Password
                                     </label>
-                                    <input
+                                    <Input
                                         type="password"
                                         value={currentPassword}
                                         onChange={(e) => setCurrentPassword(e.target.value)}
                                         required
-                                        className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                                     />
                                 </div>
 
@@ -235,12 +233,11 @@ const ProfilePage = (): React.JSX.Element => {
                                     <label className="block text-sm font-medium text-foreground mb-1">
                                         New Password
                                     </label>
-                                    <input
+                                    <Input
                                         type="password"
                                         value={newPassword}
                                         onChange={(e) => setNewPassword(e.target.value)}
                                         required
-                                        className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                                     />
                                 </div>
 
@@ -248,12 +245,11 @@ const ProfilePage = (): React.JSX.Element => {
                                     <label className="block text-sm font-medium text-foreground mb-1">
                                         Confirm New Password
                                     </label>
-                                    <input
+                                    <Input
                                         type="password"
                                         value={confirmPassword}
                                         onChange={(e) => setConfirmPassword(e.target.value)}
                                         required
-                                        className="w-full px-3 py-2 border border-border rounded-md bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                                     />
                                 </div>
 
