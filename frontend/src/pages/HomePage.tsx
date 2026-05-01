@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {ArrowRight, LayoutDashboard, Package} from "lucide-react";
+import {ArrowRight, Info, LayoutDashboard, Mail, Package} from "lucide-react";
 
 const HomePage = (): React.JSX.Element => {
     return (
@@ -52,6 +52,45 @@ const HomePage = (): React.JSX.Element => {
                         <div
                             className="flex items-center text-blue-600 dark:text-blue-400 font-semibold group-hover:gap-2 transition-all">
                             Manage Equipment <ArrowRight
+                            className="ml-2 w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity"/>
+                        </div>
+                    </Link>
+
+                    <Link
+                        to="/about"
+                        className="group bg-card p-8 rounded-2xl shadow-sm border border-border hover:border-emerald-500 hover:shadow-md transition-all duration-300 flex flex-col items-center text-center"
+                    >
+                        <div
+                            className="p-4 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl text-emerald-600 dark:text-emerald-400 mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <Info className="w-10 h-10"/>
+                        </div>
+                        <h2 className="text-2xl font-bold text-foreground mb-3">About</h2>
+                        <p className="text-muted-foreground mb-6 flex-grow">
+                            Learn more about the Equipment Management System, its features, and the technology behind
+                            it.
+                        </p>
+                        <div
+                            className="flex items-center text-emerald-600 dark:text-emerald-400 font-semibold group-hover:gap-2 transition-all">
+                            Learn More <ArrowRight
+                            className="ml-2 w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity"/>
+                        </div>
+                    </Link>
+
+                    <Link
+                        to="/contact"
+                        className="group bg-card p-8 rounded-2xl shadow-sm border border-border hover:border-amber-500 hover:shadow-md transition-all duration-300 flex flex-col items-center text-center"
+                    >
+                        <div
+                            className="p-4 bg-amber-50 dark:bg-amber-900/30 rounded-xl text-amber-600 dark:text-amber-400 mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <Mail className="w-10 h-10"/>
+                        </div>
+                        <h2 className="text-2xl font-bold text-foreground mb-3">Contact</h2>
+                        <p className="text-muted-foreground mb-6 flex-grow">
+                            Get in touch with us for support, questions, or feedback about the system.
+                        </p>
+                        <div
+                            className="flex items-center text-amber-600 dark:text-amber-400 font-semibold group-hover:gap-2 transition-all">
+                            Get in Touch <ArrowRight
                             className="ml-2 w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity"/>
                         </div>
                     </Link>
