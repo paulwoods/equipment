@@ -48,7 +48,7 @@ const SetupPage = ({onSetupComplete}: SetupPageProps): React.JSX.Element => {
     return (
         <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-background">
             <div className="max-w-md w-full mb-8 text-center">
-                <h1 className="text-4xl font-extrabold text-foreground mb-4">
+                <h1 id="page-header" className="text-4xl font-extrabold text-foreground mb-4">
                     First User Setup
                 </h1>
                 <p className="text-lg text-muted-foreground">
@@ -97,7 +97,7 @@ const SetupPage = ({onSetupComplete}: SetupPageProps): React.JSX.Element => {
                         </div>
                     </div>
 
-                    <Button type="submit" className="w-full" disabled={loading}>
+                    <Button id="create-admin-account" type="submit" className="w-full" disabled={loading}>
                         {loading ? "Creating account..." : "Create admin account"}
                     </Button>
                 </form>

@@ -114,7 +114,7 @@ const DashboardPage = (): React.JSX.Element => {
     return (
         <PageContainer>
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
-                    <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
+                    <h1 id="page-header" className="text-2xl font-bold text-foreground">Dashboard</h1>
                     <div className="flex gap-2">
                         <Button
                             variant="outline"

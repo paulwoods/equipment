@@ -18,6 +18,7 @@ const HomePage = (): React.JSX.Element => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <Link
+                        id="dashboard-link"
                         to="/dashboard"
                         className="group bg-card p-8 rounded-2xl shadow-sm border border-border hover:border-indigo-500 hover:shadow-md transition-all duration-300 flex flex-col items-center text-center"
                     >
@@ -37,6 +38,7 @@ const HomePage = (): React.JSX.Element => {
                     </Link>
 
                     <Link
+                        id="equipment-link"
                         to="/equipment"
                         className="group bg-card p-8 rounded-2xl shadow-sm border border-border hover:border-blue-500 hover:shadow-md transition-all duration-300 flex flex-col items-center text-center"
                     >
@@ -57,6 +59,7 @@ const HomePage = (): React.JSX.Element => {
                     </Link>
 
                     <Link
+                        id="about-link"
                         to="/about"
                         className="group bg-card p-8 rounded-2xl shadow-sm border border-border hover:border-emerald-500 hover:shadow-md transition-all duration-300 flex flex-col items-center text-center"
                     >
@@ -77,6 +80,7 @@ const HomePage = (): React.JSX.Element => {
                     </Link>
 
                     <Link
+                        id="contact-link"
                         to="/contact"
                         className="group bg-card p-8 rounded-2xl shadow-sm border border-border hover:border-amber-500 hover:shadow-md transition-all duration-300 flex flex-col items-center text-center"
                     >
