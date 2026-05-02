@@ -67,6 +67,10 @@ describe('EditUserPage', () => {
         await act(async () => {
             renderPage('other-user');
         });
+        const rolesTab = screen.getByRole('button', {name: 'Roles'});
+        await act(async () => {
+            rolesTab.click();
+        });
         expect(screen.getByRole('checkbox', {name: /ADMIN/i})).toBeInTheDocument();
     });
 
@@ -74,6 +78,10 @@ describe('EditUserPage', () => {
         mockGetUser.mockResolvedValue(adminUser);
         await act(async () => {
             renderPage('user-99');
+        });
+        const rolesTab = screen.getByRole('button', {name: 'Roles'});
+        await act(async () => {
+            rolesTab.click();
         });
         expect(screen.queryByRole('checkbox', {name: /ADMIN/i})).not.toBeInTheDocument();
         expect(screen.getByText('ADMIN')).toBeInTheDocument();

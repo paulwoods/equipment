@@ -29,11 +29,11 @@ describe('App', () => {
     });
 
     it('renders the home page after successful auth check', async () => {
-        mockGetMe.mockResolvedValue({email: 'alice'});
+        mockGetMe.mockResolvedValue({name: 'alice', email: 'alice@example.com', id: 'user-1', roles: []});
         await act(async () => {
             render(<App/>);
         });
-        expect(screen.getByText(/Equipment Management System/i)).toBeInTheDocument();
+        expect(screen.getByRole('heading', {name: /Equipment Management System/i})).toBeInTheDocument();
     });
 
     it('renders the home page when auth check fails (unauthenticated user)', async () => {
@@ -42,11 +42,11 @@ describe('App', () => {
             render(<App/>);
         });
         // / is a public route — renders even without auth
-        expect(screen.getByText(/Equipment Management System/i)).toBeInTheDocument();
+        expect(screen.getByRole('heading', {name: /Equipment Management System/i})).toBeInTheDocument();
     });
 
     it('provides the username to AuthContext so Sidebar shows it', async () => {
-        mockGetMe.mockResolvedValue({email: 'alice'});
+        mockGetMe.mockResolvedValue({name: 'alice', email: 'alice@example.com', id: 'user-1', roles: []});
         await act(async () => {
             render(<App/>);
         });
@@ -55,7 +55,7 @@ describe('App', () => {
 
     it('clears username when logout is triggered', async () => {
         const user = userEvent.setup();
-        mockGetMe.mockResolvedValue({email: 'alice'});
+        mockGetMe.mockResolvedValue({name: 'alice', email: 'alice@example.com', id: 'user-1', roles: []});
         await act(async () => {
             render(<App/>);
         });
@@ -70,7 +70,7 @@ describe('App', () => {
     });
 
     it('calls getMe once on mount for the initial auth check', async () => {
-        mockGetMe.mockResolvedValue({email: 'alice'});
+        mockGetMe.mockResolvedValue({name: 'alice', email: 'alice@example.com', id: 'user-1', roles: []});
         await act(async () => {
             render(<App/>);
         });
@@ -79,7 +79,7 @@ describe('App', () => {
 
     it('does not call getMe again after logout', async () => {
         const user = userEvent.setup();
-        mockGetMe.mockResolvedValue({email: 'alice'});
+        mockGetMe.mockResolvedValue({name: 'alice', email: 'alice@example.com', id: 'user-1', roles: []});
 
         await act(async () => {
             render(<App/>);
