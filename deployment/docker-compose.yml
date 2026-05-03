@@ -1,3 +1,11 @@
+name: equipment
+
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
 services:
   postgres:
     image: postgres:18
@@ -8,11 +16,7 @@ services:
     volumes:
       - ./postgres-data:/var/lib/postgresql
     restart: unless-stopped
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "3"
+    logging: *default-logging
 
   backend:
     image: paulwoods/equipment-backend:latest
@@ -23,24 +27,16 @@ services:
     depends_on:
       - postgres
     restart: unless-stopped
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "3"
+    logging: *default-logging
 
   frontend:
     image: paulwoods/equipment-frontend:latest
     #    ports:
-    #      - "127.0.0.1:80:81"
+    #      - "127.0.0.1:80:80"
     depends_on:
       - backend
     restart: unless-stopped
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "3"
+    logging: *default-logging
 
   caddy:
     image: caddy:2-alpine
@@ -57,8 +53,4 @@ services:
       - frontend
       - backend
     restart: unless-stopped
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "3"
+    logging: *default-logging
