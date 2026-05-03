@@ -22,8 +22,6 @@ services:
     image: paulwoods/equipment-backend:latest
     env_file:
       - .env
-    #   ports:
-    #     - "127.0.0.1:8080:8080"
     depends_on:
       - postgres
     restart: unless-stopped
@@ -31,8 +29,6 @@ services:
 
   frontend:
     image: paulwoods/equipment-frontend:latest
-    #    ports:
-    #      - "127.0.0.1:80:80"
     depends_on:
       - backend
     restart: unless-stopped
