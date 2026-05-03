@@ -8,13 +8,13 @@
 #
 set -euo pipefail
 
-BACKUP_DIR="$HOME/equipment/sql"
+BACKUP_DIR="$HOME/equipment/pg-backups"
 mkdir -p "$BACKUP_DIR"
 
 TS=$(date -Iseconds)
 TMP="$BACKUP_DIR/.${TS}.sql.gz.tmp"
 
-docker compose -f "$HOME/equipment/deployment/docker-compose.yml" exec -T postgres \
+docker compose -f "$HOME/equipment/docker-compose.yml" exec -T postgres \
   pg_dumpall -U "${POSTGRES_USER:-postgres}" | gzip > "$TMP"
 
 mv "$TMP" "$BACKUP_DIR/${TS}.sql.gz"
