@@ -1,10 +1,21 @@
-#!/bin/bash
-# backup a postgres database
-# keep 30 days worth of backups
+#!/usr/bin/env bash
+# Backup the Postgres database
+# Keeps 30 days worth of backups
 #
-# install with : crontab -e
-# backup at 1am daily
-# 0 1 * * 1 docker exec -t ~/equipment/backup.sh
+# Install with: crontab -e
+# Backup at 1am daily
+# 0 1 * * * ~/equipment/backup.sh
 #
-docker exec -t equipment-postgres-1 pg_dumpall -U postgres | gzip > ~/equipment/sql/$(date -Iseconds).sql.gz
-find ~/equipment/sql -type f -name "*.sql.gz" -mtime +30 -delete
+set -euo pipefail
+
+BACKUP_DIR="$HOME/equipment/sql"
+mkdir -p "$BACKUP_DIR"
+
+TS=$(date -Iseconds)
+TMP="$BACKUP_DIR/.${TS}.sql.gz.tmp"
+
+docker compose -f "$HOME/equipment/deployment/docker-compose.yml" exec -T postgres \
+  pg_dumpall -U "${POSTGRES_USER:-postgres}" | gzip > "$TMP"
+
+mv "$TMP" "$BACKUP_DIR/${TS}.sql.gz"
+find "$BACKUP_DIR" -type f -name '*.sql.gz' -mtime +30 -delete
