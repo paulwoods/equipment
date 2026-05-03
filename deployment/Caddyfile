@@ -1,10 +1,15 @@
 {
-	email mr.paul.woods@gmail.com
+	email {$CADDY_EMAIL}
 }
 
-mrpaulwoods.com {
-
+{$CADDY_DOMAIN} {
 	encode zstd gzip
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+	}
 
 	handle /api/* {
 		reverse_proxy backend:8080
@@ -14,4 +19,3 @@ mrpaulwoods.com {
 		reverse_proxy frontend:80
 	}
 }
-
