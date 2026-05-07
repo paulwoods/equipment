@@ -46,7 +46,7 @@ const UsersPage = (): React.JSX.Element => {
     return (
         <PageContainer>
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
-                    <h1 id="page-header" className="text-2xl font-bold text-foreground">Users</h1>
+                    <h1 data-testid="page-header" className="text-2xl font-bold text-foreground">Users</h1>
                     {isAdmin && (
                         <Button asChild>
                             <Link to="/users/new">New User</Link>
