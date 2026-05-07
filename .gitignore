@@ -28,5 +28,5 @@ yarn-error.log*
 .idea/
 
 /equipment.json
-/postgres_data/
+/postgres-data/
 .worktrees/
