@@ -161,6 +161,7 @@ export const Sidebar = ({onNavigate}: SidebarProps): React.JSX.Element => {
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <button
+                            id="user-menu"
                             className="flex items-center gap-3 w-full px-2 py-2 rounded-md text-left transition-colors hover:bg-secondary cursor-pointer">
                             <div
                                 className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold flex-shrink-0"
@@ -178,7 +179,7 @@ export const Sidebar = ({onNavigate}: SidebarProps): React.JSX.Element => {
                         </button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent side="top" align="start" className="w-48">
-                        <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-destructive">
+                        <DropdownMenuItem id="logout" onClick={handleLogout} className="cursor-pointer text-destructive">
                             <LogOut className="w-4 h-4 mr-2"/>
                             Log out
                         </DropdownMenuItem>
