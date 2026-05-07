@@ -59,7 +59,7 @@ const UsersPage = (): React.JSX.Element => {
                         <p className="p-6 text-center text-muted-foreground">No users found.</p>
                     ) : (
                         <div className="overflow-x-auto">
-                            <Table id="users-table">
+                            <Table data-testid="users-table">
                             <TableHeader>
                                 <TableRow>
                                     <TableHead>Name</TableHead>

@@ -61,6 +61,7 @@ const NewUserPage = (): React.JSX.Element => {
                                 Name
                             </label>
                             <Input
+                                data-testid="user-name"
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
@@ -73,6 +74,7 @@ const NewUserPage = (): React.JSX.Element => {
                                 Email
                             </label>
                             <Input
+                                data-testid="user-email"
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
@@ -85,6 +87,7 @@ const NewUserPage = (): React.JSX.Element => {
                                 Password
                             </label>
                             <Input
+                                data-testid="user-password"
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
