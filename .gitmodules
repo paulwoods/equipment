@@ -1,0 +1,9 @@
+[submodule "equipment-e2e"]
+	path = equipment-e2e
+	url = git@github.com:paulwoods/equipment-e2e.git
+[submodule "equipment-frontend"]
+	path = equipment-frontend
+	url = git@github.com:paulwoods/equipment-frontend.git
+[submodule "equipment-backend"]
+	path = equipment-backend
+	url = git@github.com:paulwoods/equipment-backend.git
