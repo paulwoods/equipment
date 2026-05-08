@@ -38,6 +38,7 @@ Decision / Consequences.
 | 0022 | [Markdown as the persistence format for procedure content](0022-markdown-procedure-content.md) | Accepted |
 | 0023 | [Lock-step versioning of backend and frontend artifacts](0023-lockstep-versioning.md) | Accepted |
 | 0024 | [Fail-fast on weak `APP_JWT_SECRET` at application startup](0024-jwt-secret-fail-fast.md) | Accepted |
+| 0025 | [CI creates the git tag for every published image](0025-ci-managed-release-tags.md) | Accepted |
 
 ## Conventions
 
