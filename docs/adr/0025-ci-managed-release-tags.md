@@ -59,9 +59,12 @@ Consequences of this design:
 
 ## Consequences
 
-- **Positive:** "what source produced this image?" has a reliable
-  answer — `git checkout vX.Y.Z` in the repo lines up with
-  `paulwoods/equipment-{backend,frontend}:X.Y.Z` in Docker Hub.
+- **Positive:** "what source produced *the first* image at this
+  version?" has a reliable answer — `git checkout vX.Y.Z` in the
+  repo lines up with the original commit that published
+  `paulwoods/equipment-{backend,frontend}:X.Y.Z`. See the **Update
+  (2026-05-07)** section below for why this is narrower than it
+  first appears.
 - **Positive:** force-moving tags becomes unnecessary. If a publish
   fails, the tag is simply never created on the broken commit; the
   next push that includes the fix produces it.
@@ -84,3 +87,47 @@ Consequences of this design:
   tag, and the lock-step invariant would silently break in the tag
   history without warning. A version-parity check at the start of
   both workflows would close this gap; not currently in place.
+
+## Update (2026-05-07)
+
+The original framing of this ADR claimed that `git checkout vX.Y.Z`
+"lines up with `paulwoods/equipment-{backend,frontend}:X.Y.Z`."
+Within the first day of the policy, three Dependabot PRs (#11, #12,
+#13) made it clear that this is overstated.
+
+What actually happens:
+
+- The version-bump commit creates the `vX.Y.Z` git tag (idempotent
+  skip protects against the second workflow recreating it).
+- Subsequent commits on `develop` that don't bump the app version —
+  Dependabot lockfile bumps, security patches, doc fixes inside
+  `backend/**` or `frontend/**` — still trigger the publish workflow
+  on path filter, which **rebuilds and pushes** the same registry
+  tag `X.Y.Z` with new content. The git tag stays pinned to the
+  original commit; the registry tag silently moves.
+- Net result: `git checkout vX.Y.Z` produces the *first* tree at
+  that version, not the bytes currently behind the registry tag.
+
+This is acceptable for our threat model — registry tag mutability
+is industry-normal — but the ADR should not promise byte-identity
+when the implementation doesn't deliver it.
+
+**Revised contract:**
+
+| Reference                    | Mutability                                   | Use for                          |
+|------------------------------|----------------------------------------------|----------------------------------|
+| `vX.Y.Z` (git tag)           | Immutable; pinned to first commit at version | Reproducing the source baseline  |
+| `X.Y.Z` (Docker tag)         | **Mutable** within the version line          | Pulling "latest patch of X.Y.Z"  |
+| `sha-<short>` (Docker tag)   | Immutable; one per commit                    | Auditing exactly-this-image      |
+
+**Operator guidance:** for incident-response audits ("what bytes
+were running at 03:14 UTC?"), use the `sha-<short>` Docker tag
+recorded in deployment logs, not `X.Y.Z`. Both backend and frontend
+images already carry it via `type=sha,prefix=sha-,format=short` in
+the `metadata-action` config.
+
+**What this rules out:** chasing byte-identity by bumping `X.Y.Z`
+on every Dependabot merge. That's a lot of version churn for
+patches that don't change behavior, and the lock-step convention
+from ADR-0023 would force coordinated bumps even when only one tier
+moved. Not worth it.
