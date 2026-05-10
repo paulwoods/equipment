@@ -1,0 +1,276 @@
+[ {
+  "manufacturer" : "Narwal",
+  "modelNumber" : "Freo Z Ultra",
+  "serialNumber" : null,
+  "assetTag" : null,
+  "location" : null,
+  "status" : "Active",
+  "description" : "Robot Vacuum Cleaner",
+  "purchaseDate" : "2025-04-22",
+  "procedures" : [ {
+    "name" : "Quarterly Maintenance",
+    "description" : "",
+    "steps" : "# Quarterly Maintenance\n\n## Base Station\n* Check Bag monthly, but replace when full.\n\n## Robot\n* Replace dust filter, if needed.\n* Replace mop pads, if needed,\n* Replace baseboard brush, if needed.",
+    "requiredTools" : "* Microfiber towel",
+    "intervalDays" : 90,
+    "history" : [ {
+      "date" : "2026-01-01",
+      "notes" : "",
+      "id" : "76af2c91-31f9-4654-b53e-8f55f15b4de6"
+    }, {
+      "date" : "2026-04-27",
+      "notes" : "",
+      "id" : "18f32007-4481-4608-9b9d-93118752c080"
+    } ],
+    "id" : "1bdf26b5-bcaa-49d9-96da-e244df8bac38"
+  }, {
+    "name" : "Weekly Maintenance",
+    "description" : "",
+    "steps" : "# Weekly Maintenance\n\n## 1. Check Water Tanks\n\n* Remove the water tanks from the base station.\n* Dump the dirty water down a sink.\n* Clean the ditry tank. Use mouthwash if there are oders.\n* Fill the clean water tank with fresh water.\n* Re-insert both tanks back into the base station.\n\n## 2. Clean Mops\n\n* Remove the mops from the bottom of the robot.\n* Inspect the mops, and replace if necessary.\n* Wash in washing machine - let air dry\n* Reinstall the mops\n* \n## 3. Clean the Rollers\n\n* Open the roller cover.\n* Remove the roller.\n* Clean any dust from the roller.\n* Inspect the brush for damage. Replace if needed.\n* Over a trashcan, flip the robot bottom side down - Let any dirt in vacuum fall in to the trash.\n* With a cloth, clean any dirt in the roller's area.\n\n## 4. Clean Dust Bin\n\n* Remove the top cover.\n* Remove the dust box carefully - some dirt may come loose.\n* Remove the dust filter from the box.\n* Empty any dirt from the bin.\n\n## 5. Clean dust Filter\n\n* Tap the dist filter on the inside of a trashcan to remove any loose dirt.\n* Rinse (don't brush) the filter.\n* Let it dry for 24 hours.\n* Insert the filter into the bin.\n* Insert the bin into the robot.\n* Place the top cover back on the robot.\n\n## 6. Inspect the Brushes\n\n* Inspect the brushes, and replace if needed.\n\n## 7. Clean the Robot\n\n* With a cloth towl, clean the outside of the robot.\n* Examine the drive wheels, and remove any dirt around them.\n* Examine the caster wheels, and remove any dirt around them.\n* Clean the sensors and charging ports.\n* Clean the lidar window.\n* Return the robot to the dock.\n\n## 8. Inspect Base Station\n* Examine the area where the robot docks.\n* Clean if needed.\n* Check dust bag. Replace if full.\n* Check cleaning fluid level. Replace if full.\n",
+    "requiredTools" : "* Microfiber Cloth\n* Spare Filter, if needed\n* Spare Mops, if needed\n* Space Brushes, if needed\n\n",
+    "intervalDays" : 7,
+    "history" : [ {
+      "date" : "2026-02-08",
+      "notes" : "",
+      "id" : "2b457b24-cea3-4fdf-9241-9898a8dd8965"
+    }, {
+      "date" : "2026-03-16",
+      "notes" : "",
+      "id" : "044732a5-af8e-4ec8-a863-70f9c14c7ec0"
+    }, {
+      "date" : "2026-04-20",
+      "notes" : "",
+      "id" : "01791601-3d53-4ff4-9f8c-a1720d5586ee"
+    }, {
+      "date" : "2026-04-27",
+      "notes" : "",
+      "id" : "f0454ef3-5c98-40d0-866a-a76f276c5bfe"
+    } ],
+    "id" : "1e9958aa-dc58-4b2b-a5a5-41e51ed12b0b"
+  } ],
+  "id" : "e30e9426-0447-400a-9635-6e682701afa7"
+}, {
+  "manufacturer" : "LG",
+  "modelNumber" : "Washing Machine",
+  "serialNumber" : "",
+  "assetTag" : "",
+  "location" : "",
+  "status" : "Active",
+  "description" : "",
+  "purchaseDate" : "2026-01-26",
+  "procedures" : [ {
+    "name" : "Tub Clean",
+    "description" : "Run the tub clean cycle",
+    "steps" : "* Place a puck in the tub\n* Run the washer's tub clean cycle\n* Leave the door open to dry.",
+    "requiredTools" : "\t* Tub Cleaner Pucks",
+    "intervalDays" : 30,
+    "history" : [ {
+      "date" : "2026-01-18",
+      "notes" : "",
+      "id" : "aa17041d-8211-4704-b15b-f3a79079d0cf"
+    }, {
+      "date" : "2026-04-20",
+      "notes" : "",
+      "id" : "2f4a3e09-390d-467e-83c1-e94105a9bb9f"
+    } ],
+    "id" : "abe423dc-5ee0-487c-b317-0e4cd7e44765"
+  } ],
+  "id" : "5d82b956-c7e9-4770-bcc4-9b3dccd3fd0c"
+}, {
+  "manufacturer" : "Water",
+  "modelNumber" : "Water Heater ",
+  "serialNumber" : "",
+  "assetTag" : "",
+  "location" : "Garage",
+  "status" : "Active",
+  "description" : "",
+  "purchaseDate" : "2026-01-05",
+  "procedures" : [ {
+    "name" : "Flush",
+    "description" : "",
+    "steps" : "...",
+    "requiredTools" : "...",
+    "intervalDays" : 180,
+    "history" : [ {
+      "date" : "2025-11-15",
+      "notes" : "",
+      "id" : "5623a50b-b55f-442c-a1ef-eff8cf8a1cad"
+    } ],
+    "id" : "049d50dc-f88a-4fe0-bd89-ae20dcdbdf11"
+  } ],
+  "id" : "cc5319d8-8cfd-46d4-abf6-05303b551284"
+}, {
+  "manufacturer" : "Kenmore",
+  "modelNumber" : "Dishwasher",
+  "serialNumber" : "",
+  "assetTag" : "",
+  "location" : "",
+  "status" : "Active",
+  "description" : "",
+  "purchaseDate" : "2026-04-27",
+  "procedures" : [ {
+    "name" : "Clean the Tub",
+    "description" : "use a tub cleaning table to clean the tub",
+    "steps" : "1. Remove all dishes.\n2. Place a cleaning tab in the dispenser tray.\n3. Run a normal cycle.\n4. When done, open the door and let it air dry.",
+    "requiredTools" : "\t* Dishwasher Tub clean Tabets",
+    "intervalDays" : 14,
+    "history" : [ ],
+    "id" : "492b8301-3691-4a85-84ab-57a9f85dba6c"
+  }, {
+    "name" : "Clean the filter",
+    "description" : "Clean food from the diswasher's filter",
+    "steps" : "* Remove the lower rack\n* Remove the arm\n* ???\n* Clean the filter",
+    "requiredTools" : "\t",
+    "intervalDays" : 60,
+    "history" : [ ],
+    "id" : "c3738b2b-a34a-4a4e-9090-10ba7addb686"
+  } ],
+  "id" : "689a2c46-2a36-4f4f-95a7-2382963ab27d"
+}, {
+  "manufacturer" : "Rheem",
+  "modelNumber" : "Heater",
+  "serialNumber" : "",
+  "assetTag" : "",
+  "location" : "",
+  "status" : "Active",
+  "description" : "The home's air conditioner and heating unit.",
+  "purchaseDate" : "2008-12-29",
+  "procedures" : [ {
+    "name" : "Replace Drain Cleaner Tablets",
+    "description" : "",
+    "steps" : "* Remove the front cover\n* If needed, place two drain cleaner tablets in the drain pan",
+    "requiredTools" : "* Drain Cleaner Tablets",
+    "intervalDays" : 60,
+    "history" : [ ],
+    "id" : "3f5d2811-e049-44c2-8332-03b0e2f5d753"
+  }, {
+    "name" : "Change Filter",
+    "description" : "",
+    "steps" : "1.  Turn the thermostat to the off position.\n2.  Go to the heater closet.\n3.  Open the filter door.\n4.  Remove  the old filter.\n5.  Install a new filter.\n6.  Close the filter door.\n7.  Turn the thermostat back to heat/cool.",
+    "requiredTools" : null,
+    "intervalDays" : 90,
+    "history" : [ {
+      "date" : "2025-10-26",
+      "notes" : "",
+      "id" : "14c1c675-d002-41a4-b283-ff64d787aa2b"
+    }, {
+      "date" : "2025-11-13",
+      "notes" : "",
+      "id" : "938ba159-faeb-4753-8143-b95d792bedb0"
+    }, {
+      "date" : "2026-02-14",
+      "notes" : "",
+      "id" : "8f776651-e104-4066-8615-369043069e30"
+    } ],
+    "id" : "bef86a41-4786-4d1a-ad5e-9326d4ad5d77"
+  }, {
+    "name" : "Clean Heater Coils",
+    "description" : "",
+    "steps" : "* Remove the front cover\n* Sray coil cleaner\n* Flush with water\n* If needed, add drain cleaner tablets.",
+    "requiredTools" : "* Coil cleaner",
+    "intervalDays" : 180,
+    "history" : [ ],
+    "id" : "9edc6a14-bb34-4535-8cee-1f43d78fd502"
+  } ],
+  "id" : "ed3e2ca2-78ef-4a98-8135-7a91cbf2ba83"
+}, {
+  "manufacturer" : "Philips",
+  "modelNumber" : "S9000 Prestige",
+  "serialNumber" : "",
+  "assetTag" : "",
+  "location" : "Dad's Bathroom",
+  "status" : "Active",
+  "description" : "",
+  "purchaseDate" : "2025-02-22",
+  "procedures" : [ {
+    "name" : "Blade Replacement ",
+    "description" : "",
+    "steps" : "1. Turn off the shaver.\n2. Pull off the shaving head holder and remove the old heads.\n3. Install new heads in the correct slots and reattach the holder until it clicks.\n4. On many models, press and hold the on/off button for ~7 seconds to reset the replacement reminder.\n",
+    "requiredTools" : "",
+    "intervalDays" : 365,
+    "history" : [ {
+      "date" : "2025-02-22",
+      "notes" : "",
+      "id" : "db6d5acd-4910-44f1-b87c-19b836d99f61"
+    }, {
+      "date" : "2026-04-20",
+      "notes" : "",
+      "id" : "c76b6321-c22b-431c-8517-5b486413f9fd"
+    } ],
+    "id" : "3625404f-0cea-4816-ae36-1d07bc18809e"
+  }, {
+    "name" : "Quick Clean Pod Cartridge Replacement",
+    "description" : "Change to a new pod",
+    "steps" : "...",
+    "requiredTools" : "",
+    "intervalDays" : 90,
+    "history" : [ {
+      "date" : "2025-12-01",
+      "notes" : "",
+      "id" : "11566e7a-0cb7-4487-8b53-7c9ead030f89"
+    }, {
+      "date" : "2026-03-20",
+      "notes" : "",
+      "id" : "03708325-acf0-4570-895d-a979a2240e46"
+    } ],
+    "id" : "f58b187d-3f72-430f-8a2f-76343191cff0"
+  } ],
+  "id" : "5340498c-dbf4-4037-b218-f64c1f9b8430"
+}, {
+  "manufacturer" : "Bambu Labx",
+  "modelNumber" : "X1C",
+  "serialNumber" : "",
+  "assetTag" : "",
+  "location" : "",
+  "status" : "Active",
+  "description" : "3d Printer",
+  "purchaseDate" : "2026-01-16",
+  "procedures" : [ {
+    "name" : "Monthly Maintenance",
+    "description" : "",
+    "steps" : "* vacuum plastic from chamber\n* vacuum plastic from AMS\n* clean metal rods\n* clean carbon rods\n* blow chamber fan\n* blow extruder fan\n* blow hotend fan\n* grease drive screws\n* check cutter\n* check filament cleaner\n* clean camera\n* clean lidar\n* re-tension belts\n* clean glass top\n* clean glass door\n* clean AMS\n* dump poop box\n* ",
+    "requiredTools" : "2.5mm hex driver\nisoprophyl alcohol\nlubricating grease\nmicrofiber towels\nwindow cleaning spray\nmini vacuum",
+    "intervalDays" : 30,
+    "history" : [ {
+      "date" : "2026-01-10",
+      "notes" : "",
+      "id" : "58fb2d1b-b8d9-4a63-b173-6ebf6479b5dd"
+    }, {
+      "date" : "2026-03-15",
+      "notes" : "",
+      "id" : "91b88790-7a87-4969-b6a7-d011e03fe8fb"
+    } ],
+    "id" : "b5ab7523-34bf-40a0-8651-47115211657e"
+  } ],
+  "id" : "c640312d-2354-451f-bbc5-d10819d147d3"
+}, {
+  "manufacturer" : "Rheem",
+  "modelNumber" : "Air Conditioner ",
+  "serialNumber" : "",
+  "assetTag" : "",
+  "location" : "",
+  "status" : "Active",
+  "description" : "",
+  "purchaseDate" : "2026-04-20",
+  "procedures" : [ {
+    "name" : "Clean the Condenser Coils",
+    "description" : "",
+    "steps" : "* remove the top\n* Rinse the dirt off of the coils\n* Spray with cleaner\n* Rinse the cleaner off of the coils",
+    "requiredTools" : "* Coil Cleaner",
+    "intervalDays" : 180,
+    "history" : [ ],
+    "id" : "982ce026-e123-46c6-8799-53e0176fb6f4"
+  } ],
+  "id" : "0b87a3b4-acdd-4253-9f29-8c563e423dba"
+}, {
+  "manufacturer" : "Rheem Heater",
+  "modelNumber" : "x",
+  "serialNumber" : "",
+  "assetTag" : "",
+  "location" : "Hallway",
+  "status" : "Active",
+  "description" : "",
+  "purchaseDate" : "2026-04-20",
+  "procedures" : [ ],
+  "id" : "510a3144-37f8-47b6-950b-8668676c9d4f"
+} ]
