@@ -1,21 +1,31 @@
 #!/usr/bin/env bash
 # Backup the Postgres database
-# Keeps 30 days worth of backups
+# Keeps 30 most recent backups
 #
 # Install with: crontab -e
 # Backup at 1am daily
-# 0 1 * * * ~/equipment/backup.sh
+# 0 1 * * * /home/mrpaulwoods/IdeaProjects/equipment/deployment/backup.sh >> /home/mrpaulwoods/equipment/backup.log 2>&1
 #
 set -euo pipefail
 
-BACKUP_DIR="$HOME/equipment/pg-backups"
+DEPLOY_DIR="$HOME/equipment"
+BACKUP_DIR="$DEPLOY_DIR/pg-backups"
 mkdir -p "$BACKUP_DIR"
 
-TS=$(date -Iseconds)
+if [ -f "$DEPLOY_DIR/.env" ]; then
+  set -a
+  # shellcheck disable=SC1091
+  . "$DEPLOY_DIR/.env"
+  set +a
+fi
+
+TS=$(date -u +%Y%m%dT%H%M%SZ)
 TMP="$BACKUP_DIR/.${TS}.sql.gz.tmp"
 
-docker compose -f "$HOME/equipment/docker-compose.yml" exec -T postgres \
+docker compose -f "$DEPLOY_DIR/docker-compose.yml" exec -T postgres \
   pg_dumpall -U "${POSTGRES_USER:-postgres}" | gzip > "$TMP"
 
 mv "$TMP" "$BACKUP_DIR/${TS}.sql.gz"
-find "$BACKUP_DIR" -type f -name '*.sql.gz' -mtime +30 -delete
+
+# shellcheck disable=SC2012  # filenames are generated timestamps, no special chars
+ls -1t "$BACKUP_DIR"/*.sql.gz 2>/dev/null | tail -n +31 | xargs -r rm --
