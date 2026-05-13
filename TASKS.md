@@ -12,7 +12,7 @@
 
 ## High
 
-- [ ] **3. Fix refresh-token cookie path on logout**
+- [x] **3. Fix refresh-token cookie path on logout**
   - `CookieService.java:27` sets `Path=/api/v1/auth` but `AuthController.java:91` clears it with `Path=/`. Browser keeps the original cookie.
   - Clear the cookie with the same path it was set with.
 
