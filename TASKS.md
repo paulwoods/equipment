@@ -20,7 +20,7 @@
   - `UserController.java:42, 49` — any authenticated user can enumerate all users and roles.
   - Add `@PreAuthorize("hasAnyRole('ADMIN','SYSTEM_ADMIN')")`.
 
-- [ ] **5. Audit CORS allow-list**
+- [x] **5. Audit CORS allow-list**
   - `WebConfig.java:23-31` uses `allowCredentials(true)` with a configurable origin list. With CSRF disabled, any allowed origin becomes a full CSRF surface.
   - Keep the allow-list strict; document that adding an origin grants CSRF-equivalent trust.
 
