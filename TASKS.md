@@ -6,7 +6,7 @@
   - On logout (`AuthController.java:90`), password reset (`PasswordResetService.java:42`), and password change (`UserService.java:125`), delete refresh tokens for the user and invalidate existing access JWTs.
   - Add a per-user `tokenVersion` claim checked in `JwtAuthFilter`, bumped on every credential change.
 
-- [ ] **2. Harden the setup endpoint**
+- [x] **2. Harden the setup endpoint**
   - `/api/v1/setup/**` is `permitAll` (`SecurityConfig.java:56`) and exempt from rate limiting (`ApiRateLimitFilter.java:32`). Guarded only by `userRepository.count() == 0`.
   - Bind setup to localhost, require a bootstrap secret, or remove the rate-limit exemption.
 
