@@ -16,7 +16,7 @@
   - `CookieService.java:27` sets `Path=/api/v1/auth` but `AuthController.java:91` clears it with `Path=/`. Browser keeps the original cookie.
   - Clear the cookie with the same path it was set with.
 
-- [ ] **4. Add `@PreAuthorize` to `UserController.findAll` / `findById`**
+- [x] **4. Add `@PreAuthorize` to `UserController.findAll` / `findById`**
   - `UserController.java:42, 49` — any authenticated user can enumerate all users and roles.
   - Add `@PreAuthorize("hasAnyRole('ADMIN','SYSTEM_ADMIN')")`.
 
