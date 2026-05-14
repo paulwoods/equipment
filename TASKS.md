@@ -26,7 +26,7 @@
 
 ## Medium
 
-- [ ] **6. Mitigate login user-enumeration timing**
+- [x] **6. Mitigate login user-enumeration timing**
   - `AuthController.login` — missing user skips the BCrypt compare, leaking presence via timing.
   - Hash a dummy password on the not-found path so the timing matches.
 
