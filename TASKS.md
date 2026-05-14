@@ -30,7 +30,7 @@
   - `AuthController.login` — missing user skips the BCrypt compare, leaking presence via timing.
   - Hash a dummy password on the not-found path so the timing matches.
 
-- [ ] **7. Single-instance the maintenance scheduler**
+- [x] **7. Single-instance the maintenance scheduler**
   - `MaintenanceScheduler.java:19` — `@Scheduled` runs on every JVM, duplicating weekly emails in multi-instance deploys.
   - Add ShedLock or restrict the job to a single replica.
 
