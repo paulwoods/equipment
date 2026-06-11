@@ -1,3 +1,5 @@
+# sanitized Caddyfile copied from the vm - 2026-06-10
+
 {
 	email {$CADDY_EMAIL}
 }
