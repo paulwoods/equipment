@@ -39,6 +39,7 @@ Decision / Consequences.
 | 0023 | [Lock-step versioning of backend and frontend artifacts](0023-lockstep-versioning.md) | Accepted |
 | 0024 | [Fail-fast on weak `APP_JWT_SECRET` at application startup](0024-jwt-secret-fail-fast.md) | Accepted |
 | 0025 | [CI creates the git tag for every published image](0025-ci-managed-release-tags.md) | Accepted |
+| 0026 | [Rate limiting is in-memory and assumes a single backend instance](0026-in-memory-rate-limiting.md) | Accepted |
 
 ## Conventions
 
