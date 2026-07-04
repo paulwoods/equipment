@@ -40,6 +40,12 @@ Decision / Consequences.
 | 0024 | [Fail-fast on weak `APP_JWT_SECRET` at application startup](0024-jwt-secret-fail-fast.md) | Accepted |
 | 0025 | [CI creates the git tag for every published image](0025-ci-managed-release-tags.md) | Accepted |
 | 0026 | [Rate limiting is in-memory and assumes a single backend instance](0026-in-memory-rate-limiting.md) | Accepted |
+| 0027 | [Split the monorepo into a superproject with git submodules](0027-git-submodule-split.md) | Accepted |
+| 0028 | [Tiered role authorization via method-level `@PreAuthorize`](0028-tiered-role-authorization.md) | Accepted |
+| 0029 | [JWT revocation via a per-user token-version claim](0029-token-version-revocation.md) | Accepted |
+| 0030 | [Refresh and password-reset tokens are stored as SHA-256 hashes](0030-tokens-hashed-at-rest.md) | Accepted |
+| 0031 | [Optimistic locking with `@Version` — concurrent edits fail with 409](0031-optimistic-locking.md) | Accepted |
+| 0032 | [Auth endpoints do not reveal whether an account exists](0032-auth-anti-enumeration.md) | Accepted |
 
 ## Conventions
 
