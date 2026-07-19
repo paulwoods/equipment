@@ -1,5 +1,8 @@
 # Runbook: move the app from `mrpaulwoods.com` to `equipment.mrpaulwoods.com`
 
+**Completed 2026-07-19.** Kept as a record of what was done and why.
+Do not re-run it.
+
 One-time migration. The apex is being freed for a future personal site —
 there is deliberately **no** apex → subdomain redirect.
 

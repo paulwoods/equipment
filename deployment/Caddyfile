@@ -4,9 +4,7 @@
 	email {$CADDY_EMAIL}
 }
 
-# The app. During the subdomain cutover this block temporarily reads
-# `{$CADDY_DOMAIN}, {$CADDY_APEX_DOMAIN}` so both hostnames serve the app while
-# the new certificate is proven, then reverts to CADDY_DOMAIN alone.
+# The app, on equipment.mrpaulwoods.com since 2026-07-19.
 {$CADDY_DOMAIN} {
 	encode zstd gzip
 
@@ -25,8 +23,9 @@
 	}
 }
 
-# Apex placeholder. Exists so Caddy keeps the apex certificate renewed; swap the
-# `respond` for a root/file_server when the personal site lands.
+# Apex placeholder, reserved for a personal site. Exists so Caddy keeps the apex
+# certificate renewed; swap the `respond` for a root/file_server when that site
+# lands. Deliberately not a redirect to the app.
 {$CADDY_APEX_DOMAIN} {
 	encode zstd gzip
 	respond "Coming soon" 200

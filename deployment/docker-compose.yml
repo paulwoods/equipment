@@ -31,7 +31,7 @@ services:
           memory: 1g
 
   backend:
-    image: paulwoods/equipment-backend:2.0.35
+    image: paulwoods/equipment-backend:2.0.41
     env_file:
       - .env
     depends_on:
@@ -45,7 +45,7 @@ services:
           memory: 1g
 
   frontend:
-    image: paulwoods/equipment-frontend:2.0.33
+    image: paulwoods/equipment-frontend:2.0.36
     depends_on:
       backend:
         condition: service_started
