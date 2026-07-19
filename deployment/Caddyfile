@@ -4,6 +4,9 @@
 	email {$CADDY_EMAIL}
 }
 
+# The app. During the subdomain cutover this block temporarily reads
+# `{$CADDY_DOMAIN}, {$CADDY_APEX_DOMAIN}` so both hostnames serve the app while
+# the new certificate is proven, then reverts to CADDY_DOMAIN alone.
 {$CADDY_DOMAIN} {
 	encode zstd gzip
 
@@ -20,4 +23,11 @@
 	handle {
 		reverse_proxy frontend:80
 	}
+}
+
+# Apex placeholder. Exists so Caddy keeps the apex certificate renewed; swap the
+# `respond` for a root/file_server when the personal site lands.
+{$CADDY_APEX_DOMAIN} {
+	encode zstd gzip
+	respond "Coming soon" 200
 }
