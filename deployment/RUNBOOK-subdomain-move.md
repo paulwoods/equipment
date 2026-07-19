@@ -3,9 +3,14 @@
 One-time migration. The apex is being freed for a future personal site —
 there is deliberately **no** apex → subdomain redirect.
 
-Run every command from `deployment/` on the VM.
+Run every command from the deployment directory on the VM.
 
 ## Before you start
+
+- **This directory is a sanitized reference copy, not the deployment.**
+  Config changes are applied by hand on the VM. Nothing here is pulled
+  or pushed to it, so after the migration, mirror the final VM
+  `Caddyfile` back into this directory to keep the copy honest.
 
 - **DNS is already done.** `equipment.mrpaulwoods.com` is a CNAME to
   `mrpaulwoods.com` → `146.190.60.48` (same VM). Nothing to create, no
@@ -40,8 +45,9 @@ Both hostnames serve the app. The apex keeps working the whole time, so
 a certificate failure on the new hostname is a non-event you retry at
 leisure.
 
-1. Back up the current config — this is the rollback, and it works
-   whether or not this directory is a git checkout:
+1. Back up the current config. These `.bak` files are the entire
+   rollback mechanism — the VM is not version-controlled, so there is
+   nothing else to revert to:
 
    ```bash
    cp .env .env.bak
