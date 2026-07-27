@@ -2,7 +2,7 @@
 
 ## Git Workflow
 
-Always run the full test suite (backend and frontend) before committing. Only commit if all tests pass. Use descriptive commit messages. After pushing, verify the push landed on the remote.
+Before committing, run the tests only for modules whose code changed (backend tests for backend changes, frontend tests for frontend changes). If no code changed (docs, config, scripts only), no tests are needed. Only commit if the tests that ran pass. Use descriptive commit messages. After pushing, verify the push landed on the remote.
 
 ## Backend
 
