@@ -64,11 +64,19 @@ against a database you can afford to break.
 
 ## Production cutover
 
-1. **Backup.** Run `./backup.sh` (or the `pg_dumpall` line from it by hand)
-   and confirm a fresh file exists in `pg-backups/`.
-2. Copy `init-app-db.sh` to the deploy dir on the droplet and add the mount to
-   the postgres service in the VM's `docker-compose.yml` (mirror the reference
-   copy in this directory).
+On the droplet, the equipment services (backend, frontend, postgres) are run
+by the compose file in `~/caddy`, alongside other apps. All `docker compose`
+commands below run from that directory; the compose project is still named
+`equipment`.
+
+1. **Backup.** Run `backup.sh` (or the `pg_dumpall` line from it by hand)
+   and confirm a fresh file exists in `~/caddy/pg-backups/`.
+2. Copy `init-app-db.sh` to `~/caddy/` on the droplet and add the mount to
+   the postgres service in `~/caddy/docker-compose.yml`:
+
+       volumes:
+         - ./postgres-data:/var/lib/postgresql
+         - ./init-app-db.sh:/docker-entrypoint-initdb.d/init-app-db.sh:ro
 3. Update the VM's `.env` exactly as in rehearsal step 1, except the URL host
    is the compose service name:
 
@@ -83,8 +91,9 @@ against a database you can afford to break.
 
 7. Copy the data (same command as rehearsal step 5).
 8. Verify counts (same as rehearsal step 6). **Do not proceed if they differ.**
-9. Deploy the new backend image; this also recreates the backend with the new
-   env vars:
+9. Deploy the new backend image (2.0.46 or later — earlier images read the
+   old `POSTGRES_*` vars); this also recreates the backend with the new env
+   vars. `deploy.sh` must live next to the compose file in `~/caddy`:
 
        ./deploy.sh <new-backend-version> <current-frontend-version>
 

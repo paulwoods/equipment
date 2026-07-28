@@ -1,4 +1,7 @@
-# sanitized docker-compose.yml copied from the vm - 2026-06-10
+# sanitized reference copy, last mirrored from the vm 2026-06-10.
+# The live file is now ~/caddy/docker-compose.yml on the vm — it runs the
+# equipment services alongside other apps (e.g. calculus) and pins newer image
+# tags. Re-sync this copy after the equipment-db-user cutover.
 
 name: equipment
 

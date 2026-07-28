@@ -4,11 +4,13 @@
 #
 # Install with: crontab -e
 # Backup at 1am daily
-# 0 1 * * * /home/mrpaulwoods/IdeaProjects/equipment/deployment/backup.sh >> /home/mrpaulwoods/equipment/backup.log 2>&1
+# 0 1 * * * /home/mrpaulwoods/IdeaProjects/equipment/deployment/backup.sh >> /home/mrpaulwoods/caddy/backup.log 2>&1
 #
 set -euo pipefail
 
-DEPLOY_DIR="$HOME/equipment"
+# The equipment services (backend, frontend, postgres) are run by the compose
+# file in ~/caddy, alongside other apps.
+DEPLOY_DIR="$HOME/caddy"
 BACKUP_DIR="$DEPLOY_DIR/pg-backups"
 mkdir -p "$BACKUP_DIR"
 
