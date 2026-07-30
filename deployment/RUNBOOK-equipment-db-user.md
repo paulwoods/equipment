@@ -83,6 +83,12 @@ commands below run from that directory; the compose project is still named
        SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/equipment
 
    Generate a fresh password: `openssl rand -base64 24`.
+
+   The droplet splits env across `postgres.env` and `equipment.env` (unlike
+   the single `.env` the reference compose uses). `init-app-db.sh` reads
+   `SPRING_DATASOURCE_USERNAME`/`PASSWORD` from *inside the postgres
+   container*, so those two vars must go into `postgres.env` as well as
+   `equipment.env` — same password in both.
 4. Stop writes: `docker compose stop backend`
 5. Recreate postgres with the new config: `docker compose up -d postgres`
 6. Create role + database:
