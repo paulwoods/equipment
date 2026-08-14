@@ -47,6 +47,7 @@ Decision / Consequences.
 | 0031 | [Optimistic locking with `@Version` — concurrent edits fail with 409](0031-optimistic-locking.md) | Accepted |
 | 0032 | [Auth endpoints do not reveal whether an account exists](0032-auth-anti-enumeration.md) | Accepted |
 | 0033 | [One `app-url` property for every user-facing link](0033-single-public-url.md) | Accepted |
+| 0034 | [Google sign-in verifies an ID token rather than running an OAuth redirect](0034-google-id-token-sign-in.md) | Accepted |
 
 ## Conventions
 
