@@ -11,26 +11,36 @@ seam, depth) come from the `/codebase-design` skill; this file names the
 per-key count that expires a fixed window after the key's *first* increment
 (Caffeine `expireAfterWrite`; in-place increments mutate the count and do not
 push the expiry out). Small interface — `count(key)`, `increment(key)` (returns
-the new count), `reset(key)` — hiding the cache mechanics. Generic in the key
-type so callers own their key (see **LoginKey**). Constructed via
+the new count), `release(key)` (gives back one increment, dropping the key at
+zero), `reset(key)` — hiding the cache mechanics. Generic in the key type so
+callers own their key. Constructed via
 **WindowedCounterFactory**, which injects the `Ticker` (system in prod, a fake
 in tests); the counter also keeps a public constructor so its own unit tests
 build it directly with a controlled `Ticker`. Lives in the `ratelimit` package.
 
 **Rate-limit policy** — the per-caller rules layered *on top of* a
 WindowedCounter, kept in each limiter rather than the counter:
-- **Login** (`LoginRateLimiterService`, key = **LoginKey**): counts failures
-  only, resets on success, blocks when `count(key) >= max`.
+- **Login** (`LoginRateLimiterService`): two counters, one keyed on ip and one on
+  normalized email, checked independently — a single composite `(ip, email)` key
+  throttles neither axis, because rotating either half starts a fresh count.
+  `tryAcquire(ip, email)` increments both and blocks when either exceeds max; a
+  successful login `release`s the ip's attempt and `reset`s the account's count.
 - **Forgot-password** (`ForgotPasswordRateLimiterService`, key = ip): counts
   every request, blocks when `count(key) >= max`.
+- **Setup** (`SetupRateLimiterService`, key = ip): atomic increment-then-check on
+  the first-run setup POST, blocks when `increment(key) > max`.
 - **API** (`ApiRateLimitFilter`, key = ip): atomic increment-then-check, blocks
   when `increment(key) > max`. The `>` vs `>=` difference is not a discrepancy —
   both mean "N allowed, block on N+1"; the operator follows check-before-record
   vs increment-then-check.
 
-**LoginKey** — composite rate-limit key `(ip, email)` with normalization
-(lowercased email, nulls → empty). Login-specific; stays in the login limiter,
-not the counter.
+**Attempt budget** — what `tryAcquire` spends. Counting and deciding are one step:
+a separate "is it blocked?" read followed by a later "record the failure" write
+leaves a window (a bcrypt verification wide) in which concurrent requests all see
+the same under-threshold count and pass together.
+
+**Setup token** — the operator secret (`app.setup-token`) that first-run setup
+requires. Blank means setup is refused outright, not left open.
 
 ## Equipment mapping
 

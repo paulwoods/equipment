@@ -28,8 +28,12 @@ Production hardening present in `deployment/docker-compose.yml`:
 - Per-service memory limits (`postgres: 1g`, `backend: 1g`, `frontend:
   512m`, `caddy: 128m`).
 - `postgres` healthcheck (`pg_isready`) gating `backend.depends_on`.
-- Postgres bound to `127.0.0.1:5432` so it isn't reachable from the public
-  interface even if the host firewall lapses.
+- Postgres publishes no host port at all (2026-08-13): the backend reaches it
+  over the compose network as `postgres:5432`. Binding it to `127.0.0.1:5432`
+  kept it off the public interface but still exposed it to every co-tenant
+  process on the vm, which — with the credentials in `.env` on the same
+  filesystem — is a direct route around the application's authorization.
+  Operator access is `docker compose exec postgres psql …`.
 
 Image bumps go through `deployment/deploy.sh`:
 

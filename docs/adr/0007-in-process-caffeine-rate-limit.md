@@ -1,6 +1,7 @@
 # 7. In-process Caffeine rate limiting per-IP
 
 - **Status:** Accepted (reverse-engineered)
+- **Amended by:** [ADR-0035](0035-two-axis-atomic-login-throttling.md) — the login limiter is now two independent counters
 - **Date:** 2026-05-06
 
 ## Context

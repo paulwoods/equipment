@@ -1,6 +1,7 @@
 # 6. First-run setup endpoint instead of seeded admin
 
 - **Status:** Accepted (reverse-engineered)
+- **Amended by:** [ADR-0036](0036-setup-token-gates-first-run.md) — setup now requires an operator token
 - **Date:** 2026-05-06
 
 ## Context

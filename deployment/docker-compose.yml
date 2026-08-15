@@ -16,8 +16,11 @@ services:
     image: postgres:18
     env_file:
       - .env
-    ports:
-      - "127.0.0.1:5432:5432"
+    # No published port. The backend reaches Postgres over the compose network as
+    # postgres:5432; publishing to the host loopback would also expose it to every
+    # co-tenant process on the vm, which — with the credentials sitting in .env on
+    # the same filesystem — is a direct route around the app's authorization.
+    # For operator access use: docker compose exec postgres psql -U postgres -d equipment
     volumes:
       - ./postgres-data:/var/lib/postgresql
       # Creates the application role + database on a fresh volume. For an

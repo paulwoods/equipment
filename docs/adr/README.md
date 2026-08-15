@@ -48,6 +48,8 @@ Decision / Consequences.
 | 0032 | [Auth endpoints do not reveal whether an account exists](0032-auth-anti-enumeration.md) | Accepted |
 | 0033 | [One `app-url` property for every user-facing link](0033-single-public-url.md) | Accepted |
 | 0034 | [Google sign-in verifies an ID token rather than running an OAuth redirect](0034-google-id-token-sign-in.md) | Accepted |
+| 0035 | [Login throttling counts the IP and the account independently, in one step](0035-two-axis-atomic-login-throttling.md) | Accepted |
+| 0036 | [First-run setup requires an operator token and fails closed without one](0036-setup-token-gates-first-run.md) | Accepted |
 
 ## Conventions
 
