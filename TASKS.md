@@ -1,5 +1,61 @@
 # Tasks
 
+## ⬜ TODO — Land the 2026-07-30 security remediation on the droplet
+
+The five scan findings were fixed in code and pushed on 2026-08-14 (backend
+`9656af4` 2.0.48, frontend `f30aa91` 2.0.41, parent `30a2136`; ADR-0035,
+ADR-0036). **None of it is running in production yet.** Everything below is a
+manual step on the vm — CI publishes images but does not deploy (ADR-0025).
+
+Do 1 and 2 in the same visit: the deploy restarts the stack anyway, and the
+compose edit needs a container recreate to take effect.
+
+1. **Deploy 2.0.48 / 2.0.41** — until this runs, the login-limiter and
+   setup-token fixes are not live.
+
+       ssh <droplet>
+       cd ~/caddy && ~/…/equipment/deployment/deploy.sh 2.0.48 2.0.41
+
+   → verify: `docker compose ps` shows both services healthy on the new tags,
+   and the login page still signs in.
+
+2. **Mirror the Postgres port removal into `~/caddy/docker-compose.yml`** —
+   finding 5. The repo copy (`deployment/docker-compose.yml`) is a sanitized
+   reference; the live file is on the vm and still publishes the port. Delete
+   the `ports:` stanza from the `postgres` service:
+
+       ports:
+         - "127.0.0.1:5432:5432"
+
+   → verify: `ss -ltnp | grep 5432` on the vm returns nothing, and
+   `docker compose exec postgres psql -U postgres -d equipment -c '\dt'` still
+   works (that is the supported operator path now — `backup.sh` and `sql.sh`
+   already go through `docker exec`, so neither breaks).
+
+3. **Add `APP_SETUP_TOKEN` to the deployed `.env`** — finding 2. No effect on
+   the running instance, whose setup is long complete; it matters only if the
+   stack is ever rebuilt from an empty database, where first-run setup now
+   answers 503 without it. Generate with `openssl rand -base64 24`. See
+   `deployment/.env.example` and ADR-0036.
+
+   → verify: `grep APP_SETUP_TOKEN ~/caddy/.env` on the vm.
+
+4. **Install the Playwright browsers** so the e2e suite can run locally —
+   unrelated to the security work, pre-existing. `npx playwright install` in
+   `equipment-e2e` (`chromium_headless_shell-1217` is what is missing). The
+   suite is currently unverifiable end-to-end: `global-setup.ts` seeds fine
+   against a real backend, but every browser-driven spec fails at launch.
+
+   → verify: `cd equipment-e2e && npm run e2e` goes green.
+
+### Not scheduled
+
+- `security-remediation/` and `security-scan/` are untracked in the parent repo.
+  Decide whether the scan output belongs in git or in `.gitignore`.
+- Findings 5–21 of the same scan were never triaged — 5 more HIGHs (shared-bucket
+  API limiter, CI mutable action tags exposing `DOCKERHUB_TOKEN` ×2, image tags
+  pulled by tag, SMTP STARTTLS enabled but not required), 9 MEDIUMs, 2 LOWs.
+
 ## ✅ DONE — Rate limiting: extract `WindowedCounter` deep module
 
 Implemented 2026-07-03. All 278 backend tests pass. New `ratelimit` package holds
