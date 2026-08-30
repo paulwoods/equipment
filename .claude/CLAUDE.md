@@ -46,3 +46,4 @@ When implementing UI or styling changes, verify the result by running the fronte
 - [Run backend](rules/project_run_backend.md) — Spring Boot app; `cd equipment-backend && ./mvnw spring-boot:run` (or docker-compose at repo root)
 - [Run frontend](rules/project_run_frontend.md) — Vite + React; `cd equipment-frontend && npm run dev`
 - [Run e2e](rules/project_run_e2e.md) — Playwright; `cd equipment-e2e && npm run e2e`
+- [Deploy to production](rules/project_deploy.md) — On the vm: edit `~/caddy/docker-compose.yml` image tags, then run `deployment/restart.sh` (replaces the deploy.sh flow)
