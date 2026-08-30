@@ -3,10 +3,11 @@
 ## ⬜ TODO — Run the e2e suite locally (was step 4; unrelated to the security work)
 
 **Install the Playwright browsers** so the e2e suite can run locally —
-pre-existing gap. 2026-08-29: `npx playwright install` is running in
-`equipment-e2e`; `chromium-1217` and `ffmpeg-1011` are already in
-`~/.cache/ms-playwright/`, `chromium_headless_shell-1217` (the originally
-missing one) still downloading.
+pre-existing gap. 2026-08-29: `npx playwright install` was stopped partway —
+`chromium-1217` and `ffmpeg-1011` are already in `~/.cache/ms-playwright/`,
+but `chromium_headless_shell-1217` (the one the suite needs) is still
+missing. Rerun `npx playwright install` in `equipment-e2e`; it skips what is
+already present.
 
 The suite is currently unverifiable end-to-end: `global-setup.ts` seeds fine
 against a real backend, but every browser-driven spec fails at launch. Once
